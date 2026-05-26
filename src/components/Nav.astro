@@ -1,0 +1,28 @@
+---
+const APP_LOGIN = 'https://app.axis-scale.com/login';
+---
+<header class="sticky top-0 z-50 bg-base border-b border-[#2A3347]">
+  <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+
+    <div class="flex items-center gap-2.5">
+      <div class="w-8 h-8 bg-accent rounded-lg flex items-center justify-center text-white font-extrabold text-sm flex-shrink-0">
+        A
+      </div>
+      <span class="font-bold text-pri text-[15px] tracking-tight">Axis-Scale</span>
+    </div>
+
+    <nav>
+      <a href="#pricing" class="text-sec hover:text-pri text-sm font-medium transition-colors">
+        Pricing
+      </a>
+    </nav>
+
+    <a
+      href={APP_LOGIN}
+      class="inline-flex items-center px-4 py-2 bg-accent hover:bg-accent-hover text-white text-sm font-semibold rounded-md transition-colors"
+    >
+      Login
+    </a>
+
+  </div>
+</header>
