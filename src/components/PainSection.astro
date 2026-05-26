@@ -1,0 +1,31 @@
+---
+const pains = [
+  {
+    title: 'The 70/30 Surprise',
+    body: "Founders expect a tech audit. It's 70% process and documentation. Most discover this mid-engagement — after they've already paid.",
+  },
+  {
+    title: 'Evidence Chaos',
+    body: '300+ hours collecting screenshots with no clear standard for what counts. Every auditor wants something slightly different.',
+  },
+  {
+    title: 'The Trust Crisis',
+    body: 'After Delve faked 494 SOC 2 reports in March 2026, buyers want human-led readiness — not another automated platform.',
+  },
+];
+---
+<section class="py-20 px-6 bg-surface border-y border-[#2A3347]">
+  <div class="max-w-6xl mx-auto">
+    <h2 class="text-2xl font-bold text-pri text-center mb-12 tracking-tight">
+      Why founders get stuck
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {pains.map(p => (
+        <div class="bg-raised border border-[#2A3347] rounded-[10px] p-6">
+          <h3 class="font-bold text-pri mb-3">{p.title}</h3>
+          <p class="text-sec text-sm leading-relaxed">{p.body}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
