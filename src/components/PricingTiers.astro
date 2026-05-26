@@ -1,0 +1,83 @@
+---
+const tiers = [
+  {
+    name: 'Self-Serve Kit',
+    price: '$950',
+    bestFor: 'Bootstrapped founders',
+    items: [
+      'Full digital kit',
+      'PDFs, Excel & tools',
+      'Risk Register Tool access',
+      'Evidence Locker templates',
+    ],
+    featured: false,
+  },
+  {
+    name: 'Kit + Q&A Hour',
+    price: '$1,800',
+    bestFor: 'Series A-ready founders',
+    items: [
+      'Everything in Tier 1',
+      '60-min live Q&A session',
+      'Priority email support',
+      'Personalised gap notes',
+    ],
+    featured: true,
+  },
+  {
+    name: 'Kit + Mock Audit',
+    price: '$3,500',
+    bestFor: 'Pre-audit, lean teams',
+    items: [
+      'Everything in Tier 2',
+      'Internal mock audit',
+      'Gap analysis report',
+      'Audit-ready sign-off checklist',
+    ],
+    featured: false,
+  },
+];
+---
+<section id="pricing" class="py-20 px-6 bg-surface border-y border-[#2A3347]">
+  <div class="max-w-6xl mx-auto">
+    <h2 class="text-2xl font-bold text-pri text-center mb-3 tracking-tight">
+      Three tiers, one funnel
+    </h2>
+    <p class="text-sec text-center text-sm mb-14">
+      Each tier serves a different buyer. Together they form a pricing ladder.
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+      {tiers.map(tier => (
+        <div class={`rounded-[14px] p-7 border ${tier.featured ? 'bg-raised border-accent' : 'bg-base border-[#2A3347]'}`}>
+          {tier.featured && (
+            <div class="inline-flex items-center px-3 py-1 bg-accent-dim text-accent text-[11px] font-bold rounded-full mb-5 uppercase tracking-wide">
+              Recommended
+            </div>
+          )}
+          <p class="text-sm font-semibold text-sec mb-1">{tier.name}</p>
+          <p class="text-4xl font-extrabold text-pri tracking-tight mb-1">{tier.price}</p>
+          <p class="text-xs text-ter mb-7">Best for: {tier.bestFor}</p>
+          <ul class="space-y-3 mb-8">
+            {tier.items.map(item => (
+              <li class="flex items-start gap-2 text-sm text-sec">
+                <span class="text-ok mt-0.5 flex-shrink-0">✓</span>
+                {item}
+              </li>
+            ))}
+          </ul>
+          <a
+            href="#"
+            class={`block text-center py-2.5 px-4 rounded-md text-sm font-bold transition-colors ${
+              tier.featured
+                ? 'bg-accent hover:bg-accent-hover text-white'
+                : 'bg-raised hover:bg-muted text-pri border border-[#2A3347]'
+            }`}
+          >
+            Get started
+          </a>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
