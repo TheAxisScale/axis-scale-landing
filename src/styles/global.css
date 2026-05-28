@@ -11,6 +11,9 @@
   --color-accent:       #E91E8C;
   --color-accent-hover: #C91576;
   --color-accent-dim:   rgba(233, 30, 140, 0.12);
+  --color-accent-border: rgba(233, 30, 140, 0.25);
+  --color-border:       #2A3347;
+  --color-border-light: #1E2538;
   --color-ok:           #10B981;
   --color-warn:         #F59E0B;
   --color-err:          #EF4444;
