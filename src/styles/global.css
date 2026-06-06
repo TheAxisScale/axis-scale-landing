@@ -18,7 +18,6 @@
   --color-warn:         #F59E0B;
   --color-err:          #EF4444;
   --color-info:         #818CF8;
-  --font-family-sans:    Inter, system-ui, sans-serif;
-  --font-family-display: 'Instrument Serif', Georgia, serif;
-  --font-family-mono:    'JetBrains Mono', 'Courier New', monospace;
+  --font-family-sans: Inter, system-ui, sans-serif;
+  --font-family-mono: 'JetBrains Mono', 'Courier New', monospace;
 }

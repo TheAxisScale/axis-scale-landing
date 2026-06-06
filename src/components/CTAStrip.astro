@@ -3,30 +3,32 @@ const SIGNUP_URL         = '[SIGNUP_URL]';
 const BOOKING_URL        = '[BOOKING_URL]';
 const ELEANOR_FIRST_NAME = '[ELEANOR_FIRST_NAME]';
 ---
-<section class="py-20 px-6">
-  <div class="max-w-3xl mx-auto text-center">
+<section class="py-24 px-6 md:px-9">
+  <div class="max-w-3xl mx-auto">
+    <div class="bg-surface border-[1.5px] border-accent-border rounded-[14px] px-12 py-14 text-center">
 
-    <h2 class="font-display text-3xl md:text-4xl text-pri tracking-tight mb-4">
-      Know exactly where you stand.
-    </h2>
-    <p class="text-sec leading-relaxed mb-10 max-w-xl mx-auto">
-      Move at your own pace. Bring in {ELEANOR_FIRST_NAME} when it gets hard.
-    </p>
+      <h2 class="text-4xl md:text-5xl font-extrabold text-pri tracking-[-0.8px] leading-[1.1] mb-4">
+        Know exactly where you stand.
+      </h2>
+      <p class="text-sec text-[17px] leading-relaxed mb-10 max-w-xl mx-auto">
+        Move at your own pace. Bring in {ELEANOR_FIRST_NAME} when it gets hard.
+      </p>
 
-    <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
-      <a
-        href={SIGNUP_URL}
-        class="inline-flex items-center px-7 py-3.5 bg-accent hover:bg-accent-hover text-white font-bold text-base rounded-md transition-colors w-full sm:w-auto justify-center"
-      >
-        Start self-serve
-      </a>
-      <a
-        href={BOOKING_URL}
-        class="inline-flex items-center px-7 py-3.5 bg-transparent hover:bg-raised border border-[#2A3347] text-pri font-bold text-base rounded-md transition-colors w-full sm:w-auto justify-center"
-      >
-        Work with {ELEANOR_FIRST_NAME}
-      </a>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+        <a
+          href={SIGNUP_URL}
+          class="inline-flex items-center px-6 py-3 bg-accent hover:bg-accent-hover text-white font-bold text-sm rounded-full transition-colors w-full sm:w-auto justify-center tracking-[-0.1px]"
+        >
+          Start self-serve
+        </a>
+        <a
+          href={BOOKING_URL}
+          class="inline-flex items-center px-6 py-3 bg-transparent hover:bg-raised border-[1.5px] border-[#2A3347] hover:border-pri text-pri font-semibold text-sm rounded-full transition-colors w-full sm:w-auto justify-center"
+        >
+          Work with {ELEANOR_FIRST_NAME}
+        </a>
+      </div>
+
     </div>
-
   </div>
 </section>

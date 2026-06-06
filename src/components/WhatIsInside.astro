@@ -15,50 +15,47 @@ const expertHelp = [
   { name: 'Audit-Ready Sign-Off',     desc: 'A final walk-through before you engage your auditor, so there are no surprises on Day 1.' },
 ];
 ---
-<section id="how-it-works" class="py-20 px-6">
+<section id="how-it-works" class="py-24 px-6 md:px-9">
   <div class="max-w-6xl mx-auto">
 
-    <p class="text-ter text-[11px] font-bold tracking-widest font-mono text-center mb-4 uppercase">
+    <p class="text-accent text-[11px] font-bold tracking-[1px] font-mono text-center mb-4 uppercase">
       § 03 — HOW IT WORKS
     </p>
-    <h2 class="text-2xl font-bold text-pri text-center mb-3 tracking-tight">
+    <h2 class="text-4xl md:text-5xl font-extrabold text-pri text-center mb-4 tracking-[-0.8px] leading-[1.1]">
       You handle ~80%, guided by the platform
     </h2>
-    <p class="text-sec text-center text-sm mb-14 max-w-xl mx-auto">
+    <p class="text-sec text-center text-[17px] mb-14 max-w-xl mx-auto leading-relaxed">
       The platform walks you through everything you can do yourself. Expert help is there for the judgment-heavy 20% where it actually matters.
     </p>
 
-    <p class="text-xs font-bold text-ter uppercase tracking-widest mb-4 font-mono">
+    <p class="text-[11px] font-bold text-ter uppercase tracking-[1px] mb-4 font-mono">
       What the platform guides you through
     </p>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-14">
       {selfServe.map(item => (
-        <div class="bg-surface border border-[#2A3347] rounded-[10px] p-5">
-          <p class="text-accent text-[11px] font-bold uppercase tracking-wide mb-1.5 font-mono">Platform</p>
-          <p class="font-semibold text-pri text-sm mb-1">{item.name}</p>
+        <div class="bg-surface border border-[#2A3347] rounded-[14px] p-6 hover:border-accent transition-colors">
+          <p class="text-accent text-[11px] font-bold uppercase tracking-[.8px] mb-2 font-mono">Platform</p>
+          <p class="font-semibold text-pri text-sm mb-1 tracking-[-0.2px]">{item.name}</p>
           <p class="text-sec text-xs leading-relaxed">{item.desc}</p>
         </div>
       ))}
     </div>
 
-    <p class="text-xs font-bold text-ter uppercase tracking-widest mb-4 font-mono">
+    <p class="text-[11px] font-bold text-ter uppercase tracking-[1px] mb-4 font-mono">
       Expert help for the rest
     </p>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
       {expertHelp.map(item => (
-        <div class="bg-raised border border-[#2A3347] rounded-[10px] p-5">
-          <p class="text-info text-[11px] font-bold uppercase tracking-wide mb-1.5 font-mono">Expert-led</p>
-          <p class="font-semibold text-pri text-sm mb-1">{item.name}</p>
+        <div class="bg-raised border border-[#2A3347] rounded-[14px] p-6 hover:border-accent transition-colors">
+          <p class="text-info text-[11px] font-bold uppercase tracking-[.8px] mb-2 font-mono">Expert-led</p>
+          <p class="font-semibold text-pri text-sm mb-1 tracking-[-0.2px]">{item.name}</p>
           <p class="text-sec text-xs leading-relaxed">{item.desc}</p>
         </div>
       ))}
     </div>
 
     <div class="mt-10 text-center">
-      <a
-        href={BOOKING_URL}
-        class="text-sec text-sm hover:text-pri transition-colors"
-      >
+      <a href={BOOKING_URL} class="text-sec text-sm hover:text-pri transition-colors">
         Learn about expert-led engagements →
       </a>
     </div>
