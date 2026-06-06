@@ -1,47 +1,67 @@
 ---
-const core = [
-  { name: '4-Week Sprint Roadmap',       desc: 'Week-by-week execution plan with checkpoints' },
-  { name: 'Minimum Viable Checklist',    desc: '12 controls with implementation in plain English' },
-  { name: "Auditor's Hit List",          desc: 'Top 5 audit findings + how to close them upfront' },
-  { name: 'Risk Register Tool',          desc: 'Interactive 7-step wizard — proprietary IP' },
-  { name: 'Evidence Locker + Examples',  desc: 'Folder structure + gold standard screenshots' },
-  { name: 'Auditor Engagement Toolkit', desc: 'Kickoff email + Day-1 summary templates' },
+const BOOKING_URL = '[BOOKING_URL]';
+
+const selfServe = [
+  { name: 'Readiness Wizard',           desc: 'Step-by-step guided assessment that scopes your exact starting point and gap list.' },
+  { name: 'Risk Register',              desc: 'Interactive tool for identifying, scoring, and tracking your risks against each control.' },
+  { name: 'Policy Templates',           desc: 'Auditor-reviewed policy library — edit to fit your stack, not a generic template.' },
+  { name: 'Evidence Structure',         desc: 'Folder structure and labelling guide so every piece of evidence lands where auditors expect it.' },
+  { name: 'Auditor Engagement Toolkit', desc: 'Kickoff email, Day-1 summary, and communication templates for working with your auditor.' },
 ];
-const bonus = [
-  { name: 'Auditor-to-Human Dictionary', desc: 'Plain-language translations of every audit term' },
-  { name: 'Type II Continuity Pack',     desc: 'Monthly task pack — prevents post-audit collapse' },
-  { name: "Do & Don't Field Guide",      desc: "War stories from the auditor's chair" },
+
+const expertHelp = [
+  { name: 'Stack-Specific Judgment',  desc: 'Your stack is yours. Eleanor maps controls to your actual infrastructure, not a generic cloud model.' },
+  { name: 'Gap Analysis',             desc: 'Expert review of your evidence and posture — with clear, prioritised remediation notes.' },
+  { name: 'Audit-Ready Sign-Off',     desc: 'A final walk-through before you engage your auditor, so there are no surprises on Day 1.' },
 ];
 ---
-<section class="py-20 px-6">
+<section id="how-it-works" class="py-20 px-6">
   <div class="max-w-6xl mx-auto">
+
+    <p class="text-ter text-[11px] font-bold tracking-widest font-mono text-center mb-4 uppercase">
+      § 03 — HOW IT WORKS
+    </p>
     <h2 class="text-2xl font-bold text-pri text-center mb-3 tracking-tight">
-      What's inside
+      You handle ~80%, guided by the platform
     </h2>
-    <p class="text-sec text-center text-sm mb-14">
-      Built from the auditor's chair — not from a template library.
+    <p class="text-sec text-center text-sm mb-14 max-w-xl mx-auto">
+      The platform walks you through everything you can do yourself. Expert help is there for the judgment-heavy 20% where it actually matters.
     </p>
 
-    <p class="text-xs font-bold text-ter uppercase tracking-widest mb-4">Core deliverables</p>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
-      {core.map(item => (
+    <p class="text-xs font-bold text-ter uppercase tracking-widest mb-4 font-mono">
+      What the platform guides you through
+    </p>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-14">
+      {selfServe.map(item => (
         <div class="bg-surface border border-[#2A3347] rounded-[10px] p-5">
-          <p class="text-accent text-[11px] font-bold uppercase tracking-wide mb-1.5">Included</p>
+          <p class="text-accent text-[11px] font-bold uppercase tracking-wide mb-1.5 font-mono">Platform</p>
           <p class="font-semibold text-pri text-sm mb-1">{item.name}</p>
           <p class="text-sec text-xs leading-relaxed">{item.desc}</p>
         </div>
       ))}
     </div>
 
-    <p class="text-xs font-bold text-ter uppercase tracking-widest mb-4">Bonus</p>
+    <p class="text-xs font-bold text-ter uppercase tracking-widest mb-4 font-mono">
+      Expert help for the rest
+    </p>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-      {bonus.map(item => (
+      {expertHelp.map(item => (
         <div class="bg-raised border border-[#2A3347] rounded-[10px] p-5">
-          <p class="text-info text-[11px] font-bold uppercase tracking-wide mb-1.5">Bonus</p>
+          <p class="text-info text-[11px] font-bold uppercase tracking-wide mb-1.5 font-mono">Expert-led</p>
           <p class="font-semibold text-pri text-sm mb-1">{item.name}</p>
           <p class="text-sec text-xs leading-relaxed">{item.desc}</p>
         </div>
       ))}
     </div>
+
+    <div class="mt-10 text-center">
+      <a
+        href={BOOKING_URL}
+        class="text-sec text-sm hover:text-pri transition-colors"
+      >
+        Learn about expert-led engagements →
+      </a>
+    </div>
+
   </div>
 </section>

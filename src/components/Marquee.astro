@@ -1,0 +1,32 @@
+---
+const items = [
+  'AUDITOR-BUILT',
+  'FOUNDER-PRICED',
+  'SCOPED & COSTED',
+  'MOVE AT YOUR PACE',
+  'HUMAN HELP ON THE HARD PART',
+  'SELF-SERVE OR EXPERT-LED',
+];
+const track = [...items, ...items];
+---
+<div class="border-y border-[#2A3347] overflow-hidden py-3 bg-surface">
+  <div class="marquee-track flex gap-10 whitespace-nowrap">
+    {track.map(item => (
+      <span class="text-ter text-[11px] font-bold tracking-widest font-mono shrink-0">{item}</span>
+    ))}
+  </div>
+</div>
+
+<style>
+  .marquee-track {
+    animation: marquee 32s linear infinite;
+    width: max-content;
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track { animation: none; }
+  }
+</style>

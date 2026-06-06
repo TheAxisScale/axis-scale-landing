@@ -1,83 +1,93 @@
 ---
-const tiers = [
-  {
-    name: 'Self-Serve Kit',
-    price: '$950',
-    bestFor: 'Bootstrapped founders',
-    items: [
-      'Full digital kit',
-      'PDFs, Excel & tools',
-      'Risk Register Tool access',
-      'Evidence Locker templates',
-    ],
-    featured: false,
-  },
-  {
-    name: 'Kit + Q&A Hour',
-    price: '$1,800',
-    bestFor: 'Series A-ready founders',
-    items: [
-      'Everything in Tier 1',
-      '60-min live Q&A session',
-      'Priority email support',
-      'Personalised gap notes',
-    ],
-    featured: true,
-  },
-  {
-    name: 'Kit + Mock Audit',
-    price: '$3,500',
-    bestFor: 'Pre-audit, lean teams',
-    items: [
-      'Everything in Tier 2',
-      'Internal mock audit',
-      'Gap analysis report',
-      'Audit-ready sign-off checklist',
-    ],
-    featured: false,
-  },
-];
+const SIGNUP_URL         = '[SIGNUP_URL]';
+const BOOKING_URL        = '[BOOKING_URL]';
+const SELF_SERVE_PRICE   = '[SELF_SERVE_PRICE]';
+const ESCALATION_PRICE   = '[ESCALATION_PRICE]';
+const ELEANOR_FIRST_NAME = '[ELEANOR_FIRST_NAME]';
 ---
 <section id="pricing" class="py-20 px-6 bg-surface border-y border-[#2A3347]">
-  <div class="max-w-6xl mx-auto">
-    <h2 class="text-2xl font-bold text-pri text-center mb-3 tracking-tight">
-      Three tiers, one funnel
+  <div class="max-w-4xl mx-auto">
+
+    <p class="text-ter text-[11px] font-bold tracking-widest font-mono text-center mb-4 uppercase">
+      § 04 — PRICING
+    </p>
+    <h2 class="font-display text-3xl text-pri text-center mb-3 tracking-tight">
+      Two ways in.
     </h2>
     <p class="text-sec text-center text-sm mb-14">
-      Each tier serves a different buyer. Together they form a pricing ladder.
+      Start self-serve and move at your own pace, or work directly with {ELEANOR_FIRST_NAME} for the parts that need a human.
     </p>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
-      {tiers.map(tier => (
-        <div class={`rounded-[14px] p-7 border ${tier.featured ? 'bg-raised border-accent' : 'bg-base border-[#2A3347]'}`}>
-          {tier.featured && (
-            <div class="inline-flex items-center px-3 py-1 bg-accent-dim text-accent text-[11px] font-bold rounded-full mb-5 uppercase tracking-wide">
-              Recommended
-            </div>
-          )}
-          <p class="text-sm font-semibold text-sec mb-1">{tier.name}</p>
-          <p class="text-4xl font-extrabold text-pri tracking-tight mb-1">{tier.price}</p>
-          <p class="text-xs text-ter mb-7">Best for: {tier.bestFor}</p>
-          <ul class="space-y-3 mb-8">
-            {tier.items.map(item => (
-              <li class="flex items-start gap-2 text-sm text-sec">
-                <span class="text-ok mt-0.5 flex-shrink-0">✓</span>
-                {item}
-              </li>
-            ))}
-          </ul>
-          <a
-            href="#"
-            class={`block text-center py-2.5 px-4 rounded-md text-sm font-bold transition-colors ${
-              tier.featured
-                ? 'bg-accent hover:bg-accent-hover text-white'
-                : 'bg-raised hover:bg-muted text-pri border border-[#2A3347]'
-            }`}
-          >
-            Get started
-          </a>
-        </div>
-      ))}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+      <!-- Door 1 -->
+      <div class="bg-base border border-[#2A3347] rounded-[14px] p-7 flex flex-col">
+        <p class="text-ter text-[11px] font-bold tracking-widest font-mono uppercase mb-4">DOOR 1</p>
+        <h3 class="text-xl font-bold text-pri mb-1">Start self-serve</h3>
+        <p class="text-4xl font-extrabold text-pri tracking-tight mt-2 mb-1">{SELF_SERVE_PRICE}</p>
+        <p class="text-xs text-ter mb-7">Platform access · move at your own pace</p>
+        <ul class="space-y-3 mb-8 flex-1">
+          <li class="flex items-start gap-2 text-sm text-sec">
+            <span class="text-ok mt-0.5 flex-shrink-0">✓</span>
+            Readiness wizard
+          </li>
+          <li class="flex items-start gap-2 text-sm text-sec">
+            <span class="text-ok mt-0.5 flex-shrink-0">✓</span>
+            Risk register
+          </li>
+          <li class="flex items-start gap-2 text-sm text-sec">
+            <span class="text-ok mt-0.5 flex-shrink-0">✓</span>
+            Policy templates
+          </li>
+          <li class="flex items-start gap-2 text-sm text-sec">
+            <span class="text-ok mt-0.5 flex-shrink-0">✓</span>
+            Evidence structure
+          </li>
+          <li class="flex items-start gap-2 text-sm text-sec">
+            <span class="text-ok mt-0.5 flex-shrink-0">✓</span>
+            Auditor engagement toolkit
+          </li>
+        </ul>
+        <a
+          href={SIGNUP_URL}
+          class="block text-center py-3 px-4 rounded-md text-sm font-bold bg-accent hover:bg-accent-hover text-white transition-colors"
+        >
+          Get started →
+        </a>
+      </div>
+
+      <!-- Door 2 -->
+      <div class="bg-base border border-[#2A3347] rounded-[14px] p-7 flex flex-col">
+        <p class="text-ter text-[11px] font-bold tracking-widest font-mono uppercase mb-4">DOOR 2</p>
+        <h3 class="text-xl font-bold text-pri mb-1">Work with {ELEANOR_FIRST_NAME}</h3>
+        <p class="text-4xl font-extrabold text-pri tracking-tight mt-2 mb-1">{ESCALATION_PRICE}</p>
+        <p class="text-xs text-ter mb-7">Expert-led · the judgment-heavy 20%</p>
+        <ul class="space-y-3 mb-8 flex-1">
+          <li class="flex items-start gap-2 text-sm text-sec">
+            <span class="text-ok mt-0.5 flex-shrink-0">✓</span>
+            Stack-specific gap analysis
+          </li>
+          <li class="flex items-start gap-2 text-sm text-sec">
+            <span class="text-ok mt-0.5 flex-shrink-0">✓</span>
+            Judgment calls on ambiguous controls
+          </li>
+          <li class="flex items-start gap-2 text-sm text-sec">
+            <span class="text-ok mt-0.5 flex-shrink-0">✓</span>
+            Audit-ready sign-off
+          </li>
+          <li class="flex items-start gap-2 text-sm text-sec">
+            <span class="text-ok mt-0.5 flex-shrink-0">✓</span>
+            Direct access to {ELEANOR_FIRST_NAME}
+          </li>
+        </ul>
+        <a
+          href={BOOKING_URL}
+          class="block text-center py-3 px-4 rounded-md text-sm font-bold bg-raised hover:bg-muted text-pri border border-[#2A3347] transition-colors"
+        >
+          Book a call →
+        </a>
+      </div>
+
     </div>
   </div>
 </section>

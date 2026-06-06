@@ -1,22 +1,44 @@
 ---
+const SIGNUP_URL  = '[SIGNUP_URL]';
+const BOOKING_URL = '[BOOKING_URL]';
+const ELEANOR_FIRST_NAME = '[ELEANOR_FIRST_NAME]';
+const ELEANOR_FULL_NAME  = '[ELEANOR_FULL_NAME]';
+const ELEANOR_CREDENTIALS = '[ELEANOR_CREDENTIALS]';
 ---
 <section class="pt-24 pb-20 px-6">
-  <div class="max-w-4xl mx-auto text-center">
-    <h1 class="text-5xl font-extrabold text-pri tracking-tight leading-tight mb-6">
-      SOC 2 readiness used to<br />cost $7,500 minimum.
+  <div class="max-w-3xl mx-auto text-center">
+
+    <p class="text-accent text-[11px] font-bold tracking-widest font-mono mb-6 uppercase">
+      SOC 2 · ISO · NIST · GDPR — READINESS, SCOPED
+    </p>
+
+    <h1 class="font-display text-4xl md:text-5xl text-pri tracking-tight leading-tight mb-6">
+      A prospect just asked if you're SOC&nbsp;2 compliant.
+      Now the deal's waiting on you.
     </h1>
-    <p class="text-xl text-sec mb-8 max-w-2xl mx-auto leading-relaxed">
-      We built the kit auditors wish founders had — without the overhead of
-      Vanta, Drata, or a $50K consultant. Founder-priced. Auditor-built.
+
+    <p class="text-sec text-lg leading-relaxed mb-3 max-w-2xl mx-auto">
+      Turn that unknown into a bounded, scoped, costed plan. Self-serve most of it at your own pace — bring in expert help for the hard part.
     </p>
-    <a
-      href="#pricing"
-      class="inline-flex items-center px-7 py-3.5 bg-accent hover:bg-accent-hover text-white font-bold text-base rounded-md transition-colors"
-    >
-      Get the kit — from $950
-    </a>
-    <p class="text-ter text-sm mt-5">
-      SOC 2 is where we start. More frameworks coming.
+
+    <p class="text-ter text-sm mb-10">
+      Built by <span class="text-sec font-medium">{ELEANOR_FULL_NAME}</span>, {ELEANOR_CREDENTIALS}.
     </p>
+
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+      <a
+        href={SIGNUP_URL}
+        class="inline-flex items-center px-7 py-3.5 bg-accent hover:bg-accent-hover text-white font-bold text-base rounded-md transition-colors w-full sm:w-auto justify-center"
+      >
+        Start self-serve
+      </a>
+      <a
+        href={BOOKING_URL}
+        class="inline-flex items-center px-7 py-3.5 bg-transparent hover:bg-raised border border-[#2A3347] text-pri font-bold text-base rounded-md transition-colors w-full sm:w-auto justify-center"
+      >
+        Work with {ELEANOR_FIRST_NAME}
+      </a>
+    </div>
+
   </div>
 </section>

@@ -1,25 +1,31 @@
 ---
-const APP_LOGIN = 'https://app.axis-scale.com/login';
+const APP_LOGIN   = 'https://app.axis-scale.com/login';
+const PRIVACY_URL = '[PRIVACY_URL]';
+const TERMS_URL   = '[TERMS_URL]';
 ---
 <footer class="border-t border-[#2A3347] py-10 px-6">
   <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
 
     <div class="flex items-center">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 32" width="130" height="23" role="img" aria-label="Axis Scale">
-        <g transform="translate(0, 4)">
-          <rect x="2" y="13" width="9" height="9" rx="1.6" fill="#2A3347"/>
-          <rect x="13" y="13" width="9" height="9" rx="1.6" fill="#3A4660"/>
-          <rect x="2" y="2" width="9" height="9" rx="1.6" fill="#3A4660"/>
-          <rect x="13" y="2" width="9" height="9" rx="1.6" fill="#E91E8C"/>
-          <circle cx="17.5" cy="6.5" r="1.6" fill="#FFFFFF"/>
-        </g>
-        <text x="34" y="22" font-family="Inter, Helvetica Neue, Arial, sans-serif" font-weight="800" font-size="18" letter-spacing="-.6" fill="#E6EDF3">Axis<tspan font-weight="500" fill="#8B949E">·Scale</tspan></text>
-      </svg>
+      <a href="/" aria-label="Axis-Scale home">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 32" width="130" height="23" role="img" aria-label="Axis Scale">
+          <g transform="translate(0, 4)">
+            <rect x="2" y="13" width="9" height="9" rx="1.6" fill="#2A3347"/>
+            <rect x="13" y="13" width="9" height="9" rx="1.6" fill="#3A4660"/>
+            <rect x="2" y="2" width="9" height="9" rx="1.6" fill="#3A4660"/>
+            <rect x="13" y="2" width="9" height="9" rx="1.6" fill="#E91E8C"/>
+            <circle cx="17.5" cy="6.5" r="1.6" fill="#FFFFFF"/>
+          </g>
+          <text x="34" y="22" font-family="Inter, Helvetica Neue, Arial, sans-serif" font-weight="800" font-size="18" letter-spacing="-.6" fill="#E6EDF3">Axis<tspan font-weight="500" fill="#8B949E">·Scale</tspan></text>
+        </svg>
+      </a>
     </div>
 
     <div class="flex items-center gap-6 text-sm text-sec">
-      <a href={APP_LOGIN} class="hover:text-pri transition-colors">Login</a>
-      <a href="mailto:hello@axis-scale.com" class="hover:text-pri transition-colors">hello@axis-scale.com</a>
+      <a href={APP_LOGIN} class="hover:text-pri transition-colors">Log in</a>
+      <a href={PRIVACY_URL} class="hover:text-pri transition-colors">Privacy</a>
+      <a href={TERMS_URL} class="hover:text-pri transition-colors">Terms</a>
+      <a href="mailto:hello@axis-scale.com" class="hover:text-pri transition-colors">Contact</a>
     </div>
 
     <p class="text-ter text-xs">© 2026 Axis-Scale. All rights reserved.</p>

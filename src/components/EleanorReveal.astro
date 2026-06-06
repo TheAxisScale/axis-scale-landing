@@ -1,0 +1,48 @@
+---
+const ELEANOR_PHOTO       = '[ELEANOR_PHOTO]';
+const ELEANOR_FULL_NAME   = '[ELEANOR_FULL_NAME]';
+const ELEANOR_CREDENTIALS = '[ELEANOR_CREDENTIALS]';
+const ELEANOR_BIO         = '[ELEANOR_BIO]';
+const ELEANOR_LINKEDIN    = '[ELEANOR_LINKEDIN]';
+---
+<section id="about" class="py-20 px-6 bg-surface border-b border-[#2A3347]">
+  <div class="max-w-xl mx-auto text-center">
+
+    <p class="text-ter text-[11px] font-bold tracking-widest font-mono mb-10 uppercase">
+      § 02 — THE BUILDER
+    </p>
+
+    <div class="flex flex-col items-center gap-5">
+
+      <img
+        src={ELEANOR_PHOTO}
+        alt={ELEANOR_FULL_NAME}
+        width="96"
+        height="96"
+        class="w-24 h-24 rounded-full object-cover border-2 border-[#2A3347]"
+      />
+
+      <div>
+        <p class="text-xl font-bold text-pri tracking-tight">{ELEANOR_FULL_NAME}</p>
+        <p class="text-accent text-[11px] font-bold tracking-widest font-mono mt-1 uppercase">
+          {ELEANOR_CREDENTIALS}
+        </p>
+      </div>
+
+      <p class="text-sec text-sm leading-relaxed max-w-sm">
+        {ELEANOR_BIO}
+      </p>
+
+      <a
+        href={ELEANOR_LINKEDIN}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-info text-sm hover:text-pri transition-colors"
+      >
+        LinkedIn ↗
+      </a>
+
+    </div>
+
+  </div>
+</section>

@@ -1,34 +1,45 @@
 ---
-const APP_LOGIN = 'https://app.axis-scale.com/login';
+const APP_LOGIN  = 'https://app.axis-scale.com/login';
+const SIGNUP_URL = '[SIGNUP_URL]';
 ---
 <header class="sticky top-0 z-50 bg-base border-b border-[#2A3347]">
   <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
 
     <div class="flex items-center">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 32" width="150" height="27" role="img" aria-label="Axis Scale">
-        <g transform="translate(0, 4)">
-          <rect x="2" y="13" width="9" height="9" rx="1.6" fill="#2A3347"/>
-          <rect x="13" y="13" width="9" height="9" rx="1.6" fill="#3A4660"/>
-          <rect x="2" y="2" width="9" height="9" rx="1.6" fill="#3A4660"/>
-          <rect x="13" y="2" width="9" height="9" rx="1.6" fill="#E91E8C"/>
-          <circle cx="17.5" cy="6.5" r="1.6" fill="#FFFFFF"/>
-        </g>
-        <text x="34" y="22" font-family="Inter, Helvetica Neue, Arial, sans-serif" font-weight="800" font-size="18" letter-spacing="-.6" fill="#E6EDF3">Axis<tspan font-weight="500" fill="#8B949E">·Scale</tspan></text>
-      </svg>
+      <a href="/" aria-label="Axis-Scale home">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 32" width="150" height="27" role="img" aria-label="Axis Scale">
+          <g transform="translate(0, 4)">
+            <rect x="2" y="13" width="9" height="9" rx="1.6" fill="#2A3347"/>
+            <rect x="13" y="13" width="9" height="9" rx="1.6" fill="#3A4660"/>
+            <rect x="2" y="2" width="9" height="9" rx="1.6" fill="#3A4660"/>
+            <rect x="13" y="2" width="9" height="9" rx="1.6" fill="#E91E8C"/>
+            <circle cx="17.5" cy="6.5" r="1.6" fill="#FFFFFF"/>
+          </g>
+          <text x="34" y="22" font-family="Inter, Helvetica Neue, Arial, sans-serif" font-weight="800" font-size="18" letter-spacing="-.6" fill="#E6EDF3">Axis<tspan font-weight="500" fill="#8B949E">·Scale</tspan></text>
+        </svg>
+      </a>
     </div>
 
-    <nav>
-      <a href="#pricing" class="text-sec hover:text-pri text-sm font-medium transition-colors">
-        Pricing
-      </a>
+    <nav class="hidden md:flex items-center gap-7">
+      <a href="#why" class="text-sec hover:text-pri text-sm font-medium transition-colors">Why</a>
+      <a href="#how-it-works" class="text-sec hover:text-pri text-sm font-medium transition-colors">How it works</a>
+      <a href="#pricing" class="text-sec hover:text-pri text-sm font-medium transition-colors">Pricing</a>
     </nav>
 
-    <a
-      href={APP_LOGIN}
-      class="inline-flex items-center px-4 py-2 bg-accent hover:bg-accent-hover text-white text-sm font-semibold rounded-md transition-colors"
-    >
-      Login
-    </a>
+    <div class="flex items-center gap-3">
+      <a
+        href={APP_LOGIN}
+        class="text-sec hover:text-pri text-sm font-medium transition-colors"
+      >
+        Log in
+      </a>
+      <a
+        href={SIGNUP_URL}
+        class="inline-flex items-center px-4 py-2 bg-accent hover:bg-accent-hover text-white text-sm font-semibold rounded-md transition-colors"
+      >
+        Start free
+      </a>
+    </div>
 
   </div>
 </header>

@@ -9,16 +9,21 @@ const pains = [
     body: '300+ hours collecting screenshots with no clear standard for what counts. Every auditor wants something slightly different.',
   },
   {
-    title: 'The Trust Crisis',
-    body: 'After Delve faked 494 SOC 2 reports in March 2026, buyers want human-led readiness — not another automated platform.',
+    title: 'The Unbounded Unknown',
+    body: "You can't size it, so you can't budget, plan, or give your prospect a date. The fear isn't the work — it's not knowing how big the work is.",
   },
 ];
 ---
-<section class="py-20 px-6 bg-surface border-y border-[#2A3347]">
+<section id="why" class="py-20 px-6 bg-surface border-y border-[#2A3347]">
   <div class="max-w-6xl mx-auto">
+
+    <p class="text-ter text-[11px] font-bold tracking-widest font-mono text-center mb-4 uppercase">
+      § 01 — WHY FOUNDERS GET STUCK
+    </p>
     <h2 class="text-2xl font-bold text-pri text-center mb-12 tracking-tight">
-      Why founders get stuck
+      Three places every founder hits a wall
     </h2>
+
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       {pains.map(p => (
         <div class="bg-raised border border-[#2A3347] rounded-[10px] p-6">
@@ -27,5 +32,6 @@ const pains = [
         </div>
       ))}
     </div>
+
   </div>
 </section>

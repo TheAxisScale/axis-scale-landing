@@ -1,22 +1,32 @@
 ---
+const SIGNUP_URL         = '[SIGNUP_URL]';
+const BOOKING_URL        = '[BOOKING_URL]';
+const ELEANOR_FIRST_NAME = '[ELEANOR_FIRST_NAME]';
 ---
 <section class="py-20 px-6">
   <div class="max-w-3xl mx-auto text-center">
-    <p class="text-ter text-xs font-bold uppercase tracking-widest mb-4">
-      Built from the auditor's chair
-    </p>
-    <h2 class="text-3xl font-extrabold text-pri tracking-tight mb-5">
-      Not from a template library.
+
+    <h2 class="font-display text-3xl md:text-4xl text-pri tracking-tight mb-4">
+      Know exactly where you stand.
     </h2>
-    <p class="text-sec leading-relaxed mb-8">
-      Every deliverable was shaped by what auditors actually ask for — and
-      what founders actually miss.
+    <p class="text-sec leading-relaxed mb-10 max-w-xl mx-auto">
+      Move at your own pace. Bring in {ELEANOR_FIRST_NAME} when it gets hard.
     </p>
-    <a
-      href="#pricing"
-      class="inline-flex items-center px-7 py-3.5 bg-accent hover:bg-accent-hover text-white font-bold text-base rounded-md transition-colors"
-    >
-      Get the kit — from $950
-    </a>
+
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+      <a
+        href={SIGNUP_URL}
+        class="inline-flex items-center px-7 py-3.5 bg-accent hover:bg-accent-hover text-white font-bold text-base rounded-md transition-colors w-full sm:w-auto justify-center"
+      >
+        Start self-serve
+      </a>
+      <a
+        href={BOOKING_URL}
+        class="inline-flex items-center px-7 py-3.5 bg-transparent hover:bg-raised border border-[#2A3347] text-pri font-bold text-base rounded-md transition-colors w-full sm:w-auto justify-center"
+      >
+        Work with {ELEANOR_FIRST_NAME}
+      </a>
+    </div>
+
   </div>
 </section>
