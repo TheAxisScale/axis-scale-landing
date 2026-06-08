@@ -1,15 +1,15 @@
 ---
-const SIGNUP_URL         = '[SIGNUP_URL]';
-const BOOKING_URL        = '[BOOKING_URL]';
-const SELF_SERVE_PRICE   = '[SELF_SERVE_PRICE]';
-const ESCALATION_PRICE   = '[ESCALATION_PRICE]';
-const ELEANOR_FIRST_NAME = '[ELEANOR_FIRST_NAME]';
+const SIGNUP_URL         = 'https://app.axis-scale.com/register';
+const BOOKING_URL        = 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ3_5A5BbXDJwZmrDUAoBpz4uVfSHA0F7vGQUcv7wiLbchVaHA0fUhBECYjGIlvx6hQoamt4lDpz?gv=true';
+const SELF_SERVE_PRICE   = '$249';
+const ESCALATION_PRICE   = '$4,000';
+const ELEANOR_FIRST_NAME = 'Eleanor';
 ---
 <section id="pricing" class="py-24 px-6 md:px-9 bg-surface border-y border-[#2A3347]">
   <div class="max-w-4xl mx-auto">
 
     <p class="text-accent text-[11px] font-bold tracking-[1px] font-mono text-center mb-4 uppercase">
-      § 04 — PRICING
+      § 04 - PRICING
     </p>
     <h2 class="text-4xl md:text-5xl font-extrabold text-pri text-center mb-4 tracking-[-0.8px] leading-[1.1]">
       Two ways in.
@@ -17,17 +17,16 @@ const ELEANOR_FIRST_NAME = '[ELEANOR_FIRST_NAME]';
     <p class="text-sec text-center text-[17px] mb-14 max-w-lg mx-auto leading-relaxed">
       Start self-serve and move at your own pace, or work directly with {ELEANOR_FIRST_NAME} for the parts that need a human.
     </p>
-
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
       <!-- Door 1 -->
       <div class="bg-base border border-[#2A3347] rounded-[14px] p-8 flex flex-col">
         <p class="text-ter text-[11px] font-bold tracking-[1px] font-mono uppercase mb-5">DOOR 1</p>
         <h3 class="text-xl font-bold text-pri mb-1 tracking-[-0.3px]">Start self-serve</h3>
-        <p class="text-[48px] font-extrabold text-pri tracking-[-1.2px] leading-none mt-3 mb-1">{SELF_SERVE_PRICE}</p>
-        <p class="text-xs text-ter mb-8">Platform access · move at your own pace</p>
+        <p class="text-[48px] font-extrabold text-pri tracking-[-1.2px] leading-none mt-3 mb-1">{SELF_SERVE_PRICE}<span class="text-lg font-semibold text-ter tracking-normal">/mo</span></p>
+        <p class="text-xs text-ter mb-8">Annual plan · move at your own pace</p>
         <ul class="space-y-3 mb-8 flex-1">
-          {['Readiness wizard','Risk register','Policy templates','Evidence structure','Auditor engagement toolkit'].map(f => (
+          {['Readiness wizard','Risk register','Policy templates','Evidence structure','Auditor engagement toolkit','Continuous \u201cstay-ready\u201d monitoring'].map(f => (
             <li class="flex items-start gap-2.5 text-sm text-sec">
               <span class="text-accent mt-0.5 flex-shrink-0 font-bold">✓</span>
               {f}
@@ -43,8 +42,8 @@ const ELEANOR_FIRST_NAME = '[ELEANOR_FIRST_NAME]';
       <div class="bg-base border border-[#2A3347] rounded-[14px] p-8 flex flex-col">
         <p class="text-ter text-[11px] font-bold tracking-[1px] font-mono uppercase mb-5">DOOR 2</p>
         <h3 class="text-xl font-bold text-pri mb-1 tracking-[-0.3px]">Work with {ELEANOR_FIRST_NAME}</h3>
-        <p class="text-[48px] font-extrabold text-pri tracking-[-1.2px] leading-none mt-3 mb-1">{ESCALATION_PRICE}</p>
-        <p class="text-xs text-ter mb-8">Expert-led · the judgment-heavy 20%</p>
+        <p class="text-[48px] font-extrabold text-pri tracking-[-1.2px] leading-none mt-3 mb-1">{ESCALATION_PRICE}<span class="text-lg font-semibold text-ter tracking-normal"> flat</span></p>
+        <p class="text-xs text-ter mb-8">Expert-led · the judgment-heavy 20% · ~4–6 weeks</p>
         <ul class="space-y-3 mb-8 flex-1">
           {[`Stack-specific gap analysis`,`Judgment calls on ambiguous controls`,`Audit-ready sign-off`,`Direct access to ${ELEANOR_FIRST_NAME}`].map(f => (
             <li class="flex items-start gap-2.5 text-sm text-sec">
@@ -53,7 +52,7 @@ const ELEANOR_FIRST_NAME = '[ELEANOR_FIRST_NAME]';
             </li>
           ))}
         </ul>
-        <a href={BOOKING_URL} class="block text-center py-3 px-4 rounded-full text-sm font-semibold bg-transparent hover:bg-raised text-pri border-[1.5px] border-[#2A3347] hover:border-pri transition-colors">
+        <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" class="block text-center py-3 px-4 rounded-full text-sm font-semibold bg-transparent hover:bg-raised text-pri border-[1.5px] border-[#2A3347] hover:border-pri transition-colors">
           Book a call →
         </a>
       </div>

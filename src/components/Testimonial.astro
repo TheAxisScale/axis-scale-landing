@@ -1,0 +1,27 @@
+---
+// ⚠️ PENDING SAFEBOOKS SIGN-OFF.
+// Do NOT set APPROVED = true until you have written approval from Safebooks
+// for the exact quote, attribution, and title below. Honesty is the moat -
+// never publish an unapproved testimonial.
+const APPROVED = false;
+
+const QUOTE =
+  "Eleanor built and ran our SOC 1 readiness end-to-end - turning an ambiguous, open-ended program into a structured, scoped plan with real execution discipline. She is the rare person who understands the controls, the engineering, and the business at once.";
+const ATTRIBUTION = "Safebooks AI"; // confirm exact name/person/title before publishing
+const ROLE = "";                    // e.g. "Co-founder & CEO" - fill once approved
+---
+{APPROVED && (
+  <section class="py-20 px-6 md:px-9 bg-base border-b border-[#2A3347]">
+    <div class="max-w-2xl mx-auto text-center">
+      <p class="text-accent text-[11px] font-bold tracking-[1px] font-mono mb-8 uppercase">
+        § - PROOF
+      </p>
+      <blockquote class="text-pri text-xl md:text-2xl font-semibold leading-snug tracking-[-0.3px]">
+        “{QUOTE}”
+      </blockquote>
+      <p class="text-sec text-sm mt-6 font-medium">
+        {ATTRIBUTION}{ROLE ? ` · ${ROLE}` : ''}
+      </p>
+    </div>
+  </section>
+)}
