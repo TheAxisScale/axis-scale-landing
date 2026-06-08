@@ -10,7 +10,7 @@ const pains = [
   },
   {
     title: 'The Unbounded Unknown',
-    body: "You can't size it, so you can't budget, plan, or give your prospect a date. The fear isn't the work - it's not knowing how big the work is.",
+    body: "You can't size it, so you can't budget, plan, or give your prospect a date. The fear isn't the work. It's not knowing how much work.",
   },
 ];
 ---
@@ -21,7 +21,7 @@ const pains = [
       § 01 - WHY FOUNDERS GET STUCK
     </p>
     <h2 class="text-4xl md:text-5xl font-extrabold text-pri text-center mb-4 tracking-[-0.8px] leading-[1.1]">
-      Three places every founder hits a wall
+      Three things nobody warns you about SOC 2
     </h2>
     <p class="text-sec text-center text-[17px] mb-14 max-w-xl mx-auto leading-relaxed">
       Compliance isn't hard because the technology is hard. It's hard because nobody tells you what's coming.
@@ -29,7 +29,7 @@ const pains = [
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       {pains.map(p => (
-        <div class="border border-[#2A3347] rounded-[14px] p-7 hover:border-accent transition-colors" style="background: linear-gradient(to bottom, rgba(233,30,140,0.05) 0%, #1E2538 40%); border-top-color: rgba(233,30,140,0.3);">
+        <div class="border border-[#2A3347] rounded-[14px] p-7 hover:border-[rgba(233,30,140,0.5)] transition-colors" style="background: linear-gradient(to bottom, rgba(233,30,140,0.05) 0%, #1E2538 40%); border-top-color: rgba(233,30,140,0.3);">
           <h3 class="font-bold text-pri mb-3 text-lg tracking-[-0.2px]">{p.title}</h3>
           <p class="text-sec text-sm leading-relaxed">{p.body}</p>
         </div>
