@@ -1,5 +1,6 @@
 ---
-const FORMSPREE_ID = '[FORMSPREE_ID]';
+const FORMSPREE_ID  = '[FORMSPREE_ID]';
+const BOOKING_URL   = 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ3_5A5BbXDJwZmrDUAoBpz4uVfSHA0F7vGQUcv7wiLbchVaHA0fUhBECYjGIlvx6hQoamt4lDpz?gv=true';
 ---
 <section id="early-access" class="py-24 px-6 md:px-9 bg-surface border-y border-[#2A3347]">
   <div class="max-w-xl mx-auto">
@@ -12,6 +13,10 @@ const FORMSPREE_ID = '[FORMSPREE_ID]';
     </h2>
     <p class="text-sec text-center text-sm mb-10">
       Request a short walkthrough. Eleanor will reach out to help you figure out where you stand and what makes sense for your timeline.
+    </p>
+    <p class="text-ter text-center text-xs mb-8">
+      Prefer to skip the form?
+      <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" class="text-accent hover:underline">Book a call directly →</a>
     </p>
 
     <form
