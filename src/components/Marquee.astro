@@ -9,7 +9,7 @@ const items = [
 ];
 const track = [...items, ...items];
 ---
-<div class="border-y border-[#2A3347] overflow-hidden py-3 bg-surface">
+<div class="border-y border-[#2A3347] overflow-hidden py-3 bg-surface" style="-webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%); mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)">
   <div class="marquee-track flex gap-10 whitespace-nowrap">
     {track.map(item => (
       <span class="text-ter text-[11px] font-bold tracking-widest font-mono shrink-0">{item}</span>

@@ -29,7 +29,7 @@ const pains = [
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       {pains.map(p => (
-        <div class="bg-raised border border-[#2A3347] rounded-[14px] p-7 hover:border-accent transition-colors">
+        <div class="border border-[#2A3347] rounded-[14px] p-7 hover:border-accent transition-colors" style="background: linear-gradient(to bottom, rgba(233,30,140,0.05) 0%, #1E2538 40%); border-top-color: rgba(233,30,140,0.3);">
           <h3 class="font-bold text-pri mb-3 text-lg tracking-[-0.2px]">{p.title}</h3>
           <p class="text-sec text-sm leading-relaxed">{p.body}</p>
         </div>
