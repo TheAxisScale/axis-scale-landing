@@ -1,9 +1,7 @@
 ---
 const SIGNUP_URL         = 'https://app.axis-scale.com/register';
-const BOOKING_URL        = 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ3_5A5BbXDJwZmrDUAoBpz4uVfSHA0F7vGQUcv7wiLbchVaHA0fUhBECYjGIlvx6hQoamt4lDpz?gv=true';
 const SELF_SERVE_PRICE   = '$249';
 const ESCALATION_PRICE   = '$4,000';
-const ELEANOR_FIRST_NAME = 'Eleanor';
 ---
 <section id="pricing" class="py-24 px-6 md:px-9 bg-surface border-y border-[#2A3347]">
   <div class="max-w-4xl mx-auto">
@@ -52,7 +50,7 @@ const ELEANOR_FIRST_NAME = 'Eleanor';
             </li>
           ))}
         </ul>
-        <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" class="block text-center py-3 px-4 rounded-full text-sm font-semibold bg-transparent hover:bg-raised text-pri border-[1.5px] border-[#2A3347] hover:border-pri transition-colors">
+        <a href="#early-access" class="block text-center py-3 px-4 rounded-full text-sm font-semibold bg-transparent hover:bg-raised text-pri border-[1.5px] border-[#2A3347] hover:border-pri transition-colors">
           Contact us →
         </a>
       </div>
@@ -63,10 +61,10 @@ const ELEANOR_FIRST_NAME = 'Eleanor';
     <div class="mt-6 bg-base border border-[#2A3347] rounded-[14px] px-8 py-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
       <div>
         <p class="text-ter text-[11px] font-bold uppercase tracking-[1px] font-mono mb-1">FULL SERVICE</p>
-        <p class="text-pri font-semibold text-[15px] tracking-[-0.2px]">Need Eleanor to lead the whole engagement?</p>
+        <p class="text-pri font-semibold text-[15px] tracking-[-0.2px]">Need our team to lead the whole engagement?</p>
         <p class="text-sec text-xs mt-1 max-w-lg">Full-service engagements are scoped individually. Pricing determined after an initial conversation about your stack and timeline.</p>
       </div>
-      <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" class="shrink-0 inline-flex items-center px-5 py-2.5 text-sm font-semibold text-pri border border-[#2A3347] hover:border-pri rounded-full transition-colors whitespace-nowrap">
+      <a href="#early-access" class="shrink-0 inline-flex items-center px-5 py-2.5 text-sm font-semibold text-pri border border-[#2A3347] hover:border-pri rounded-full transition-colors whitespace-nowrap">
         Let's scope it →
       </a>
     </div>
