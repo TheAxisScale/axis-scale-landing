@@ -1,41 +1,42 @@
 ---
-const SIGNUP_URL         = 'https://app.axis-scale.com/register';
-const BOOKING_URL        = 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ3_5A5BbXDJwZmrDUAoBpz4uVfSHA0F7vGQUcv7wiLbchVaHA0fUhBECYjGIlvx6hQoamt4lDpz?gv=true';
-const ELEANOR_FIRST_NAME = 'Eleanor';
+const SIGNUP_URL  = 'https://app.axis-scale.com/register';
+const BOOKING_URL = 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ3_5A5BbXDJwZmrDUAoBpz4uVfSHA0F7vGQUcv7wiLbchVaHA0fUhBECYjGIlvx6hQoamt4lDpz?gv=true';
 ---
-<section class="py-24 px-6 md:px-9" style="background-image: radial-gradient(ellipse 70% 55% at 50% 50%, rgba(233,30,140,0.07) 0%, transparent 70%);">
-  <div class="max-w-3xl mx-auto">
-    <div class="bg-surface border-[1.5px] border-accent-border rounded-[14px] px-12 py-14 text-center" style="box-shadow: 0 0 0 1px rgba(233,30,140,0.1), 0 8px 48px rgba(233,30,140,0.07);">
+<section class="py-28 px-6 md:px-9 bg-base border-t border-[#2A3347]" style="background-image: radial-gradient(ellipse 60% 50% at 50% 100%, rgba(233,30,140,0.06) 0%, transparent 70%);">
+  <div class="max-w-2xl mx-auto text-center">
 
-      <h2 class="text-4xl md:text-5xl font-extrabold text-pri tracking-[-0.8px] leading-[1.1] mb-4">
-        Know exactly where you stand.
-      </h2>
-      <p class="text-sec text-[17px] leading-relaxed mb-10 max-w-xl mx-auto">
-        Move at your own pace. Expert help is there when you need it.
-      </p>
+    <p class="text-accent text-[11px] font-bold tracking-[1px] font-mono mb-6 uppercase">
+      Ready when you are
+    </p>
 
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
-        <a
-          href={SIGNUP_URL}
-          class="inline-flex items-center px-6 py-3 bg-accent hover:bg-accent-hover text-white font-bold text-sm rounded-full transition-colors w-full sm:w-auto justify-center tracking-[-0.1px]"
-        >
-          Start self-serve
-        </a>
-        <a
-          href={BOOKING_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="inline-flex items-center px-6 py-3 bg-transparent hover:bg-raised border-[1.5px] border-[#2A3347] hover:border-pri text-pri font-semibold text-sm rounded-full transition-colors w-full sm:w-auto justify-center"
-        >
-          Work with us
-        </a>
-      </div>
+    <h2 class="text-4xl md:text-5xl font-extrabold text-pri tracking-[-0.8px] leading-[1.1] mb-5" data-animate>
+      Start knowing.<br class="hidden md:block" /> Stop guessing.
+    </h2>
+    <p class="text-sec text-[16px] leading-relaxed mb-10 max-w-sm mx-auto" data-animate>
+      30 minutes to map your scope. The platform handles 80%. We handle the rest.
+    </p>
 
-      <p class="text-ter text-xs mt-6">
-        Not sure which fits?
-        <a href="mailto:hello@axis-scale.com" class="text-sec hover:text-pri transition-colors">hello@axis-scale.com</a>
-      </p>
-
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-3" data-animate>
+      <a
+        href={SIGNUP_URL}
+        class="inline-flex items-center px-7 py-3.5 bg-accent hover:bg-accent-hover text-white font-bold text-sm rounded-full transition-colors w-full sm:w-auto justify-center tracking-[-0.1px]"
+      >
+        Get started →
+      </a>
+      <a
+        href={BOOKING_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center px-7 py-3.5 bg-transparent hover:bg-raised border-[1.5px] border-[#2A3347] hover:border-[#4A5568] text-pri font-semibold text-sm rounded-full transition-colors w-full sm:w-auto justify-center"
+      >
+        Talk to Eleanor
+      </a>
     </div>
+
+    <p class="text-ter text-xs mt-7">
+      Questions first?
+      <a href="mailto:hello@axis-scale.com" class="text-sec hover:text-pri transition-colors">hello@axis-scale.com</a>
+    </p>
+
   </div>
 </section>

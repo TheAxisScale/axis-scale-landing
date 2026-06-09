@@ -1,63 +1,61 @@
 ---
 const BOOKING_URL = 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ3_5A5BbXDJwZmrDUAoBpz4uVfSHA0F7vGQUcv7wiLbchVaHA0fUhBECYjGIlvx6hQoamt4lDpz?gv=true';
 
-const selfServe = [
-  { name: 'Readiness Wizard',           desc: 'Step-by-step guided assessment that scopes your exact starting point and gap list.' },
-  { name: 'Risk Register',              desc: 'Interactive tool for identifying, scoring, and tracking your risks against each control.' },
-  { name: 'Policy Templates',           desc: 'Auditor-reviewed policy library - edit to fit your stack, not a generic template.' },
-  { name: 'Evidence Structure',         desc: 'Folder structure and labeling guide so every piece of evidence lands where auditors expect it.' },
-  { name: 'Auditor Engagement Toolkit', desc: 'Kickoff email, Day-1 summary, and communication templates for working with your auditor.' },
+const platform = [
+  'Readiness Wizard',
+  'Risk Register',
+  'Policy Templates',
+  'Evidence Structure',
+  'Auditor Engagement Toolkit',
+  'Continuous stay-ready monitoring',
 ];
 
-const expertHelp = [
-  { name: 'Stack-Specific Judgment',  desc: 'Your stack is yours. Eleanor maps every control to how you actually run things - not a generic cloud template.' },
-  { name: 'Gap Analysis',             desc: 'Expert review of your evidence and posture - with clear, prioritized remediation notes.' },
-  { name: 'Audit-Ready Sign-Off',     desc: 'A final walk-through before you engage your auditor, so there are no surprises on Day 1.' },
+const expert = [
+  'Stack-specific gap analysis',
+  'Judgment calls on ambiguous controls',
+  'Audit-ready sign-off',
+  'Direct access to our team',
 ];
 ---
-<section id="how-it-works" class="py-24 px-6 md:px-9">
-  <div class="max-w-6xl mx-auto">
+<section id="how-it-works" class="py-20 px-6 md:px-9 bg-surface border-y border-[#2A3347]">
+  <div class="max-w-5xl mx-auto">
 
     <p class="text-accent text-[11px] font-bold tracking-[1px] font-mono text-center mb-4 uppercase">
       § 02 - HOW IT WORKS
     </p>
-    <h2 class="text-4xl md:text-5xl font-extrabold text-pri text-center mb-4 tracking-[-0.8px] leading-[1.1]">
+    <h2 class="text-4xl md:text-5xl font-extrabold text-pri text-center mb-14 tracking-[-0.8px] leading-[1.1]">
       Handle 80% yourself. The platform shows you how.
     </h2>
-    <p class="text-sec text-center text-[17px] mb-14 max-w-xl mx-auto leading-relaxed">
-      The platform gives you a structured path through everything you can handle yourself. Expert judgment for the 20% where interpretation matters.
-    </p>
 
-    <p class="text-[11px] font-bold text-ter uppercase tracking-[1px] mb-4 font-mono">
-      What the platform guides you through
-    </p>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-14">
-      {selfServe.map(item => (
-        <div class="bg-surface border border-[#2A3347] rounded-[14px] p-6 hover:border-accent transition-colors">
-          <p class="text-accent text-[11px] font-bold uppercase tracking-[.8px] mb-2 font-mono">Platform</p>
-          <p class="font-semibold text-pri text-sm mb-1 tracking-[-0.2px]">{item.name}</p>
-          <p class="text-sec text-xs leading-relaxed">{item.desc}</p>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+      <div data-animate>
+        <p class="text-[11px] font-bold text-ter uppercase tracking-[1px] mb-4 font-mono">Platform — self-serve</p>
+        <div class="grid grid-cols-2 gap-2">
+          {platform.map(name => (
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-raised border border-[#2A3347] text-sec text-xs font-medium">
+              <span class="text-ok text-[10px] flex-shrink-0">✓</span>
+              {name}
+            </span>
+          ))}
         </div>
-      ))}
-    </div>
+      </div>
 
-    <p class="text-[11px] font-bold text-ter uppercase tracking-[1px] mb-4 font-mono">
-      Expert help for the rest
-    </p>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-      {expertHelp.map(item => (
-        <div class="bg-raised border border-[#2A3347] rounded-[14px] p-6 hover:border-accent transition-colors">
-          <p class="text-info text-[11px] font-bold uppercase tracking-[.8px] mb-2 font-mono">Expert-led</p>
-          <p class="font-semibold text-pri text-sm mb-1 tracking-[-0.2px]">{item.name}</p>
-          <p class="text-sec text-xs leading-relaxed">{item.desc}</p>
+      <div data-animate>
+        <p class="text-[11px] font-bold text-ter uppercase tracking-[1px] mb-4 font-mono">Expert-led add-on</p>
+        <div class="grid grid-cols-2 gap-2">
+          {expert.map(name => (
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-raised border border-[#2A3347] text-sec text-xs font-medium">
+              <span class="text-info text-[10px] flex-shrink-0">✦</span>
+              {name}
+            </span>
+          ))}
         </div>
-      ))}
-    </div>
+        <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" class="inline-block mt-5 text-sec text-xs hover:text-pri transition-colors">
+          Learn about expert-led engagements →
+        </a>
+      </div>
 
-    <div class="mt-10 text-center">
-      <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" class="text-sec text-sm hover:text-pri transition-colors">
-        Learn about expert-led engagements →
-      </a>
     </div>
 
   </div>

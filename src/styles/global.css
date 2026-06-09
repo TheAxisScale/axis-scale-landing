@@ -18,6 +18,24 @@
   --color-warn:         #F59E0B;
   --color-err:          #EF4444;
   --color-info:         #818CF8;
+  --color-light-bg:   #F5F4F1;
+  --color-on-light:   #111318;
+  --color-on-light-2: #4A5568;
+  --color-on-light-3: #718096;
   --font-family-sans: Inter, system-ui, sans-serif;
   --font-family-mono: 'JetBrains Mono', 'Courier New', monospace;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+[data-animate] {
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+[data-animate].visible {
+  animation: fadeInUp 0.55s ease forwards;
 }

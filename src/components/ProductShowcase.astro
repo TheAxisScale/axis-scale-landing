@@ -1,0 +1,59 @@
+---
+// Drop screenshots into /public/screenshots/:
+//   primary.png    - the main wide shot (wizard or workplan, ~1400×900)
+//   thumb-1.png    - e.g. readiness wizard step
+//   thumb-2.png    - e.g. workplan checklist
+//   thumb-3.png    - e.g. dashboard or risk register
+const hasPrimary = false; // flip to true once primary.png is in /public/screenshots/
+---
+<section class="py-20 px-6 md:px-9 overflow-hidden" style="background-image: radial-gradient(ellipse 60% 40% at 50% 50%, rgba(233,30,140,0.05) 0%, transparent 65%);">
+  <div class="max-w-5xl mx-auto">
+
+    <p class="text-accent text-[11px] font-bold tracking-[1px] font-mono text-center mb-4 uppercase">
+      § 00 - THE PLATFORM
+    </p>
+    <h2 class="text-4xl md:text-5xl font-extrabold text-pri text-center tracking-[-0.8px] leading-[1.1] mb-12">
+      Built for the 80% you do yourself.
+    </h2>
+
+    <!-- Primary screenshot / video frame -->
+    <div class="rounded-[14px] overflow-hidden border border-[#2A3347] mb-6" style="box-shadow: 0 0 0 1px rgba(233,30,140,0.08), 0 24px 64px rgba(0,0,0,0.45);">
+      <!-- Browser chrome bar -->
+      <div class="bg-[#1E2538] border-b border-[#2A3347] px-4 py-2.5 flex items-center gap-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-[#3A4155]"></span>
+        <span class="w-2.5 h-2.5 rounded-full bg-[#3A4155]"></span>
+        <span class="w-2.5 h-2.5 rounded-full bg-[#3A4155]"></span>
+        <span class="ml-3 flex-1 bg-[#161B27] rounded-md px-3 py-1 text-[11px] text-ter font-mono">app.axis-scale.com</span>
+      </div>
+      <!-- Content area -->
+      {hasPrimary ? (
+        <img src="/screenshots/primary.png" alt="Axis-Scale platform" class="w-full block" loading="lazy" />
+      ) : (
+        <div class="aspect-[16/9] bg-[#0D1117] flex items-center justify-center">
+          <p class="text-ter text-sm font-mono">screenshot coming soon</p>
+        </div>
+      )}
+    </div>
+
+    <!-- Thumbnail row -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      {[
+        { src: '/screenshots/thumb-1.png', label: 'Readiness wizard' },
+        { src: '/screenshots/thumb-2.png', label: 'Workplan' },
+        { src: '/screenshots/thumb-3.png', label: 'Risk register' },
+      ].map(({ src, label }) => (
+        <div class="rounded-[10px] overflow-hidden border border-[#2A3347]" style="box-shadow: 0 8px 24px rgba(0,0,0,0.3);">
+          <div class="bg-[#1E2538] border-b border-[#2A3347] px-3 py-2 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-[#3A4155]"></span>
+            <span class="w-2 h-2 rounded-full bg-[#3A4155]"></span>
+            <span class="w-2 h-2 rounded-full bg-[#3A4155]"></span>
+          </div>
+          <div class="aspect-video bg-[#0D1117] flex items-center justify-center">
+            <p class="text-ter text-xs font-mono">{label}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>
