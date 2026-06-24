@@ -20,7 +20,8 @@ const platformFeatures = [
       Pick the lane that fits where you are.
     </p>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Lanes 1–3 -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
 
       <!-- Lane 1 -->
       <div class="bg-base border border-[#2A3347] rounded-[14px] p-8 flex flex-col">
@@ -40,8 +41,11 @@ const platformFeatures = [
         </a>
       </div>
 
-      <!-- Lane 2 -->
-      <div class="bg-base border border-accent-border rounded-[14px] p-8 flex flex-col">
+      <!-- Lane 2 — recommended -->
+      <div class="bg-base border-2 border-accent rounded-[14px] p-8 flex flex-col relative">
+        <div class="absolute -top-3.5 left-1/2 -translate-x-1/2">
+          <span class="text-[10px] font-bold tracking-[0.5px] font-mono uppercase px-3 py-1 rounded-full bg-accent text-white whitespace-nowrap">Most recommended</span>
+        </div>
         <p class="text-ter text-[11px] font-bold tracking-[1px] font-mono uppercase mb-5">LANE 2</p>
         <h3 class="text-xl font-bold text-pri mb-2 tracking-[-0.3px]">Platform + audit blitz</h3>
         <p class="text-xs text-ter mb-8">Monthly platform · 4-week expert blitz before audit · 1-year commitment · fixed price and scope</p>
@@ -63,7 +67,7 @@ const platformFeatures = [
             Audit-ready sign-off from our team
           </li>
         </ul>
-        <a href="#early-access" class="block text-center py-3 px-4 rounded-full text-sm font-semibold bg-transparent hover:bg-raised text-pri border-[1.5px] border-[#2A3347] hover:border-pri transition-colors">
+        <a href="#early-access" class="block text-center py-3 px-4 rounded-full text-sm font-bold bg-accent hover:bg-accent-hover text-white transition-colors">
           Book your expert sign-off →
         </a>
       </div>
@@ -101,19 +105,18 @@ const platformFeatures = [
         </a>
       </div>
 
-      <!-- Lane 4 -->
-      <div class="bg-base border border-[#2A3347] rounded-[14px] p-8 flex flex-col">
-        <p class="text-ter text-[11px] font-bold tracking-[1px] font-mono uppercase mb-5">LANE 4</p>
-        <h3 class="text-xl font-bold text-pri mb-2 tracking-[-0.3px]">Scoped for you</h3>
-        <p class="text-xs text-ter mb-8">Full-service · custom scope · pricing after initial conversation</p>
-        <p class="text-sm text-sec leading-relaxed mb-8 flex-1">
-          Your stack, your timeline, your requirements. We scope the engagement together and give you a fixed price before any work starts.
-        </p>
-        <a href="#early-access" class="block text-center py-3 px-4 rounded-full text-sm font-semibold bg-transparent hover:bg-raised text-pri border-[1.5px] border-[#2A3347] hover:border-pri transition-colors">
-          Reach out →
-        </a>
-      </div>
+    </div>
 
+    <!-- Lane 4 banner -->
+    <div class="bg-base border border-[#2A3347] rounded-[14px] px-8 py-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div>
+        <p class="text-ter text-[11px] font-bold uppercase tracking-[1px] font-mono mb-1">LANE 4</p>
+        <p class="text-pri font-semibold text-[15px] tracking-[-0.2px]">Scoped for you</p>
+        <p class="text-sec text-xs mt-1 max-w-lg">Your stack, your timeline, your requirements. We scope the engagement together and give you a fixed price before any work starts.</p>
+      </div>
+      <a href="#early-access" class="shrink-0 inline-flex items-center px-5 py-2.5 text-sm font-semibold text-pri border border-[#2A3347] hover:border-pri rounded-full transition-colors whitespace-nowrap">
+        Reach out →
+      </a>
     </div>
 
   </div>
