@@ -22,9 +22,23 @@
   --color-on-light:   #111318;
   --color-on-light-2: #4A5568;
   --color-on-light-3: #718096;
-  --font-family-sans: Inter, system-ui, sans-serif;
-  --font-family-mono: 'JetBrains Mono', 'Courier New', monospace;
+  --font-family-sans:    Inter, system-ui, sans-serif;
+  --font-family-display: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', system-ui, sans-serif;
+  --font-family-mono:    'JetBrains Mono', 'Courier New', monospace;
+  --color-slate:         #7E9AC9;
+  --color-slate-base:    #3D5A80;
+  --color-slate-dim:     rgba(61, 90, 128, 0.22);
 }
+
+/* Axie mascot animations */
+@keyframes axBlink    { 0%,92%,100%{transform:scaleY(1)}   96%{transform:scaleY(.08)} }
+@keyframes axScan     { 0%,100%{transform:translateX(0)}   22%,32%{transform:translateX(-2.6px)}  64%,74%{transform:translateX(2.6px)} }
+@keyframes axBreathe  { 0%,100%{transform:scale(1)}        50%{transform:scale(1.04)} }
+@keyframes axDot      { 0%,100%{opacity:.18;transform:translateY(0)} 50%{opacity:1;transform:translateY(-2px)} }
+@keyframes axPop      { 0%,52%{transform:scale(1)}  64%{transform:scale(.9)}  80%{transform:scale(1.11)}  100%{transform:scale(1)} }
+@keyframes axOpenFade  { 0%,48%{opacity:1}  60%,100%{opacity:0} }
+@keyframes axHappyFade { 0%,48%{opacity:0}  60%,100%{opacity:1} }
+@keyframes axSpark    { 0%,52%{opacity:0;transform:scale(.2)}  66%{opacity:1;transform:scale(1)}  100%{opacity:0;transform:scale(1.5)} }
 
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(18px); }

@@ -1,39 +1,25 @@
 ---
-const SIGNUP_URL  = 'https://app.axis-scale.com/register';
+const SIGNUP_URL = 'https://app.axis-scale.com/register';
 ---
-<section class="py-28 px-6 md:px-9 bg-base border-t border-[#2A3347]" style="background-image: radial-gradient(ellipse 60% 50% at 50% 100%, rgba(233,30,140,0.06) 0%, transparent 70%);">
-  <div class="max-w-2xl mx-auto text-center">
+<section class="py-36 px-6 md:px-16 bg-base border-t border-[#1A2030]">
+  <div class="max-w-5xl mx-auto">
 
-    <p class="text-accent text-[11px] font-bold tracking-[1px] font-mono mb-6 uppercase">
-      Ready when you are
-    </p>
-
-    <h2 class="text-4xl md:text-5xl font-extrabold text-pri tracking-[-0.8px] leading-[1.1] mb-5" data-animate>
-      Start knowing.<br class="hidden md:block" /> Stop guessing.
+    <h2 class="font-display font-[900] text-[48px] md:text-[54px] tracking-[-1.2px] leading-[1.05] text-pri max-w-[660px] mb-7" data-animate>
+      You already made the decision. Now grab the wheel.
     </h2>
-    <p class="text-sec text-[16px] leading-relaxed mb-10 max-w-sm mx-auto" data-animate>
-      30 minutes to map your scope. The platform handles 80%, an expert handles the rest, and you get to audit-ready without the panic.
+
+    <p class="text-sec text-[18px] leading-[1.65] mb-11 max-w-[460px]" data-animate>
+      No demo gauntlet. No sales call required to begin.
     </p>
 
-    <div class="flex flex-col sm:flex-row items-center justify-center gap-3" data-animate>
+    <div data-animate>
       <a
         href={SIGNUP_URL}
-        class="inline-flex items-center px-7 py-3.5 bg-accent hover:bg-accent-hover text-white font-bold text-sm rounded-full transition-colors w-full sm:w-auto justify-center tracking-[-0.1px]"
+        class="inline-flex items-center px-8 py-4 bg-accent hover:bg-accent-hover text-white font-semibold text-[15px] rounded-full transition-colors"
       >
-        Get started →
-      </a>
-      <a
-        href="#early-access"
-        class="inline-flex items-center px-7 py-3.5 bg-transparent hover:bg-raised border-[1.5px] border-[#2A3347] hover:border-[#4A5568] text-pri font-semibold text-sm rounded-full transition-colors w-full sm:w-auto justify-center"
-      >
-        Contact us
+        Start your assessment
       </a>
     </div>
-
-    <p class="text-ter text-xs mt-7">
-      Questions first?
-      <a href="mailto:hello@axis-scale.com" class="text-sec hover:text-pri transition-colors">hello@axis-scale.com</a>
-    </p>
 
   </div>
 </section>

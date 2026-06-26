@@ -1,22 +1,56 @@
 ---
-const FORMSPREE_ID  = 'xlgkbbdr';
+const FORMSPREE_ID = 'xlgkbbdr';
 ---
 <section id="early-access" class="py-24 px-6 md:px-9 bg-surface border-y border-[#2A3347]">
   <div class="max-w-xl mx-auto">
 
-    <p class="text-accent text-[11px] font-bold tracking-[1px] font-mono text-center mb-4 uppercase">
+    <p class="text-slate text-[11px] font-bold tracking-[1px] font-mono text-center mb-4 uppercase">
       EARLY ACCESS
     </p>
+
+    <!-- Axie mascot -->
+    <div id="axie-idle" class="flex justify-center mb-6">
+      <svg width="72" height="90" viewBox="0 -16 64 80" fill="none" style="overflow:visible;" aria-hidden="true">
+        <g style="transform-box:fill-box;transform-origin:center;animation:axBreathe 4s ease-in-out infinite">
+          <rect x="6" y="6" width="52" height="52" rx="13" fill="#E91E8C"/>
+          <g style="transform-box:fill-box;transform-origin:center;animation:axBlink 4.4s ease-in-out infinite">
+            <circle cx="25" cy="30" r="4.2" fill="#fff"/>
+            <circle cx="39" cy="30" r="4.2" fill="#fff"/>
+          </g>
+          <path d="M26 40q6 4.5 12 0" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+        </g>
+      </svg>
+    </div>
+
+    <div id="axie-done" class="hidden justify-center mb-6">
+      <svg width="72" height="90" viewBox="0 -16 64 80" fill="none" style="overflow:visible;" aria-hidden="true">
+        <g transform="translate(9,1)"><path d="M0 -3.4L1 -1L3.4 0L1 1L0 3.4L-1 1L-3.4 0L-1 -1Z" fill="#fff" style="transform-box:fill-box;transform-origin:center;animation:axSpark 2.8s ease-in-out 0s infinite"/></g>
+        <g transform="translate(55,4)"><path d="M0 -2.8L.8 -.8L2.8 0L.8 .8L0 2.8L-.8 .8L-2.8 0L-.8 -.8Z" fill="#E91E8C" style="transform-box:fill-box;transform-origin:center;animation:axSpark 2.8s ease-in-out .18s infinite"/></g>
+        <g transform="translate(53,52)"><path d="M0 -2.6L.7 -.7L2.6 0L.7 .7L0 2.6L-.7 .7L-2.6 0L-.7 -.7Z" fill="#fff" style="transform-box:fill-box;transform-origin:center;animation:axSpark 2.8s ease-in-out .32s infinite"/></g>
+        <g style="transform-box:fill-box;transform-origin:center;animation:axPop 2.8s ease-in-out infinite">
+          <rect x="6" y="6" width="52" height="52" rx="13" fill="#E91E8C"/>
+          <g style="animation:axOpenFade 2.8s ease-in-out infinite">
+            <circle cx="25" cy="30" r="4.2" fill="#fff"/>
+            <circle cx="39" cy="30" r="4.2" fill="#fff"/>
+            <path d="M26 40q6 4.5 12 0" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+          </g>
+          <g style="animation:axHappyFade 2.8s ease-in-out infinite">
+            <path d="M21 31q4-5 8 0" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+            <path d="M35 31q4-5 8 0" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+            <path d="M24 39q8 6 16 0" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+
     <h2 class="text-4xl font-extrabold text-pri text-center mb-3 tracking-[-0.8px] leading-[1.1]">
       Talk to us about your SOC 2
     </h2>
     <p class="text-sec text-center text-sm mb-10">
       Tell us where you are in the process. We will scope it together and point you at the right door.
     </p>
-    <form
-      id="early-access-form"
-      class="flex flex-col gap-4"
-    >
+
+    <form id="early-access-form" class="flex flex-col gap-4">
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div class="flex flex-col gap-1.5">
           <label for="ea-name" class="text-ter text-xs font-bold uppercase tracking-widest font-mono">Name *</label>
@@ -72,7 +106,7 @@ const FORMSPREE_ID  = 'xlgkbbdr';
       </button>
 
       <p id="ea-success" class="hidden text-center text-ok text-sm font-medium pt-1">
-        Got it - we'll be in touch.
+        Got it - we will be in touch.
       </p>
       <p id="ea-error" class="hidden text-center text-err text-sm pt-1">
         Something went wrong. Email <a href="mailto:hello@axis-scale.com" class="underline">hello@axis-scale.com</a> directly.
@@ -83,10 +117,12 @@ const FORMSPREE_ID  = 'xlgkbbdr';
 </section>
 
 <script define:vars={{ FORMSPREE_ID }}>
-  const form = document.getElementById('early-access-form');
-  const btn  = form.querySelector('button[type="submit"]');
-  const ok   = document.getElementById('ea-success');
-  const err  = document.getElementById('ea-error');
+  const form   = document.getElementById('early-access-form');
+  const btn    = form.querySelector('button[type="submit"]');
+  const ok     = document.getElementById('ea-success');
+  const err    = document.getElementById('ea-error');
+  const idle   = document.getElementById('axie-idle');
+  const done   = document.getElementById('axie-done');
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -103,6 +139,9 @@ const FORMSPREE_ID  = 'xlgkbbdr';
       if (res.ok) {
         form.reset();
         ok.classList.remove('hidden');
+        idle.classList.add('hidden');
+        done.classList.remove('hidden');
+        done.classList.add('flex');
       } else {
         err.classList.remove('hidden');
       }
