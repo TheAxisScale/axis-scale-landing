@@ -39,6 +39,24 @@
 @keyframes axOpenFade  { 0%,48%{opacity:1}  60%,100%{opacity:0} }
 @keyframes axHappyFade { 0%,48%{opacity:0}  60%,100%{opacity:1} }
 @keyframes axSpark    { 0%,52%{opacity:0;transform:scale(.2)}  66%{opacity:1;transform:scale(1)}  100%{opacity:0;transform:scale(1.5)} }
+@keyframes axRing     { 0%,100%{transform:scale(1);opacity:.45} 50%{transform:scale(1.07);opacity:.9} }
+@keyframes axChip     { 0%{opacity:0;transform:translateY(8px) scale(.85)} 10%,80%{opacity:1;transform:translateY(0) scale(1)} 100%{opacity:0;transform:scale(.92)} }
+@keyframes axWinkLoop { 0%,42%{transform:scaleY(1)} 47%{transform:scaleY(.12)} 52%,100%{transform:scaleY(1)} }
+@keyframes axClimb    { 0%,14%{transform:translate(0,0) scale(1)} 40%,62%{transform:translate(-8px,46px) scale(2.4)} 88%,100%{transform:translate(0,0) scale(1)} }
+@keyframes axSmile    { 0%,22%{opacity:0} 40%,62%{opacity:1} 80%,100%{opacity:0} }
+@keyframes axClimbH   { 0%,37.5%{transform:translate(0,0) scale(1)} 45%,80%{transform:translate(-8px,8px) scale(1.673)} 87.5%,100%{transform:translate(0,0) scale(1)} }
+@keyframes axSmileH   { 0%,42%{opacity:0} 48%,79%{opacity:1} 85%,100%{opacity:0} }
+@keyframes axEyeScanH { 0%,48%{transform:translateX(0)} 56%,60%{transform:translateX(-2.2px)} 68%,72%{transform:translateX(2.2px)} 80%,100%{transform:translateX(0)} }
+
+@media (prefers-reduced-motion: reduce) {
+  [style*="axRing"], [style*="axChip"], [style*="axClimb"], [style*="axBreathe"],
+  [style*="axBlink"], [style*="axWinkLoop"], [style*="axSpark"], [style*="axPop"],
+  [style*="axSmile"], [style*="axEyeScanH"] {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
 
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(18px); }

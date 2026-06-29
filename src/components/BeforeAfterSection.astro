@@ -1,13 +1,13 @@
 ---
 const rows = [
-  { label: 'Effort',  old: 'A standing project',         new: 'A finite, scoped list' },
-  { label: 'Cost',    old: 'Six figures in consulting',   new: 'One transparent founding rate' },
-  { label: 'Method',  old: 'Generic templates',           new: 'Scoped to your systems' },
-  { label: 'Output',  old: 'A binder no one reads',       new: 'An audit-ready register', highlight: true },
+  { label: 'Effort',  old: 'A standing project',       next: 'A finite, scoped list' },
+  { label: 'Cost',    old: 'Five figures, at minimum',  next: 'One transparent founding rate' },
+  { label: 'Method',  old: 'Generic templates',         next: 'Scoped to your systems' },
+  { label: 'Output',  old: 'A binder no one reads',     next: 'An audit-ready register', highlight: true },
 ];
 ---
 <section class="py-28 px-6 md:px-16 bg-base border-b border-[#1A2030]">
-  <div class="max-w-5xl mx-auto">
+  <div class="max-w-4xl mx-auto">
 
     <div class="text-slate text-[11px] font-bold tracking-[1.4px] uppercase font-mono mb-6">
       The difference
@@ -17,29 +17,24 @@ const rows = [
       Same outcome. A fraction of the cost and the effort.
     </h2>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6" data-animate>
+    <div class="rounded-[14px] border border-[#2A3347] overflow-hidden" data-animate>
 
-      <!-- The old way -->
-      <div class="rounded-[10px] px-9 pt-9 pb-3" style="background:#E7EAEF; color:#0A0E14;">
-        <div class="text-[11px] font-bold uppercase tracking-[1px] font-mono mb-6" style="color:#6E7681;">The old way</div>
-        {rows.map(row => (
-          <div class="flex justify-between gap-4 py-[18px]" style="border-top:1px solid #cfd5dd;">
-            <span class="text-sm" style="color:#6E7681;">{row.label}</span>
-            <span class="text-[15px] font-semibold text-right">{row.old}</span>
-          </div>
-        ))}
+      <!-- Header row -->
+      <div class="grid grid-cols-[100px_1fr_auto_1fr] items-center bg-raised px-8 py-4 border-b border-[#2A3347]">
+        <div></div>
+        <div class="text-[11px] font-bold tracking-[1px] uppercase font-mono text-ter">The old way</div>
+        <div class="w-6"></div>
+        <div class="text-[11px] font-bold tracking-[1px] uppercase font-mono text-accent">With Axis-Scale</div>
       </div>
 
-      <!-- Axis-Scale -->
-      <div class="rounded-[10px] px-9 pt-9 pb-3 border border-[#2A3347]" style="background:#161B27;">
-        <div class="text-slate text-[11px] font-bold uppercase tracking-[1px] font-mono mb-6">Axis-Scale</div>
-        {rows.map(row => (
-          <div class="flex justify-between gap-4 py-[18px] border-t border-[#2A3347]">
-            <span class="text-sm text-sec">{row.label}</span>
-            <span class={`text-[15px] font-semibold text-right ${row.highlight ? 'text-accent' : 'text-pri'}`}>{row.new}</span>
-          </div>
-        ))}
-      </div>
+      {rows.map((row, i) => (
+        <div class={`grid grid-cols-[100px_1fr_auto_1fr] items-center px-8 py-5 ${i < rows.length - 1 ? 'border-b border-[#2A3347]' : ''}`}>
+          <div class="text-[11px] font-bold tracking-[0.8px] uppercase font-mono text-ter">{row.label}</div>
+          <div class="text-[15px] text-sec line-through decoration-[#3A4660]">{row.old}</div>
+          <div class="text-accent font-bold px-3 text-base">&#8594;</div>
+          <div class={`text-[15px] font-semibold ${row.highlight ? 'text-accent' : 'text-pri'}`}>{row.next}</div>
+        </div>
+      ))}
 
     </div>
 

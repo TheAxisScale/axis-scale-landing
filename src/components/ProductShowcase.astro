@@ -1,59 +1,282 @@
 ---
-// Drop screenshots into /public/screenshots/:
-//   primary.png    - the main wide shot (wizard or workplan, ~1400×900)
-//   thumb-1.png    - e.g. readiness wizard step
-//   thumb-2.png    - e.g. workplan checklist
-//   thumb-3.png    - e.g. dashboard or risk register
-const hasPrimary = false; // flip to true once primary.png is in /public/screenshots/
+const riskRows = [
+  { key: 'R-DS-01', risk: 'Unauthorized data access',   sev: 'CRIT', sevColor: '#f87171', sevBg: 'rgba(155,35,53,.10)', inh: '9.2', ce: '3.4', res: '6.8', resColor: '#f87171', status: 'In Progress', sc: '#F59E0B' },
+  { key: 'R-AC-03', risk: 'Weak MFA controls',           sev: 'HIGH', sevColor: '#fb923c', sevBg: 'rgba(194,65,12,.10)', inh: '7.8', ce: '5.1', res: '3.9', resColor: '#F59E0B', status: 'Complete',    sc: '#10B981' },
+  { key: 'R-CM-07', risk: 'Vendor SLA gaps',             sev: 'MED',  sevColor: '#F59E0B', sevBg: 'rgba(161,98,7,.10)',  inh: '5.4', ce: '4.2', res: '2.6', resColor: '#10B981', status: 'Draft',        sc: '#6E7681' },
+  { key: 'R-AV-12', risk: 'Logging coverage gaps',       sev: 'HIGH', sevColor: '#fb923c', sevBg: 'rgba(194,65,12,.10)', inh: '8.1', ce: '3.8', res: '5.1', resColor: '#fb923c', status: 'In Progress', sc: '#F59E0B' },
+];
+
+const workplanTasks = [
+  { title: 'Implement MFA on all admin systems',        soc: 'CC6.1', iso: 'A.8.5',  own: 'EY', eff: 'S', status: 'In Progress', sc: '#F59E0B' },
+  { title: 'Define and document access control policy', soc: 'CC6.2', iso: 'A.8.3',  own: 'TK', eff: 'M', status: 'Draft',        sc: '#6E7681' },
+  { title: 'Enable audit logging on production DBs',    soc: 'CC7.2', iso: 'A.8.15', own: 'EY', eff: 'L', status: 'Not started',   sc: '#6E7681' },
+  { title: 'Complete vendor security questionnaires',   soc: 'A1.2',  iso: 'A.5.19', own: 'SB', eff: 'M', status: 'In Progress',  sc: '#F59E0B' },
+];
+
+const wizardSteps = [
+  { n: 1, label: 'Framework' },
+  { n: 2, label: 'Profile' },
+  { n: 3, label: 'Triage' },
+  { n: 4, label: 'Deep dive', active: true },
+  { n: 5, label: 'Register' },
+  { n: 6, label: 'Workplan' },
+  { n: 7, label: 'Dashboard' },
+];
+
+const controlCards = [
+  { id: 'CC6.1', title: 'Logical access controls', desc: 'Restrict system access to authorized users only', checked: true },
+  { id: 'CC6.2', title: 'User registration and deregistration', desc: 'Formal process for provisioning and removing user IDs', checked: false },
+  { id: 'CC6.3', title: 'Access rights management', desc: 'Review and adjust access rights on role changes', checked: false },
+];
 ---
-<section class="py-20 px-6 md:px-9 overflow-hidden" style="background-image: radial-gradient(ellipse 60% 40% at 50% 50%, rgba(233,30,140,0.05) 0%, transparent 65%);">
+
+<section id="platform" class="py-28 px-6 md:px-16 bg-surface border-b border-[#2A3347]">
   <div class="max-w-5xl mx-auto">
 
-    <p class="text-accent text-[11px] font-bold tracking-[1px] font-mono text-center mb-4 uppercase">
-      § 00 - THE PLATFORM
-    </p>
-    <h2 class="text-4xl md:text-5xl font-extrabold text-pri text-center tracking-[-0.8px] leading-[1.1] mb-12">
+    <div class="text-slate text-[11px] font-bold tracking-[1.4px] uppercase font-mono mb-6 text-center">
+      The platform
+    </div>
+
+    <h2 class="font-display font-[700] text-[42px] tracking-[-0.8px] leading-[1.1] text-pri mb-14 max-w-[640px] mx-auto text-center" data-animate>
       Built for the 80% you do yourself.
     </h2>
 
-    <!-- Primary screenshot / video frame -->
-    <div class="rounded-[14px] overflow-hidden border border-[#2A3347] mb-6" style="box-shadow: 0 0 0 1px rgba(233,30,140,0.08), 0 24px 64px rgba(0,0,0,0.45);">
-      <!-- Browser chrome bar -->
-      <div class="bg-[#1E2538] border-b border-[#2A3347] px-4 py-2.5 flex items-center gap-2">
-        <span class="w-2.5 h-2.5 rounded-full bg-[#3A4155]"></span>
-        <span class="w-2.5 h-2.5 rounded-full bg-[#3A4155]"></span>
-        <span class="w-2.5 h-2.5 rounded-full bg-[#3A4155]"></span>
-        <span class="ml-3 flex-1 bg-[#161B27] rounded-md px-3 py-1 text-[11px] text-ter font-mono">app.axis-scale.com</span>
-      </div>
-      <!-- Content area -->
-      {hasPrimary ? (
-        <img src="/screenshots/primary.png" alt="Axis-Scale platform" class="w-full block" loading="lazy" />
-      ) : (
-        <div class="aspect-[16/9] bg-[#0D1117] flex items-center justify-center">
-          <p class="text-ter text-sm font-mono">screenshot coming soon</p>
-        </div>
-      )}
+    <!-- Tab switcher -->
+    <div class="flex items-center gap-1 p-1 rounded-[10px] mb-8 w-fit mx-auto" style="background:#0D1117;border:1px solid #2A3347">
+      <button data-tab="register" class="px-5 py-2 rounded-[8px] text-sm font-semibold border cursor-pointer" style="border-color:transparent;color:#8B949E;transition:all .15s">Risk register</button>
+      <button data-tab="wizard"   class="px-5 py-2 rounded-[8px] text-sm font-semibold border cursor-pointer" style="border-color:transparent;color:#8B949E;transition:all .15s">Readiness wizard</button>
+      <button data-tab="workplan" class="px-5 py-2 rounded-[8px] text-sm font-semibold border cursor-pointer" style="border-color:transparent;color:#8B949E;transition:all .15s">Mapped workplan</button>
     </div>
 
-    <!-- Thumbnail row -->
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-      {[
-        { src: '/screenshots/thumb-1.png', label: 'Readiness wizard' },
-        { src: '/screenshots/thumb-2.png', label: 'Workplan' },
-        { src: '/screenshots/thumb-3.png', label: 'Risk register' },
-      ].map(({ src, label }) => (
-        <div class="rounded-[10px] overflow-hidden border border-[#2A3347]" style="box-shadow: 0 8px 24px rgba(0,0,0,0.3);">
-          <div class="bg-[#1E2538] border-b border-[#2A3347] px-3 py-2 flex items-center gap-1.5">
-            <span class="w-2 h-2 rounded-full bg-[#3A4155]"></span>
-            <span class="w-2 h-2 rounded-full bg-[#3A4155]"></span>
-            <span class="w-2 h-2 rounded-full bg-[#3A4155]"></span>
-          </div>
-          <div class="aspect-video bg-[#0D1117] flex items-center justify-center">
-            <p class="text-ter text-xs font-mono">{label}</p>
+    <!-- Browser frame -->
+    <div class="rounded-[12px] overflow-hidden" style="border:1px solid #2A3347;box-shadow:0 8px 40px rgba(0,0,0,.6),0 2px 8px rgba(0,0,0,.4);background:#0D1117;transition:transform .25s ease" data-animate
+      onmouseenter="this.style.transform='translateY(-3px)'" onmouseleave="this.style.transform='translateY(0)'">
+
+      <!-- Browser chrome -->
+      <div class="flex items-center gap-3 px-4 py-3 border-b" style="background:#161B27;border-color:#2A3347">
+        <div class="flex items-center gap-1.5 flex-shrink-0">
+          <div class="w-3 h-3 rounded-full" style="background:#EF4444;opacity:.6"></div>
+          <div class="w-3 h-3 rounded-full" style="background:#F59E0B;opacity:.6"></div>
+          <div class="w-3 h-3 rounded-full" style="background:#10B981;opacity:.6"></div>
+        </div>
+        <div class="flex-1 flex justify-center">
+          <div class="flex items-center gap-2 px-3 py-1.5 rounded-md text-[11px] font-mono" style="background:#0D1117;border:1px solid #2A3347;color:#6E7681;max-width:340px;width:100%">
+            <svg width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+              <circle cx="6" cy="6" r="5" stroke="#6E7681" stroke-width=".9"/>
+              <path d="M6 1v10M1 6h10M2.5 3C3.5 4.5 4.7 5.3 6 5.3S8.5 4.5 9.5 3M2.5 9C3.5 7.5 4.7 6.7 6 6.7S8.5 7.5 9.5 9" stroke="#6E7681" stroke-width=".9"/>
+            </svg>
+            <span id="browser-url" class="truncate">app.axis-scale.com/register</span>
           </div>
         </div>
-      ))}
+        <div class="w-20 flex-shrink-0"></div>
+      </div>
+
+      <!-- App layout -->
+      <div class="flex" style="height:460px">
+
+        <!-- Sidebar -->
+        <div class="flex flex-col border-r flex-shrink-0" style="width:192px;background:#0D1117;border-color:#2A3347">
+          <div class="px-4 py-3.5 border-b" style="border-color:#2A3347">
+            <svg width="92" height="16" viewBox="0 0 180 32" fill="none" aria-hidden="true">
+              <g transform="translate(0,4)">
+                <rect x="2" y="13" width="9" height="9" rx="1.6" fill="#2A3347"/>
+                <rect x="13" y="13" width="9" height="9" rx="1.6" fill="#3A4660"/>
+                <rect x="2" y="2" width="9" height="9" rx="1.6" fill="#3A4660"/>
+                <rect x="13" y="2" width="9" height="9" rx="1.6" fill="#E91E8C"/>
+                <circle cx="17.5" cy="6.5" r="1.6" fill="#fff"/>
+              </g>
+              <text x="34" y="22" font-family="Inter,sans-serif" font-weight="800" font-size="18" letter-spacing="-.6" fill="#E6EDF3">Axis<tspan font-weight="500" fill="#8B949E">&#xB7;Scale</tspan></text>
+            </svg>
+          </div>
+          <nav class="flex-1 px-2 pt-3 flex flex-col gap-0.5 text-[12px] font-medium">
+            <div class="px-3 py-2 rounded-md flex items-center gap-2" style="color:#8B949E">
+              <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="1" y="1" width="5" height="5" rx="1"/><rect x="8" y="1" width="5" height="5" rx="1"/><rect x="1" y="8" width="5" height="5" rx="1"/><rect x="8" y="8" width="5" height="5" rx="1"/></svg>
+              Overview
+            </div>
+            <div data-nav-for="register" class="px-3 py-2 rounded-md flex items-center gap-2 border-l-2" style="color:#8B949E;border-color:transparent;transition:all .12s">
+              <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="1" y="1" width="12" height="12" rx="1.5"/><path d="M4 5h6M4 7.5h6M4 10h4"/></svg>
+              Risk Register
+            </div>
+            <div data-nav-for="wizard" class="px-3 py-2 rounded-md flex items-center gap-2 border-l-2" style="color:#8B949E;border-color:transparent;transition:all .12s">
+              <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="7" cy="7" r="5.5"/><path d="M7 4.5v3l1.5 1.5"/></svg>
+              Assessment
+            </div>
+            <div data-nav-for="workplan" class="px-3 py-2 rounded-md flex items-center gap-2 border-l-2" style="color:#8B949E;border-color:transparent;transition:all .12s">
+              <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 3.5h10M2 7h8M2 10.5h6"/></svg>
+              Workplan
+            </div>
+            <div class="px-3 py-2 rounded-md flex items-center gap-2 mt-1" style="color:#8B949E">
+              <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="7" cy="7" r="5.5"/><path d="M4.5 9a2.5 2.5 0 015 0"/></svg>
+              Regulatory
+            </div>
+          </nav>
+          <div class="px-3 py-3 border-t flex items-center gap-2.5" style="border-color:#2A3347">
+            <div class="w-7 h-7 rounded-full flex items-center justify-center text-[9px] font-bold text-white flex-shrink-0" style="background:#E91E8C">EY</div>
+            <div class="min-w-0">
+              <div class="text-[11px] font-semibold text-pri truncate">Eleanor Y.</div>
+              <div class="text-[10px]" style="color:#6E7681">Admin</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Content -->
+        <div class="flex-1 overflow-hidden relative" style="background:#0D1117">
+
+          <!-- RISK REGISTER -->
+          <div data-panel="register" style="display:none;padding:20px;height:100%;overflow-y:auto">
+            <div class="flex items-center justify-between mb-4">
+              <h1 class="text-[15px] font-bold text-pri">Risk Register</h1>
+              <button class="px-3 py-1.5 rounded-md text-[11px] font-semibold" style="background:#E91E8C;color:#fff">+ Add risk</button>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px">
+              {[
+                { label: 'Total', val: '24', c: '#E6EDF3' },
+                { label: 'Critical', val: '3', c: '#f87171' },
+                { label: 'High', val: '8', c: '#fb923c' },
+                { label: 'In review', val: '5', c: '#818CF8' },
+              ].map(s => (
+                <div style="background:#161B27;border:1px solid #2A3347;border-radius:8px;padding:10px 12px">
+                  <div style={`font-size:20px;font-weight:900;color:${s.c}`}>{s.val}</div>
+                  <div style="font-size:10px;color:#6E7681;margin-top:2px">{s.label}</div>
+                </div>
+              ))}
+            </div>
+            <div style="border:1px solid #2A3347;border-radius:8px;overflow:hidden">
+              <div style="background:#161B27;padding:8px 16px;display:grid;grid-template-columns:80px 1fr 52px 40px 40px 40px 86px;gap:8px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#6E7681">
+                <span>Key</span><span>Risk</span><span>Sev.</span><span>Inh.</span><span>CE</span><span>Res.</span><span>Status</span>
+              </div>
+              {riskRows.map(r => (
+                <div style="padding:10px 16px;border-top:1px solid #1E2538;display:grid;grid-template-columns:80px 1fr 52px 40px 40px 40px 86px;gap:8px;align-items:center;font-size:11px">
+                  <span style="font-family:'JetBrains Mono',monospace;font-weight:700;color:#E91E8C">{r.key}</span>
+                  <span style="color:#8B949E;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{r.risk}</span>
+                  <span><span style={`color:${r.sevColor};background:${r.sevBg};padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700`}>{r.sev}</span></span>
+                  <span style="font-family:'JetBrains Mono',monospace;color:#6E7681">{r.inh}</span>
+                  <span style="font-family:'JetBrains Mono',monospace;color:#6E7681">{r.ce}</span>
+                  <span style={`font-family:'JetBrains Mono',monospace;font-weight:600;color:${r.resColor}`}>{r.res}</span>
+                  <span><span style={`color:${r.sc};background:${r.sc}1a;padding:2px 8px;border-radius:100px;font-size:10px;font-weight:600`}>{r.status}</span></span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <!-- WIZARD -->
+          <div data-panel="wizard" style="display:none;height:100%;flex-direction:column">
+            <div style="background:#161B27;border-bottom:1px solid #2A3347;padding:12px 20px;flex-shrink:0">
+              <div style="display:flex;align-items:center">
+                {wizardSteps.map((step, i) => (
+                  <div style="display:flex;align-items:center">
+                    <div style="display:flex;flex-direction:column;align-items:center;min-width:40px">
+                      <div style={`width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;border:2px solid;${step.active ? 'background:#E91E8C;border-color:#E91E8C;color:#fff' : step.n < 4 ? 'background:#0D1117;border-color:#10B981;color:#10B981' : 'background:#0D1117;border-color:#2A3347;color:#6E7681'}`}>{step.n}</div>
+                      <span style={`font-size:8px;margin-top:2px;white-space:nowrap;${step.active ? 'color:#E6EDF3' : step.n < 4 ? 'color:#6E7681' : 'color:#3A4660'}`}>{step.label}</span>
+                    </div>
+                    {i < wizardSteps.length - 1 && (
+                      <div style={`width:16px;height:1px;flex-shrink:0;margin-bottom:14px;background:${step.n < 4 ? '#10B981' : '#2A3347'}`}></div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div style="flex:1;overflow-y:auto;padding:20px">
+              <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#E91E8C;font-family:'JetBrains Mono',monospace;margin-bottom:6px">Step 4 of 7</div>
+              <h2 style="font-size:16px;font-weight:700;color:#E6EDF3;margin-bottom:4px">Deep dive</h2>
+              <p style="font-size:12px;color:#8B949E;margin-bottom:16px">Select the controls that apply to your setup.</p>
+              <div style="display:flex;flex-direction:column;gap:10px">
+                {controlCards.map(c => (
+                  <div style={`display:flex;align-items:flex-start;gap:12px;padding:12px 14px;border-radius:8px;${c.checked ? 'background:rgba(233,30,140,.08);border:1.5px solid rgba(233,30,140,.35)' : 'background:#161B27;border:1.5px solid #2A3347'}`}>
+                    <div style={`width:16px;height:16px;border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;${c.checked ? 'background:#E91E8C' : 'background:#0D1117;border:1px solid #2A3347'}`}>
+                      {c.checked && <span style="color:#fff;font-size:9px;font-weight:700;line-height:1">&#x2713;</span>}
+                    </div>
+                    <div>
+                      <div style="font-size:12px;font-weight:600;color:#E6EDF3">{c.id} <span style="font-weight:400;color:#8B949E">{c.title}</span></div>
+                      <div style="font-size:11px;color:#6E7681;margin-top:2px">{c.desc}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div style="background:#161B27;border-top:1px solid #2A3347;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0">
+              <button style="padding:6px 16px;border-radius:100px;font-size:12px;font-weight:600;color:#8B949E;border:1px solid #2A3347;background:transparent;cursor:pointer">Back</button>
+              <span style="font-size:11px;color:#6E7681;font-family:'JetBrains Mono',monospace">Step 4 of 7</span>
+              <button style="padding:6px 20px;border-radius:100px;font-size:12px;font-weight:700;background:#E91E8C;color:#fff;border:none;cursor:pointer">Next &#8594;</button>
+            </div>
+          </div>
+
+          <!-- WORKPLAN -->
+          <div data-panel="workplan" style="display:none;padding:20px;height:100%;overflow-y:auto">
+            <h1 style="font-size:15px;font-weight:700;color:#E6EDF3;margin-bottom:16px">Workplan</h1>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              {workplanTasks.map(t => (
+                <div style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:8px;background:#161B27;border:1px solid #2A3347">
+                  <div style="flex:1;min-width:0">
+                    <div style="font-size:12px;font-weight:600;color:#E6EDF3;margin-bottom:6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{t.title}</div>
+                    <div style="display:flex;gap:6px">
+                      <span style="color:#E91E8C;background:rgba(233,30,140,.1);padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;font-family:'JetBrains Mono',monospace">SOC&nbsp;2&#xB7;{t.soc}</span>
+                      <span style="color:#818CF8;background:rgba(129,140,248,.1);padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;font-family:'JetBrains Mono',monospace">ISO&#xB7;{t.iso}</span>
+                    </div>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+                    <div style="width:24px;height:24px;border-radius:50%;background:#E91E8C;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#fff">{t.own}</div>
+                    <span style="width:20px;height:20px;border-radius:4px;background:#1E2538;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;font-family:'JetBrains Mono',monospace;color:#8B949E">{t.eff}</span>
+                    <span style={`color:${t.sc};background:${t.sc}1a;padding:2px 8px;border-radius:100px;font-size:10px;font-weight:600;white-space:nowrap`}>{t.status}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+        </div>
+      </div>
     </div>
 
   </div>
 </section>
+
+<script>
+  const tabs     = document.querySelectorAll('[data-tab]');
+  const panels   = document.querySelectorAll('[data-panel]');
+  const navItems = document.querySelectorAll('[data-nav-for]');
+  const urlEl    = document.getElementById('browser-url');
+
+  const urls = {
+    register: 'app.axis-scale.com/register',
+    wizard:   'app.axis-scale.com/assessment/step/4',
+    workplan: 'app.axis-scale.com/workplan',
+  };
+
+  function setTab(id) {
+    tabs.forEach(function(t) {
+      var on = t.dataset.tab === id;
+      t.style.background  = on ? '#1E2538'  : 'transparent';
+      t.style.borderColor = on ? '#4A5878'  : 'transparent';
+      t.style.color       = on ? '#E6EDF3'  : '#8B949E';
+    });
+    panels.forEach(function(p) {
+      var on = p.dataset.panel === id;
+      if (on) {
+        if (id === 'wizard') {
+          p.style.display         = 'flex';
+          p.style.flexDirection   = 'column';
+          p.style.height          = '100%';
+        } else {
+          p.style.display = 'block';
+          p.style.removeProperty('flex-direction');
+          p.style.removeProperty('height');
+        }
+      } else {
+        p.style.display = 'none';
+      }
+    });
+    navItems.forEach(function(n) {
+      var on = n.dataset.navFor === id;
+      n.style.color           = on ? '#E6EDF3'               : '#8B949E';
+      n.style.borderLeftColor = on ? '#E91E8C'               : 'transparent';
+      n.style.background      = on ? 'rgba(233,30,140,0.06)' : 'transparent';
+    });
+    if (urlEl) urlEl.textContent = urls[id] || '';
+  }
+
+  tabs.forEach(function(t) {
+    t.addEventListener('click', function() { setTab(t.dataset.tab); });
+  });
+  setTab('register');
+</script>

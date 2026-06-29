@@ -1,32 +1,129 @@
 ---
 const SIGNUP_URL = 'https://app.axis-scale.com/register';
 ---
-<section class="pt-32 pb-36 px-6 md:px-16 bg-base border-b border-[#1A2030]">
-  <div class="max-w-5xl mx-auto">
+<section class="pt-24 pb-32 px-6 md:px-16 bg-base border-b border-[#1A2030]">
+  <div class="max-w-[1120px] mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-[1.05fr_0.95fr] items-center gap-12 lg:gap-20">
 
-    <div class="text-slate text-[11px] font-bold tracking-[1.4px] uppercase font-mono mb-7">
-      SOC 2 readiness
+      <!-- Left: copy -->
+      <div>
+        <div class="text-slate text-[11px] font-bold tracking-[1.4px] uppercase font-mono mb-7">
+          SOC 2 readiness
+        </div>
+
+        <h1 class="font-display font-[900] text-[52px] md:text-[62px] tracking-[-1.5px] leading-[1.04] text-pri max-w-[560px] mb-8">
+          Stop improvising compliance.
+        </h1>
+
+        <p class="text-sec text-[18px] leading-[1.65] mb-10 max-w-[480px]">
+          You decided this matters. See the plan, the scope, and exactly what it takes. Clear from day one.
+        </p>
+
+        <div class="flex items-center gap-6 mb-10">
+          <a
+            href={SIGNUP_URL}
+            class="inline-flex items-center px-7 py-3.5 bg-accent hover:bg-accent-hover text-white font-semibold text-[15px] rounded-full transition-colors"
+          >
+            Start your assessment
+          </a>
+          <a href="#how-it-works" class="text-sec text-sm font-semibold hover:text-pri transition-colors">
+            See how it works ↓
+          </a>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-[13px] text-ter">
+          <span><span class="text-accent font-bold mr-1">&#x2713;</span>Auditor-built</span>
+          <span class="hidden sm:inline text-[#2A3347]">&middot;</span>
+          <span><span class="text-accent font-bold mr-1">&#x2713;</span>Free to start</span>
+          <span class="hidden sm:inline text-[#2A3347]">&middot;</span>
+          <span><span class="text-accent font-bold mr-1">&#x2713;</span>No sales call</span>
+        </div>
+      </div>
+
+      <!-- Right: Axie scanner visual (hidden on small screens) -->
+      <div class="relative hidden md:flex items-center justify-center" style="min-height:340px;">
+
+        <svg width="320" height="340" viewBox="0 0 320 340" fill="none" aria-hidden="true">
+          <defs>
+            <radialGradient id="hero-glow" cx="50%" cy="53%" r="50%">
+              <stop offset="0%" stop-color="#E91E8C" stop-opacity="0.10"/>
+              <stop offset="100%" stop-color="#E91E8C" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+
+          <!-- Radial glow -->
+          <circle cx="160" cy="180" r="130" fill="url(#hero-glow)"/>
+
+          <!-- Outer ring -->
+          <circle cx="160" cy="180" r="130" stroke="#2A3347" stroke-width="1" fill="none"
+            style="transform-box:fill-box;transform-origin:center;animation:axRing 3.6s ease-in-out infinite"/>
+
+          <!-- Inner ring -->
+          <circle cx="160" cy="180" r="92" stroke="#2A3347" stroke-width="1" fill="none"
+            style="transform-box:fill-box;transform-origin:center;animation:axRing 3.6s ease-in-out 0.9s infinite"/>
+
+          <!-- Axis·Scale wordmark above mark -->
+          <text x="160" y="155" text-anchor="middle"
+            font-family="Inter, system-ui, sans-serif"
+            font-size="11" font-weight="700" letter-spacing="-0.3" fill="#8B949E">
+            Axis<tspan font-weight="400" fill="#6E7681">&#xB7;Scale</tspan>
+          </text>
+
+          <!-- 2x2 logo mark, tiles 20x20, gap 4, mark 44x44, centered at (160,180) -->
+          <!-- top-left -->
+          <rect x="138" y="158" width="20" height="20" rx="3.5" fill="#3A4660"/>
+          <!-- bottom-left -->
+          <rect x="138" y="182" width="20" height="20" rx="3.5" fill="#2A3347"/>
+          <!-- bottom-right -->
+          <rect x="162" y="182" width="20" height="20" rx="3.5" fill="#3A4660"/>
+
+          <!-- Axie: top-right tile, climbs to center on 8s loop -->
+          <g style="transform-box:fill-box;transform-origin:center;animation:axClimbH 8s ease-in-out infinite">
+            <rect x="162" y="158" width="20" height="20" rx="3.5" fill="#E91E8C"/>
+            <!-- Eyes scan with axEyeScanH -->
+            <g style="transform-box:fill-box;transform-origin:center;animation:axEyeScanH 8s ease-in-out infinite">
+              <circle cx="167.5" cy="166" r="2.1" fill="#fff"/>
+              <circle cx="177.5" cy="166" r="2.1" fill="#fff"/>
+            </g>
+            <!-- Smile: only while at center -->
+            <path d="M165 172 q7 3.5 12 0" stroke="#fff" stroke-width="1.4" fill="none" stroke-linecap="round"
+              style="opacity:0;animation:axSmileH 8s ease-in-out infinite"/>
+          </g>
+        </svg>
+
+        <!-- Floating regulation chips -->
+        <div class="absolute pointer-events-none select-none"
+          style="top:22px;left:8px;animation:axChip 5s ease-in-out 0.3s infinite">
+          <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-[11px] font-mono font-bold whitespace-nowrap"
+            style="background:rgba(13,17,23,0.92);border-color:#2A3347;color:#7E9AC9;">
+            SOC&nbsp;2 &middot; CC6.1 <span style="color:#10B981;margin-left:2px">&#x2713;</span>
+          </div>
+        </div>
+
+        <div class="absolute pointer-events-none select-none"
+          style="top:48px;right:2px;animation:axChip 5s ease-in-out 1.5s infinite">
+          <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-[11px] font-mono font-bold whitespace-nowrap"
+            style="background:rgba(13,17,23,0.92);border-color:#2A3347;color:#818CF8;">
+            ISO &middot; A.8.24 <span style="color:#10B981;margin-left:2px">&#x2713;</span>
+          </div>
+        </div>
+
+        <div class="absolute pointer-events-none select-none"
+          style="bottom:68px;right:12px;animation:axChip 5s ease-in-out 2.8s infinite">
+          <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-[11px] font-mono font-bold whitespace-nowrap"
+            style="background:rgba(13,17,23,0.92);border-color:#2A3347;color:#F59E0B;">
+            EU AI Act &middot; new
+          </div>
+        </div>
+
+        <!-- Scanning status pill -->
+        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 px-4 py-2 rounded-full border border-[#2A3347] text-[12px] font-mono font-bold text-ter whitespace-nowrap"
+          style="background:rgba(13,17,23,0.92);">
+          <span class="w-1.5 h-1.5 rounded-full" style="background:#10B981;animation:axBreathe 2s ease-in-out infinite"></span>
+          Scanning risks online
+        </div>
+
+      </div>
     </div>
-
-    <h1 class="font-display font-[900] text-[58px] md:text-[68px] tracking-[-1.5px] leading-[1.04] text-pri max-w-[760px] mb-8">
-      Stop improvising compliance.
-    </h1>
-
-    <p class="text-sec text-[18px] leading-[1.65] mb-11 max-w-[540px]">
-      You decided this matters. See the plan, the scope, and exactly what it takes. Clear from day one.
-    </p>
-
-    <div class="flex items-center gap-6">
-      <a
-        href={SIGNUP_URL}
-        class="inline-flex items-center px-7 py-3.5 bg-accent hover:bg-accent-hover text-white font-semibold text-[15px] rounded-full transition-colors"
-      >
-        Start your assessment
-      </a>
-      <a href="#how-it-works" class="text-sec text-sm font-semibold hover:text-pri transition-colors">
-        See how it works ↓
-      </a>
-    </div>
-
   </div>
 </section>
