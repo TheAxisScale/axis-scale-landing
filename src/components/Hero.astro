@@ -80,13 +80,13 @@ const SIGNUP_URL = 'https://app.axis-scale.com/register';
           <!-- Axie: top-right tile, climbs to center on 8s loop -->
           <g style="transform-box:fill-box;transform-origin:center;animation:axClimbH 8s ease-in-out infinite">
             <rect x="162" y="158" width="20" height="20" rx="3.5" fill="#E91E8C"/>
-            <!-- Eyes scan with axEyeScanH -->
+            <!-- Eyes: cx = tile_center_x ± 4.5 = 172 ± 4.5 = 167.5 and 176.5 -->
             <g style="transform-box:fill-box;transform-origin:center;animation:axEyeScanH 8s ease-in-out infinite">
-              <circle cx="167.5" cy="166" r="2.1" fill="#fff"/>
-              <circle cx="177.5" cy="166" r="2.1" fill="#fff"/>
+              <circle cx="167.5" cy="165" r="2.1" fill="#fff"/>
+              <circle cx="176.5" cy="165" r="2.1" fill="#fff"/>
             </g>
-            <!-- Smile: only while at center -->
-            <path d="M165 172 q7 3.5 12 0" stroke="#fff" stroke-width="1.4" fill="none" stroke-linecap="round"
+            <!-- Smile: centered at x=172 (start=165=172-7, end=179=172+7) -->
+            <path d="M165 172 q7 4 14 0" stroke="#fff" stroke-width="1.4" fill="none" stroke-linecap="round"
               style="opacity:0;animation:axSmileH 8s ease-in-out infinite"/>
           </g>
         </svg>
