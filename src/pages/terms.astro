@@ -1,12 +1,55 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Footer from '../components/Footer.astro';
 ---
-<Layout title="Terms of Service - Axis-Scale">
+<Layout title="Terms of Service - Axis-Scale" description="The terms that govern your use of the Axis-Scale website and platform.">
   <main class="max-w-2xl mx-auto px-6 py-24 text-sec">
-    <h1 class="text-3xl font-extrabold text-pri mb-8 tracking-tight">Terms of Service</h1>
-    <p class="text-sm text-ter mb-6">Last updated: June 2026</p>
-    <p class="mb-4">By using Axis-Scale, you agree to use the platform for lawful compliance and risk management purposes only. You are responsible for the accuracy of information you enter.</p>
-    <p class="mb-4">Axis-Scale provides guidance and tooling. It does not constitute legal or audit advice. Engage a qualified auditor for your formal assessment.</p>
-    <p class="mb-4">Subscriptions are billed annually. Refunds are handled case by case - email <a href="mailto:hello@axis-scale.com" class="text-accent hover:underline">hello@axis-scale.com</a> directly.</p>
+    <h1 class="text-3xl font-extrabold text-pri mb-2 tracking-tight">Terms of Service</h1>
+    <p class="text-sm text-ter mb-10">Last updated: July 2026</p>
+
+    <p class="mb-4">These Terms of Service (the "Terms") govern your use of the Axis-Scale website at axis-scale.com, the Axis-Scale platform at app.axis-scale.com (together, the "Service"), and any related expert services. By creating an account or using the Service, you agree to these Terms on behalf of yourself and, if applicable, the company you represent ("you").</p>
+
+    <h2 class="text-xl font-bold text-pri mt-10 mb-3">1. What Axis-Scale is (and is not)</h2>
+    <p class="mb-4">Axis-Scale provides guidance and tooling for compliance readiness, including SOC 2 readiness assessment, risk management, policy tracking, evidence organization, and auditor collaboration. Axis-Scale is not a law firm, a CPA firm, or an audit firm. The Service does not constitute legal or audit advice, unless stated otherwise mutually within a signed statement of work. Engage a qualified independent auditor for your formal assessment: a SOC 2 report can only be issued by an auditor that you engage directly.</p>
+
+    <h2 class="text-xl font-bold text-pri mt-10 mb-3">2. Accounts and early access</h2>
+    <p class="mb-4">You must provide accurate information when requesting access or creating an account, and keep your credentials secure. You are responsible for activity under your account. Early access may be granted, limited, or withdrawn at our discretion, and early access features may change before general availability.</p>
+
+    <h2 class="text-xl font-bold text-pri mt-10 mb-3">3. Subscriptions and billing</h2>
+    <p class="mb-4">Platform subscriptions are billed annually at the pricing shown on axis-scale.com or in your order form. Expert services (such as the Audit Blitz) are sold at a fixed scope and fixed price under a separate statement of work or order form. Fees are exclusive of applicable taxes. Except where required by law or expressly agreed in writing, fees are non-refundable; refund requests are reviewed case by case at <a href="mailto:hello@axis-scale.com" class="text-accent hover:underline">hello@axis-scale.com</a>.</p>
+
+    <h2 class="text-xl font-bold text-pri mt-10 mb-3">4. Your data</h2>
+    <p class="mb-4">You retain all rights to the data you enter into the Service, including risk registers, policies, and evidence ("Customer Data"). You grant us the limited rights needed to host, process, and display Customer Data in order to provide the Service. You can export your Customer Data during your subscription term. You are responsible for the accuracy and lawfulness of the Customer Data you provide. Our handling of personal data is described in the <a href="/privacy" class="text-accent hover:underline">Privacy Policy</a>.</p>
+
+    <h2 class="text-xl font-bold text-pri mt-10 mb-3">5. Acceptable use</h2>
+    <p class="mb-4">You agree not to: use the Service for unlawful purposes; attempt to access other customers' data; probe, scan, or test the vulnerability of the Service without our prior written consent; interfere with the Service's operation; resell or provide the Service to third parties without our agreement; or use the Service to build a competing product.</p>
+
+    <h2 class="text-xl font-bold text-pri mt-10 mb-3">6. Auditor access</h2>
+    <p class="mb-4">The Service lets you grant scoped, read-only access to auditors you designate. You are responsible for the auditors you invite and the scope you grant them. Axis-Scale is not a party to your engagement with your auditor.</p>
+
+    <h2 class="text-xl font-bold text-pri mt-10 mb-3">7. Intellectual property</h2>
+    <p class="mb-4">Axis-Scale owns the Service, including the platform, readiness wizard, policy starter pack, templates, frameworks, and methodologies. During your subscription, you receive a non-exclusive, non-transferable right to use them for your internal business purposes. Policies and other materials you tailor from our starter pack may be used internally, including after your subscription ends, but may not be resold or redistributed.</p>
+
+    <h2 class="text-xl font-bold text-pri mt-10 mb-3">8. Confidentiality</h2>
+    <p class="mb-4">Each party will protect the other's non-public information with reasonable care and use it only as needed to provide or use the Service. If you have signed a separate non-disclosure agreement with us, that agreement controls for confidentiality matters.</p>
+
+    <h2 class="text-xl font-bold text-pri mt-10 mb-3">9. Disclaimers</h2>
+    <p class="mb-4">The Service is provided "as is" and "as available". To the maximum extent permitted by law, we disclaim all implied warranties, including merchantability, fitness for a particular purpose, and non-infringement. We do not warrant that the Service will be uninterrupted or error-free, and we do not guarantee any particular audit outcome, attestation, or certification. Readiness assessments and sign-offs reflect our professional judgment only.</p>
+
+    <h2 class="text-xl font-bold text-pri mt-10 mb-3">10. Limitation of liability</h2>
+    <p class="mb-4">To the maximum extent permitted by law, neither party is liable for indirect, incidental, consequential, or punitive damages, or for lost profits, revenue, or data. Each party's total liability arising out of the Service is limited to the fees you paid to Axis-Scale in the twelve months before the event giving rise to the claim. These limits do not apply to your payment obligations or to either party's breach of confidentiality.</p>
+
+    <h2 class="text-xl font-bold text-pri mt-10 mb-3">11. Termination</h2>
+    <p class="mb-4">You may stop using the Service at any time; annual fees for the current period remain payable. We may suspend or terminate access for material breach of these Terms that is not cured within fifteen days of notice, or immediately for serious misuse. Upon termination you may export your Customer Data for thirty days, after which we may delete it in the ordinary course.</p>
+
+    <h2 class="text-xl font-bold text-pri mt-10 mb-3">12. Changes to the Service or these Terms</h2>
+    <p class="mb-4">We improve the Service continuously and may modify features over time. We may update these Terms; if a change is material, we will notify you by email or in the Service before it takes effect. Continued use after the effective date constitutes acceptance.</p>
+
+    <h2 class="text-xl font-bold text-pri mt-10 mb-3">13. Governing law</h2>
+    <p class="mb-4">These Terms are governed by the laws of the State of Israel, and the courts of Tel Aviv-Jaffa have exclusive jurisdiction, without regard to conflict-of-law rules.</p>
+
+    <h2 class="text-xl font-bold text-pri mt-10 mb-3">14. Contact</h2>
+    <p class="mb-4">Questions about these Terms: <a href="mailto:hello@axis-scale.com" class="text-accent hover:underline">hello@axis-scale.com</a>.</p>
   </main>
+  <Footer />
 </Layout>

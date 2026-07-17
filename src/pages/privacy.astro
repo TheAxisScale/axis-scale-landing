@@ -1,12 +1,267 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Footer from '../components/Footer.astro';
 ---
-<Layout title="Privacy Policy - Axis-Scale">
+<Layout title="Privacy Policy - Axis-Scale" description="How Axis-Scale collects, uses, shares, and protects your information.">
   <main class="max-w-2xl mx-auto px-6 py-24 text-sec">
-    <h1 class="text-3xl font-extrabold text-pri mb-8 tracking-tight">Privacy Policy</h1>
-    <p class="text-sm text-ter mb-6">Last updated: June 2026</p>
-    <p class="mb-4">Axis-Scale collects the information you provide when requesting access (name, email, company). This information is used only to respond to your request and to provide the Axis-Scale platform.</p>
-    <p class="mb-4">We do not sell your data. We do not share your data with third parties except as required to operate the service (hosting infrastructure, transactional email).</p>
-    <p class="mb-4">To request deletion of your data, email <a href="mailto:hello@axis-scale.com" class="text-accent hover:underline">hello@axis-scale.com</a>.</p>
+    <h1 class="text-3xl font-extrabold text-pri mb-2 tracking-tight">Privacy Policy</h1>
+    <p class="text-sm text-ter mb-10">Last updated: July 2026</p>
+
+    <p class="mb-4">This policy explains how Axis-Scale ("we", "us") collects, uses, shares, and protects personal information when you visit axis-scale.com, use the Axis-Scale platform at app.axis-scale.com, or communicate with us. The short version: we collect only what we need to run the service, we do not sell your data, and we do not run advertising trackers.</p>
+
+    <h2 class="text-xl font-bold text-pri mt-10 mb-3">1. Who we are and what this policy covers</h2>
+    <p class="mb-2">Axis-Scale provides a compliance readiness platform and related expert services. Contact for anything privacy-related: <a href="mailto:hello@axis-scale.com" class="text-accent hover:underline">hello@axis-scale.com</a>.</p>
+    <p class="mb-2">We act in two different roles, and your rights run differently in each:</p>
+    <ul class="list-disc pl-6 mb-4 space-y-1">
+      <li><strong class="text-pri">As a controller</strong> for this website, access requests, your account details, billing, and our communications with you. This policy governs that data.</li>
+      <li><strong class="text-pri">As a processor</strong> for the compliance content our customers put into the platform (risk registers, policies, evidence, vendor records, and any personal data these contain). The customer controls that data; we process it only on their instructions. If your data appears in a customer's workspace, contact that customer first; we will support their response.</li>
+    </ul>
+
+    <h2 class="text-xl font-bold text-pri mt-10 mb-3">2. Information we collect</h2>
+    <div class="overflow-x-auto mb-4">
+      <table class="w-full text-sm border-collapse">
+        <thead>
+          <tr class="border-b border-[#2A3347] text-left text-pri">
+            <th class="py-2 pr-4 font-semibold">Context</th>
+            <th class="py-2 font-semibold">What we collect</th>
+          </tr>
+        </thead>
+        <tbody class="align-top">
+          <tr class="border-b border-[#2A3347]/60">
+            <td class="py-2 pr-4 text-pri">Website visitors</td>
+            <td class="py-2">Standard technical logs: IP address, browser and device type, pages viewed, referrer, timestamps. Used for security and to keep the site working.</td>
+          </tr>
+          <tr class="border-b border-[#2A3347]/60">
+            <td class="py-2 pr-4 text-pri">Access requests</td>
+            <td class="py-2">Name, work email, company, and anything you write in the form. The form is processed by Formspree on our behalf.</td>
+          </tr>
+          <tr class="border-b border-[#2A3347]/60">
+            <td class="py-2 pr-4 text-pri">Platform accounts</td>
+            <td class="py-2">Name, work email, role, hashed password, two-factor authentication settings, sign-in and session records, and actions recorded in audit logs.</td>
+          </tr>
+          <tr class="border-b border-[#2A3347]/60">
+            <td class="py-2 pr-4 text-pri">Platform content</td>
+            <td class="py-2">Whatever your organization enters: risk registers, policies, evidence files, vendor records. Processed on your organization's instructions (see Section 1).</td>
+          </tr>
+          <tr class="border-b border-[#2A3347]/60">
+            <td class="py-2 pr-4 text-pri">Auditor users</td>
+            <td class="py-2">Name, email, engagement scope, access window, and an audit log of what was accessed.</td>
+          </tr>
+          <tr class="border-b border-[#2A3347]/60">
+            <td class="py-2 pr-4 text-pri">Billing</td>
+            <td class="py-2">Company details, billing contact, invoicing records. We do not store full payment card numbers.</td>
+          </tr>
+          <tr>
+            <td class="py-2 pr-4 text-pri">Correspondence</td>
+            <td class="py-2">Emails and messages you exchange with us, including support requests.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="mb-4">We collect no special categories of personal data, and we do not want any: please do not put health, biometric, or similar sensitive personal data into free-text fields.</p>
+
+    <h2 class="text-xl font-bold text-pri mt-10 mb-3">3. How we use it, and on what legal basis</h2>
+    <div class="overflow-x-auto mb-4">
+      <table class="w-full text-sm border-collapse">
+        <thead>
+          <tr class="border-b border-[#2A3347] text-left text-pri">
+            <th class="py-2 pr-4 font-semibold">Purpose</th>
+            <th class="py-2 font-semibold">Legal basis (GDPR)</th>
+          </tr>
+        </thead>
+        <tbody class="align-top">
+          <tr class="border-b border-[#2A3347]/60">
+            <td class="py-2 pr-4">Provide the platform and expert services, manage accounts, respond to access requests</td>
+            <td class="py-2">Performance of a contract, or steps taken at your request before a contract</td>
+          </tr>
+          <tr class="border-b border-[#2A3347]/60">
+            <td class="py-2 pr-4">Secure the service: authentication, session management, abuse prevention, audit logging</td>
+            <td class="py-2">Legitimate interests (keeping the service and our customers' data safe)</td>
+          </tr>
+          <tr class="border-b border-[#2A3347]/60">
+            <td class="py-2 pr-4">Service communications: onboarding, renewal, security, and change notices</td>
+            <td class="py-2">Performance of a contract, or legitimate interests</td>
+          </tr>
+          <tr class="border-b border-[#2A3347]/60">
+            <td class="py-2 pr-4">Marketing emails</td>
+            <td class="py-2">Consent (opt-in only, unsubscribe in every email)</td>
+          </tr>
+          <tr class="border-b border-[#2A3347]/60">
+            <td class="py-2 pr-4">Optional analytics, if you allow them in the cookie banner</td>
+            <td class="py-2">Consent</td>
+          </tr>
+          <tr class="border-b border-[#2A3347]/60">
+            <td class="py-2 pr-4">Billing, accounting, and tax records</td>
+            <td class="py-2">Legal obligation</td>
+          </tr>
+          <tr>
+            <td class="py-2 pr-4">Establishing or defending legal claims</td>
+            <td class="py-2">Legitimate interests</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="mb-4">We do not use your data to train AI models, we do not profile you, and we make no automated decisions that produce legal or similarly significant effects on individuals. The platform's automated risk scoring evaluates organizational risks, not people.</p>
+
+    <h2 class="text-xl font-bold text-pri mt-10 mb-3">4. Your platform data belongs to you</h2>
+    <p class="mb-4">Compliance content you enter into the platform is yours. We process it only to provide the service, access it only when needed for support (or as required by law), never use it for marketing, and never share it with other customers. You can export it at any time during your subscription. Auditor access to your workspace happens only through engagements you create, with the scope and expiry you set, and every access is logged. A data processing agreement is available on request at <a href="mailto:hello@axis-scale.com" class="text-accent hover:underline">hello@axis-scale.com</a>.</p>
+
+    <h2 class="text-xl font-bold text-pri mt-10 mb-3" id="cookies">5. Cookies and local storage</h2>
+    <p class="mb-2">Everything the service stores in your browser:</p>
+    <div class="overflow-x-auto mb-4">
+      <table class="w-full text-sm border-collapse">
+        <thead>
+          <tr class="border-b border-[#2A3347] text-left text-pri">
+            <th class="py-2 pr-4 font-semibold">Item</th>
+            <th class="py-2 pr-4 font-semibold">Type</th>
+            <th class="py-2 pr-4 font-semibold">Purpose</th>
+            <th class="py-2 font-semibold">Lifetime</th>
+          </tr>
+        </thead>
+        <tbody class="align-top">
+          <tr class="border-b border-[#2A3347]/60">
+            <td class="py-2 pr-4 text-pri">Cookie banner choice</td>
+            <td class="py-2 pr-4">Local storage (this site)</td>
+            <td class="py-2 pr-4">Remembers your Accept / Essential-only choice</td>
+            <td class="py-2">Until you clear it</td>
+          </tr>
+          <tr class="border-b border-[#2A3347]/60">
+            <td class="py-2 pr-4 text-pri">Session cookies</td>
+            <td class="py-2 pr-4">Essential, httpOnly (platform)</td>
+            <td class="py-2 pr-4">Keep you signed in securely</td>
+            <td class="py-2">Short-lived access token, refresh token rotated regularly</td>
+          </tr>
+          <tr class="border-b border-[#2A3347]/60">
+            <td class="py-2 pr-4 text-pri">Trusted device</td>
+            <td class="py-2 pr-4">Essential (platform, optional)</td>
+            <td class="py-2 pr-4">Lets you skip two-factor prompts on a device you verified</td>
+            <td class="py-2">About 14 days</td>
+          </tr>
+          <tr>
+            <td class="py-2 pr-4 text-pri">Analytics</td>
+            <td class="py-2 pr-4">None today</td>
+            <td class="py-2 pr-4">If we add privacy-respecting analytics, they load only after you choose "Accept", and this table will be updated</td>
+            <td class="py-2">n/a</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="mb-4">We use no advertising cookies, ad pixels, or cross-site trackers. Fonts are served by Google Fonts, which receives your IP address when the page loads its stylesheet. You can change your cookie choice at any time via the "Cookie preferences" link in the footer.</p>
+
+    <h2 class="text-xl font-bold text-pri mt-10 mb-3">6. Who we share it with</h2>
+    <p class="mb-2">We do not sell or rent personal information. We share it only with the providers that run the service, under contracts that restrict them to processing on our instructions:</p>
+    <div class="overflow-x-auto mb-4">
+      <table class="w-full text-sm border-collapse">
+        <thead>
+          <tr class="border-b border-[#2A3347] text-left text-pri">
+            <th class="py-2 pr-4 font-semibold">Provider</th>
+            <th class="py-2 pr-4 font-semibold">What they do</th>
+            <th class="py-2 font-semibold">Location</th>
+          </tr>
+        </thead>
+        <tbody class="align-top">
+          <tr class="border-b border-[#2A3347]/60">
+            <td class="py-2 pr-4 text-pri">Vercel</td>
+            <td class="py-2 pr-4">Website and application hosting, content delivery</td>
+            <td class="py-2">US / EU edge</td>
+          </tr>
+          <tr class="border-b border-[#2A3347]/60">
+            <td class="py-2 pr-4 text-pri">Railway</td>
+            <td class="py-2 pr-4">Application backend and database hosting</td>
+            <td class="py-2">US / EU</td>
+          </tr>
+          <tr class="border-b border-[#2A3347]/60">
+            <td class="py-2 pr-4 text-pri">Formspree</td>
+            <td class="py-2 pr-4">Processes the access-request form on this site</td>
+            <td class="py-2">US</td>
+          </tr>
+          <tr class="border-b border-[#2A3347]/60">
+            <td class="py-2 pr-4 text-pri">Google Fonts</td>
+            <td class="py-2 pr-4">Font delivery for this site</td>
+            <td class="py-2">Global</td>
+          </tr>
+          <tr>
+            <td class="py-2 pr-4 text-pri">Email delivery</td>
+            <td class="py-2 pr-4">Sending transactional and service email</td>
+            <td class="py-2">US / EU</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="mb-4">Beyond that, we disclose personal information only: to auditors you invite into your own workspace; when required by law or a valid legal process (we will notify you unless legally barred); or as part of a merger or acquisition, in which case this policy continues to apply until it is updated and you are notified.</p>
+
+    <h2 class="text-xl font-bold text-pri mt-10 mb-3">7. International transfers</h2>
+    <p class="mb-4">Our providers process data in the United States and the European Union. Where personal data covered by GDPR is transferred internationally, we rely on appropriate safeguards such as standard contractual clauses or the provider's participation in recognized adequacy frameworks. Israel is recognized by the European Commission as providing adequate data protection.</p>
+
+    <h2 class="text-xl font-bold text-pri mt-10 mb-3">8. Security</h2>
+    <p class="mb-2">Security is the product we sell, and we hold ourselves to the same standard. Measures include:</p>
+    <ul class="list-disc pl-6 mb-4 space-y-1">
+      <li>Encrypted connections (TLS) everywhere; encryption at rest via our hosting providers</li>
+      <li>Role-based access control with least-privilege roles, enforced on every endpoint</li>
+      <li>Two-factor authentication, with optional organization-wide enforcement</li>
+      <li>Short-lived sessions with rotating refresh tokens and httpOnly cookies</li>
+      <li>Scoped, time-boxed, read-only auditor access that locks after first use</li>
+      <li>Audit logging of security-relevant actions, including access-scope changes</li>
+    </ul>
+    <p class="mb-4">No system is perfectly secure. If we learn of a breach affecting your personal data, we will notify you and the relevant authorities as required by law, without undue delay.</p>
+
+    <h2 class="text-xl font-bold text-pri mt-10 mb-3">9. Retention</h2>
+    <div class="overflow-x-auto mb-4">
+      <table class="w-full text-sm border-collapse">
+        <thead>
+          <tr class="border-b border-[#2A3347] text-left text-pri">
+            <th class="py-2 pr-4 font-semibold">Data</th>
+            <th class="py-2 font-semibold">Kept for</th>
+          </tr>
+        </thead>
+        <tbody class="align-top">
+          <tr class="border-b border-[#2A3347]/60">
+            <td class="py-2 pr-4">Access requests that do not become accounts</td>
+            <td class="py-2">Up to 12 months, then deleted</td>
+          </tr>
+          <tr class="border-b border-[#2A3347]/60">
+            <td class="py-2 pr-4">Account and platform data</td>
+            <td class="py-2">Life of the subscription, plus a 30-day export window after termination, then deletion in the ordinary course</td>
+          </tr>
+          <tr class="border-b border-[#2A3347]/60">
+            <td class="py-2 pr-4">Security and audit logs</td>
+            <td class="py-2">Up to 12 months, longer if needed for an investigation</td>
+          </tr>
+          <tr class="border-b border-[#2A3347]/60">
+            <td class="py-2 pr-4">Billing and tax records</td>
+            <td class="py-2">As required by law (typically 7 years)</td>
+          </tr>
+          <tr>
+            <td class="py-2 pr-4">Correspondence</td>
+            <td class="py-2">As long as relevant to the relationship</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="text-xl font-bold text-pri mt-10 mb-3">10. Your rights</h2>
+    <p class="mb-2">Depending on where you live (including under the GDPR, UK GDPR, and Israel's Privacy Protection Law), you can:</p>
+    <ul class="list-disc pl-6 mb-4 space-y-1">
+      <li>Access the personal information we hold about you, and get a copy</li>
+      <li>Correct inaccurate information</li>
+      <li>Request deletion</li>
+      <li>Object to or restrict certain processing</li>
+      <li>Receive data you provided in a portable format</li>
+      <li>Withdraw consent at any time (for example, unsubscribe from marketing or change your cookie choice), without affecting processing that happened before</li>
+    </ul>
+    <p class="mb-4">Email <a href="mailto:hello@axis-scale.com" class="text-accent hover:underline">hello@axis-scale.com</a>; we respond within 30 days and may ask you to verify your identity. Exercising your rights never costs anything and never affects your service. If you are unsatisfied, you can complain to your local data protection authority. Remember: for personal data inside a customer's workspace, the customer is the controller, and we will route your request to them.</p>
+
+    <h2 class="text-xl font-bold text-pri mt-10 mb-3">11. Marketing</h2>
+    <p class="mb-4">We send marketing email only if you opted in, every message has a working unsubscribe link, and unsubscribing never affects service communications like security notices or invoices.</p>
+
+    <h2 class="text-xl font-bold text-pri mt-10 mb-3">12. Children</h2>
+    <p class="mb-4">The service is for businesses and is not directed at anyone under 18. We do not knowingly collect information from children; if you believe we have, contact us and we will delete it.</p>
+
+    <h2 class="text-xl font-bold text-pri mt-10 mb-3">13. Changes</h2>
+    <p class="mb-4">We will post changes here and update the date at the top. For material changes we will notify you by email or in the service before they take effect.</p>
+
+    <h2 class="text-xl font-bold text-pri mt-10 mb-3">14. Contact</h2>
+    <p class="mb-4">Privacy questions, rights requests, or our data processing agreement: <a href="mailto:hello@axis-scale.com" class="text-accent hover:underline">hello@axis-scale.com</a>.</p>
   </main>
+  <Footer />
 </Layout>

@@ -16,8 +16,11 @@ const platformFeatures = [
     <p class="text-slate text-[11px] font-bold tracking-[1px] font-mono text-center mb-4 uppercase">
       PLANS
     </p>
-    <p class="text-sec text-center text-[15px] mb-14 max-w-sm mx-auto">
-      Pick the lane that fits where you are.
+    <h2 class="font-display font-[700] text-[38px] tracking-[-0.8px] leading-[1.1] text-pri text-center mb-4">
+      The bottom line. All of it.
+    </h2>
+    <p class="text-sec text-center text-[15px] mb-14 max-w-md mx-auto">
+      "What do I actually pay out of my pocket?" Here. On the page. Including the auditor.
     </p>
 
     <!-- Lanes 1–3 -->
@@ -141,5 +144,55 @@ const platformFeatures = [
       </a>
     </div>
 
+    <p class="text-ter text-[13px] text-center mt-8 max-w-xl mx-auto">
+      Being "already in progress" costs $249.
+    </p>
+
   </div>
 </section>
+
+<!-- Floating third-party costs card: visible only while #pricing is in view -->
+<aside
+  id="third-party-float"
+  aria-label="Third-party costs"
+  class="fixed bottom-6 left-6 z-40 max-w-[340px] bg-raised border border-dashed border-[#3A4660] rounded-[14px] px-6 py-5 shadow-2xl opacity-0 translate-y-3 pointer-events-none transition-all duration-300 hidden md:block"
+>
+  <button
+    id="third-party-float-close"
+    aria-label="Dismiss"
+    class="absolute top-3 right-3 text-ter hover:text-pri text-sm leading-none transition-colors"
+  >&#x2715;</button>
+  <p class="text-ter text-[10px] font-bold uppercase tracking-[1px] font-mono mb-1.5 pr-5">Third-party costs, so you can budget the whole thing</p>
+  <p class="text-pri font-semibold text-[14px] tracking-[-0.2px] mb-2">The audit and the penetration test</p>
+  <p class="text-[22px] font-extrabold text-pri tracking-[-1px] leading-none whitespace-nowrap mb-1.5">$10,000 - $15,000</p>
+  <p class="text-[11px] text-ter font-mono mb-2">together, depending on scope and complexity</p>
+  <p class="text-sec text-xs">Paid directly to an independent CPA firm and a pen-testing team.</p>
+</aside>
+
+<script>
+  const float = document.getElementById('third-party-float');
+  const closeBtn = document.getElementById('third-party-float-close');
+  const pricing = document.getElementById('pricing');
+  let dismissed = false;
+
+  const show = () => {
+    if (dismissed) return;
+    float.classList.remove('opacity-0', 'translate-y-3', 'pointer-events-none');
+  };
+  const hide = () => {
+    float.classList.add('opacity-0', 'translate-y-3', 'pointer-events-none');
+  };
+
+  if (float && pricing) {
+    const obs = new IntersectionObserver(
+      (entries) => entries.forEach(e => (e.isIntersecting ? show() : hide())),
+      { threshold: 0.12 }
+    );
+    obs.observe(pricing);
+
+    closeBtn?.addEventListener('click', () => {
+      dismissed = true;
+      hide();
+    });
+  }
+</script>

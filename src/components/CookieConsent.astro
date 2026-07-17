@@ -1,0 +1,46 @@
+<div
+  id="cookie-consent"
+  hidden
+  role="dialog"
+  aria-label="Cookie preferences"
+  class="fixed bottom-4 left-4 right-4 md:left-auto md:right-6 md:max-w-md z-50 rounded-xl border border-[#2A3347] bg-[#161B22] p-5 shadow-2xl"
+>
+  <p class="text-sm text-sec leading-relaxed mb-4">
+    No ad trackers here. We use essential storage to run the site, and optional
+    privacy-respecting analytics only if you allow them.
+    <a href="/privacy#cookies" class="text-accent hover:underline">Learn more</a>
+  </p>
+  <div class="flex items-center gap-3">
+    <button
+      id="cookie-accept"
+      class="px-4 py-2 bg-accent hover:bg-accent-hover text-white text-sm font-semibold rounded-full transition-colors"
+    >Accept</button>
+    <button
+      id="cookie-essential"
+      class="px-4 py-2 border border-[#2A3347] hover:border-[#3A4660] text-sec hover:text-pri text-sm font-medium rounded-full transition-colors"
+    >Essential only</button>
+  </div>
+</div>
+
+<script>
+  const KEY = 'axs-cookie-consent';
+  const banner = document.getElementById('cookie-consent');
+  const setConsent = (value) => {
+    localStorage.setItem(KEY, value);
+    window.axsConsent = value;
+    window.dispatchEvent(new CustomEvent('axs-consent', { detail: value }));
+    banner.hidden = true;
+  };
+
+  window.axsConsent = localStorage.getItem(KEY);
+  window.axsShowCookieBanner = () => { banner.hidden = false; };
+
+  if (!window.axsConsent) banner.hidden = false;
+
+  document.getElementById('cookie-accept').addEventListener('click', () => setConsent('accepted'));
+  document.getElementById('cookie-essential').addEventListener('click', () => setConsent('essential'));
+
+  // Future analytics: load only after opt-in, e.g.
+  // if (window.axsConsent === 'accepted') { ...inject analytics script... }
+  // window.addEventListener('axs-consent', (e) => { if (e.detail === 'accepted') { ... } });
+</script>

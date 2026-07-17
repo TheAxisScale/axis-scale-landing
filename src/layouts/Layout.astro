@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import CookieConsent from '../components/CookieConsent.astro';
 
 interface Props {
   title?: string;
@@ -7,7 +8,7 @@ interface Props {
 }
 const {
   title = 'Axis-Scale - SOC 2 Readiness, Scoped for Founders',
-  description = 'SOC 2 requires work, and a plan. Axis-Scale scopes it in 30 minutes, the platform handles 80%, and an expert signs off on the rest. Audit-ready without the panic.',
+  description = 'Not working on SOC 2 yet? Your pipeline noticed. Axis-Scale: scoped in 30 minutes, expert sign-off, a real audit date, price on the page. Start before they ask.',
 } = Astro.props;
 ---
 <!DOCTYPE html>
@@ -24,6 +25,7 @@ const {
 </head>
 <body class="bg-base text-pri font-sans antialiased">
   <slot />
+  <CookieConsent />
   <script>
     const observer = new IntersectionObserver(
       (entries) => {
