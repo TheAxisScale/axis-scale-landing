@@ -771,7 +771,7 @@ function buildControls(){
     el.className='chip'+(mode==='paid'?' on':'')+(mode==='gift'?' gift':'');
     const tag = mode==='gift' ? ' · gift (free)' : ' · '+money(ADDONS[k].price);
     el.innerHTML='<span class="dot"></span>'+ADDONS[k].label+tag;
-    el.onclick=()=>{cycleAddon(k); render(); buildControls();};
+    el.onclick=()=>{ if(PUBLIC){ if(state.addons[k]) delete state.addons[k]; else state.addons[k]='paid'; } else cycleAddon(k); render(); buildControls(); };
     ac.appendChild(el);
   });
   seg('segSize',SIZE_OPTS,state.size,v=>{state.size=v});
@@ -878,10 +878,10 @@ if(PUBLIC){
   state.tier='Standard';                                   // prospects only ever see standard value
   var _rp=document.querySelector('details.rates'); if(_rp) _rp.style.display='none';   // hide rate base
   var _tb=document.getElementById('tStandard'); if(_tb && _tb.parentElement) _tb.parentElement.style.display='none'; // hide intro/standard toggle
-  var _ti=document.getElementById('tabInternal'); if(_ti) _ti.textContent='Calculator';
-  var _tc=document.getElementById('tabClient'); if(_tc) _tc.textContent='Proposal';
+  var _ti=document.getElementById('tabInternal'); if(_ti && _ti.parentElement) _ti.parentElement.style.display='none'; // hide Calculator/Proposal toggle (calculator only)
   var _lh=document.querySelector('.lead h1'); if(_lh) _lh.textContent='Pricing estimate';
   var _lp=document.querySelector('.lead p'); if(_lp) _lp.textContent='Estimate your engagement: pick your frameworks, company profile, and delivery structure to see indicative pricing and deliverables. Final scope and price are confirmed with our team. No sign-up.';
+  var _ah=document.getElementById('addonChips'); if(_ah && _ah.nextElementSibling) _ah.nextElementSibling.textContent='Optional add-ons. Click to add or remove.';
 }
 render();
 </script>
