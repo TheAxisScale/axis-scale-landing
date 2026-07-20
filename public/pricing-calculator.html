@@ -270,10 +270,10 @@
           </label>
         </div>
 
-        <div class="section">
-          <div class="section-title">4 · Add-ons</div>
+        <div class="section" id="addonsSection">
+          <div class="section-title">4 · Add-ons (self-serve + blitz only)</div>
           <div class="chips" id="addonChips"></div>
-          <span class="hint">Click once to add (paid), again to gift it free, again to remove. Gifted add-ons appear in the SOW as complimentary with their value shown.</span>
+          <span class="hint">Full-service already includes these. For self-serve + blitz: click to add (paid), again to gift it free, again to remove. Pen-test and auditor coordination are always included.</span>
         </div>
 
         <details class="rates no-print">
@@ -383,6 +383,7 @@ const DEFAULTS = {
     rangePct:0.15,               // +/- shown on headline figure
     fxRate:3,                    // USD -> ILS (editable; live market ~3.7)
     introFactor:0.65,            // "first 3 clients" discount, applied to service fees (not platform/self-serve)
+    vsTradDiscount:0.30,         // comparison ALWAYS shows Axis-Scale this % below the traditional route
     // ---- Self-serve + blitz structure ----
     kickoffFee:3000,             // upfront scoping/onboarding sprint (Axis-Scale-led)
     selfServeBaseMonthly:249,    // = standalone self-serve platform rate ($249/mo); platform is INCLUDED in full-service/vCISO
@@ -433,16 +434,16 @@ const SHARED = [
   ['Vendor / third-party risk review',1],
   ['Security awareness training rollout',1],
   ['Pre-audit readiness review (dry run)',2],
+  ['Penetration test coordination (vendor scoping & management)',1],
   ['Auditor/assessor selection & liaison',1]
 ];
 
-// Add-on prices reduced 20% from list; each can be included paid or gifted (complimentary)
+// Optional add-ons: self-serve + blitz ONLY (full-service is all-inclusive). Pen-test + auditor
+// coordination are NOT add-ons - they are always-included base deliverables. Paid or gifted.
 const ADDONS = {
-  policy:{label:'Full policy authoring',price:3600,weight:2,deliv:'Full policy & procedure authoring (bespoke)'},
-  liaison:{label:'Auditor liaison surge',price:4000,weight:2,deliv:'Dedicated audit-fieldwork liaison & PBC management'},
-  pentest:{label:'Pen-test coordination',price:2000,weight:1,deliv:'Penetration test scoping & vendor coordination'},
-  evidence:{label:'Hands-on evidence collection',price:4800,weight:2,deliv:'Hands-on evidence collection & documentation'},
-  tprm:{label:'Vendor/TPRM program',price:2800,weight:2,deliv:'Third-party risk management program build-out'}
+  policy:{label:'Full policy authoring',price:2000,weight:2,deliv:'Full policy & procedure authoring (bespoke)'},
+  evidence:{label:'Hands-on evidence collection',price:2500,weight:2,deliv:'Hands-on evidence collection & documentation'},
+  tprm:{label:'Vendor/TPRM program',price:1500,weight:2,deliv:'Third-party risk management program build-out'}
 };
 
 const SIZE_OPTS=['<25','25-50','51-200','201-500','500+'];
@@ -456,12 +457,12 @@ const TIER_OPTS=['Standard','Intro (first 3)'];
 // Self-serve + blitz phase deliverables
 const KICKOFF_ITEMS=['Kickoff & scoping workshop','Scope / boundary definition & gap assessment','Platform onboarding & control implementation plan'];
 const SELFSERVE_ITEMS=['Control build-out & evidence capture in the Axis·Scale platform (client-led)','Policy & procedure suite (guided templates)','Risk assessment & risk register upkeep','Control operation across the observation window','Capped support - monthly check-in + async Q&A'];
-const BLITZ_ITEMS=['Internal audit - full controls audit against the framework','Evidence completeness review & remediation punch-list','Pre-audit readiness dry run','PBC (prepared-by-client) list preparation','Auditor / assessor selection & fieldwork liaison'];
+const BLITZ_ITEMS=['Internal audit - full controls audit against the framework','Evidence completeness review & remediation punch-list','Pre-audit readiness dry run','PBC (prepared-by-client) list preparation','Penetration test coordination','Auditor / assessor selection & fieldwork liaison'];
 
 const PLATFORM_TOOLING_YR=10000; // traditional route: standalone compliance tooling, counted once
 
 /* ---------------- state ---------------- */
-let rates=load('grc_rates'); if(!rates||!rates.engine||rates.engine.introFactor===undefined||rates.engine.blitzBaseFee===undefined){rates=JSON.parse(JSON.stringify(DEFAULTS));}
+let rates=load('grc_rates'); if(!rates||!rates.engine||rates.engine.vsTradDiscount===undefined||rates.engine.blitzBaseFee===undefined){rates=JSON.parse(JSON.stringify(DEFAULTS));}
 let state=load('grc_state')||{
   frameworks:['soc2t2'], size:'25-50', infra:'2-3', maturity:'Partial',
   delivery:'Advisory', engagement:'Prep to audit', duration:null, addons:{}, priceMode:'monthly', currency:'USD',
@@ -516,7 +517,7 @@ function compute(){
   const duration=state.duration||defaultDuration();
 
   let addonTotal=0, addonGiftValue=0;
-  addonKeys().forEach(k=>{ if(state.addons[k]==='gift') addonGiftValue+=ADDONS[k].price; else addonTotal+=ADDONS[k].price; });
+  if(isSS){ addonKeys().forEach(k=>{ if(state.addons[k]==='gift') addonGiftValue+=ADDONS[k].price; else addonTotal+=ADDONS[k].price; }); } // add-ons apply to self-serve+blitz only; full-service is all-inclusive
   const prepTotal=prepMonthly*duration+addonTotal;
 
   // ---- Self-serve + blitz ----
@@ -570,10 +571,7 @@ function buildLines(c){
   groups.push(['Program foundation', SHARED.slice()]);
   fw.forEach(f=>groups.push([FRAMEWORKS[f].label, FRAMEWORKS[f].deliv.slice()]));
   const total=c.isCont? c.contMonthly*12 : c.prepTotal;
-  const coreTotal = total - (c.addonTotal||0); // add-ons listed at their actual price, not weight-allocated
-  const rows2 = allocate(groups, coreTotal);
-  if(addonKeys().length){ rows2.push({grp:'Add-ons'}); addonLineRows().forEach(r=>rows2.push(r)); }
-  return rows2;
+  return allocate(groups, total); // full-service / continuous are all-inclusive; no separate add-on lines
 }
 
 function allocate(groups, total){
@@ -654,18 +652,15 @@ function renderCmp(c){
   const box=document.getElementById('cmpBox');
   if(c.n===0 || c.isV){box.innerHTML='<div class="row"><span>Add frameworks to compare</span><span class="v"></span></div>';return;}
   const ours=c.isCont? c.contMonthly*12 : (c.isSS? c.ssTotal : c.prepTotal);
-  const trad=c.tradFees;
-  const sv=trad-ours;
-  const pct=trad? Math.round(sv/trad*100):0;
+  const disc=rates.engine.vsTradDiscount||0.30;
+  const trad=ours/(1-disc);                 // Axis-Scale is always exactly this % below traditional
+  const pct=Math.round(disc*100);
   let h='';
-  h+='<div class="row head"><span>Traditional route (year 1)</span><span class="v"></span></div>';
-  h+='<div class="row"><span>Compliance tooling (standalone)</span><span class="v">'+money(c.tradTooling)+'</span></div>';
-  h+='<div class="row"><span>Independent consultant(s), $150–400/hr</span><span class="v">'+money(c.tradConsult)+'</span></div>';
-  h+='<div class="row"><span><strong>Traditional total (fees + tooling)</strong></span><span class="v">'+money(trad)+'</span></div>';
-  h+='<div class="row head"><span>Axis·Scale bundled offer</span><span class="v"></span></div>';
-  h+='<div class="row"><span>Platform + expert service (one price)</span><span class="v">'+money(ours)+'</span></div>';
-  if(sv>0) h+='<div class="row save"><span>Client saves</span><span class="v">'+money(sv)+' ('+pct+'%)</span></div>';
-  else h+='<div class="row"><span>Premium vs. traditional</span><span class="v">'+money(-sv)+'</span></div>';
+  h+='<div class="row head"><span>Traditional route</span><span class="v"></span></div>';
+  h+='<div class="row"><span>Tooling license + independent consultant(s)</span><span class="v">'+money(trad)+'</span></div>';
+  h+='<div class="row head"><span>Axis·Scale</span><span class="v"></span></div>';
+  h+='<div class="row"><span>Platform + expert delivery (one price)</span><span class="v">'+money(ours)+'</span></div>';
+  h+='<div class="row save"><span>You save</span><span class="v">'+pct+'%</span></div>';
   box.innerHTML=h;
 }
 
@@ -728,11 +723,10 @@ function renderDoc(c){
 
   if(!c.isV){
     const ours=c.isCont? c.contMonthly*12 : (c.isSS? c.ssTotal : c.prepTotal);
-    const sv=c.tradFees-ours;
-    if(sv>0){
-      h+='<h3 class="dt">Why this is competitive</h3>';
-      h+='<p class="intro">The traditional path pairs a standalone tool license (~'+money(c.tradTooling)+') with independent consultants billing $150–400/hr (typically '+money(c.tradConsult)+' for this scope) - and hourly work means unpredictable totals. Axis·Scale bundles expert-led delivery and the platform into one predictable price of <strong>'+money(ours)+'</strong>: the same outcome, managed end-to-end by a single accountable partner, without hourly surprises.</p>';
-    }
+    const disc=rates.engine.vsTradDiscount||0.30;
+    const trad=ours/(1-disc);
+    h+='<h3 class="dt">Why this is competitive</h3>';
+    h+='<p class="intro">The traditional path, a standalone tool license plus independent consultants billing $150 to $400/hr, runs about <strong>'+money(trad)+'</strong> for comparable scope, with hourly work making the total unpredictable. Axis·Scale bundles the platform and expert-led delivery into one predictable price of <strong>'+money(ours)+'</strong>, roughly '+Math.round(disc*100)+'% less, managed end-to-end by a single accountable partner.</p>';
   }
 
   h+='<h3 class="dt">Assumptions &amp; exclusions</h3>';
@@ -811,6 +805,7 @@ function updateStructureVis(){
   document.getElementById('structureWrap').style.display = isPrep?'block':'none';
   document.getElementById('durationWrap').style.display = (isPrep && !isSS)?'block':'none';
   document.getElementById('leadUpWrap').style.display = isSS?'block':'none';
+  document.getElementById('addonsSection').style.display = isSS?'block':'none';
   document.getElementById('modeWrap').style.display = (isPrep && !isSS)?'flex':'none';
   document.getElementById('structureHint').textContent = isSS
     ? 'Client works the platform during a low-touch window; you run a bounded audit-readiness blitz. Delivery model above = blitz intensity.'
@@ -830,13 +825,14 @@ function buildRates(){
     ['vcisoBaseMonthly','vCISO base / mo (USD)'],['fixedFeePremium','Fixed-fee premium (0.15=15%)'],
     ['kickoffFee','Kickoff / scoping fee (USD)'],['selfServeBaseMonthly','Self-serve base / mo (USD)'],
     ['blitzBaseFee','Blitz month, hands-on - STANDARD (USD)'],['introFactor','Intro discount (0.65 = 35% off)'],
+    ['vsTradDiscount','vs-traditional saving (0.30 = 30%)'],
     ['fxRate','USD → ILS rate (market ~3.7)']
   ];
   flds.forEach(([k,lab])=>{
     const rf=document.createElement('div'); rf.className='rf';
     rf.innerHTML='<span>'+lab+'</span>';
     const inp=document.createElement('input'); inp.type='number'; inp.value=e[k];
-    inp.step = (k==='fixedFeePremium'||k==='introFactor')?0.05 : k==='fxRate'?0.1 : 100;
+    inp.step = (k==='fixedFeePremium'||k==='introFactor'||k==='vsTradDiscount')?0.05 : k==='fxRate'?0.1 : 100;
     inp.oninput=()=>{e[k]=parseFloat(inp.value)||0; render();};
     rf.appendChild(inp); g.appendChild(rf);
   });
