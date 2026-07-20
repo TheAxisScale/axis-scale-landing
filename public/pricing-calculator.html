@@ -383,7 +383,7 @@ const DEFAULTS = {
     rangePct:0.15,               // +/- shown on headline figure
     fxRate:3,                    // USD -> ILS (editable; live market ~3.7)
     introFactor:0.65,            // "first 3 clients" discount, applied to service fees (not platform/self-serve)
-    vsTradDiscount:0.30,         // comparison ALWAYS shows Axis-Scale this % below the traditional route
+    vsTradDiscount:0.30,         // comparison shows Axis-Scale AT LEAST this % below traditional (more when the real gap is larger)
     // ---- Self-serve + blitz structure ----
     kickoffFee:3000,             // upfront scoping/onboarding sprint (Axis-Scale-led)
     selfServeBaseMonthly:249,    // = standalone self-serve platform rate ($249/mo); platform is INCLUDED in full-service/vCISO
@@ -653,8 +653,8 @@ function renderCmp(c){
   if(c.n===0 || c.isV){box.innerHTML='<div class="row"><span>Add frameworks to compare</span><span class="v"></span></div>';return;}
   const ours=c.isCont? c.contMonthly*12 : (c.isSS? c.ssTotal : c.prepTotal);
   const disc=rates.engine.vsTradDiscount||0.30;
-  const trad=ours/(1-disc);                 // Axis-Scale is always exactly this % below traditional
-  const pct=Math.round(disc*100);
+  const trad=Math.max(c.tradFees, ours/(1-disc)); // at LEAST disc% below traditional; more when the real gap is larger
+  const pct=Math.round((trad-ours)/trad*100);
   let h='';
   h+='<div class="row head"><span>Traditional route</span><span class="v"></span></div>';
   h+='<div class="row"><span>Tooling license + independent consultant(s)</span><span class="v">'+money(trad)+'</span></div>';
@@ -724,9 +724,10 @@ function renderDoc(c){
   if(!c.isV){
     const ours=c.isCont? c.contMonthly*12 : (c.isSS? c.ssTotal : c.prepTotal);
     const disc=rates.engine.vsTradDiscount||0.30;
-    const trad=ours/(1-disc);
+    const trad=Math.max(c.tradFees, ours/(1-disc));
+    const pct=Math.round((trad-ours)/trad*100);
     h+='<h3 class="dt">Why this is competitive</h3>';
-    h+='<p class="intro">The traditional path, a standalone tool license plus independent consultants billing $150 to $400/hr, runs about <strong>'+money(trad)+'</strong> for comparable scope, with hourly work making the total unpredictable. Axis·Scale bundles the platform and expert-led delivery into one predictable price of <strong>'+money(ours)+'</strong>, roughly '+Math.round(disc*100)+'% less, managed end-to-end by a single accountable partner.</p>';
+    h+='<p class="intro">The traditional path, a standalone tool license plus independent consultants billing $150 to $400/hr, runs about <strong>'+money(trad)+'</strong> for comparable scope, with hourly work making the total unpredictable. Axis·Scale bundles the platform and expert-led delivery into one predictable price of <strong>'+money(ours)+'</strong>, about '+pct+'% less, managed end-to-end by a single accountable partner.</p>';
   }
 
   h+='<h3 class="dt">Assumptions &amp; exclusions</h3>';
@@ -825,7 +826,7 @@ function buildRates(){
     ['vcisoBaseMonthly','vCISO base / mo (USD)'],['fixedFeePremium','Fixed-fee premium (0.15=15%)'],
     ['kickoffFee','Kickoff / scoping fee (USD)'],['selfServeBaseMonthly','Self-serve base / mo (USD)'],
     ['blitzBaseFee','Blitz month, hands-on - STANDARD (USD)'],['introFactor','Intro discount (0.65 = 35% off)'],
-    ['vsTradDiscount','vs-traditional saving (0.30 = 30%)'],
+    ['vsTradDiscount','vs-traditional MIN saving (0.30 = 30%)'],
     ['fxRate','USD → ILS rate (market ~3.7)']
   ];
   flds.forEach(([k,lab])=>{
