@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Axis·Scale - GRC Engagement Pricing &amp; SOW Builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ===== Axis·Scale design tokens (lifted from colors_and_type.css) ===== */
+  :root{
+    --bg-base:#0D1117; --bg-surface:#161B27; --bg-elevated:#1E2538; --bg-hover:#232D42;
+    --border:#2A3347; --border-light:#1E2538;
+    --text-primary:#E6EDF3; --text-secondary:#8B949E; --text-tertiary:#6E7681;
+    --accent:#E91E8C; --accent-hover:#C91576; --accent-dim:rgba(233,30,140,.12); --accent-border:rgba(233,30,140,.25);
+    --success:#10B981; --success-dim:rgba(16,185,129,.12);
+    --warning:#F59E0B; --warning-dim:rgba(245,158,11,.14);
+    --danger:#EF4444;
+    --radius-sm:6px; --radius:10px; --radius-lg:14px; --radius-pill:100px;
+    --shadow-sm:0 1px 3px rgba(0,0,0,.4); --shadow:0 4px 16px rgba(0,0,0,.5); --shadow-lg:0 8px 32px rgba(0,0,0,.6);
+    --font:'Inter','Helvetica Neue',Helvetica,Arial,sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{font-family:var(--font);color:var(--text-primary);background:var(--bg-base);line-height:1.5;-webkit-font-smoothing:antialiased}
+  h1,h2,h3,h4{margin:0;font-weight:800;letter-spacing:-.3px}
+  a{color:var(--accent);text-decoration:none}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+  .tab-num{font-variant-numeric:tabular-nums}
+
+  /* ===== Top bar ===== */
+  .topbar{background:var(--bg-surface);border-bottom:1px solid var(--border);padding:14px 0;position:sticky;top:0;z-index:50}
+  .topbar .wrap{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:11px}
+  .brand svg{display:block}
+  .brand .name{font-size:16px;font-weight:800;letter-spacing:-.4px;color:var(--text-primary);line-height:1.1}
+  .brand .name b{font-weight:500;color:var(--text-secondary)}
+  .brand .name small{display:block;font-weight:600;font-size:10px;color:var(--text-tertiary);letter-spacing:.8px;text-transform:uppercase;margin-top:2px}
+  .bar-right{display:flex;align-items:center;gap:12px}
+  .toggle{display:flex;background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius);padding:3px}
+  .toggle button{border:0;background:transparent;color:var(--text-secondary);font-family:var(--font);font-size:12.5px;font-weight:600;padding:7px 14px;border-radius:var(--radius-sm);cursor:pointer;transition:.15s}
+  .toggle button.active{background:var(--bg-hover);color:var(--text-primary)}
+  .toggle.cur button{padding:7px 11px}
+
+  /* ===== Layout ===== */
+  .lead{padding:26px 0 8px}
+  .lead h1{font-size:26px;border-left:3px solid var(--accent);padding-left:14px;line-height:1.15}
+  .lead p{color:var(--text-secondary);margin:10px 0 0;font-size:14px;max-width:760px}
+  .grid{display:grid;grid-template-columns:minmax(0,1fr) 410px;gap:24px;align-items:start;padding:18px 0 60px}
+  @media(max-width:980px){.grid{grid-template-columns:1fr}}
+
+  .card{background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius)}
+  .card .hd{padding:15px 20px;border-bottom:1px solid var(--border-light);display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .card .hd h3{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--text-secondary);font-weight:700}
+  .card .bd{padding:20px}
+  .section+.section{margin-top:22px}
+  .section-title{font-size:10px;text-transform:uppercase;letter-spacing:.8px;color:var(--text-tertiary);font-weight:600;margin:0 0 12px}
+
+  /* ===== Form controls ===== */
+  label.field{display:block;margin-bottom:16px}
+  label.field .lab{display:block;font-size:13px;font-weight:600;color:var(--text-secondary);margin-bottom:7px}
+  input[type=number],input[type=text]{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);font-family:var(--font);font-size:14px;color:var(--text-primary);background:var(--bg-elevated);transition:.15s}
+  input:focus{outline:0;border-color:var(--accent-border);box-shadow:0 0 0 3px var(--accent-dim)}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{border:1px solid var(--border);border-radius:var(--radius-pill);padding:8px 14px;font-size:13px;font-weight:600;color:var(--text-secondary);cursor:pointer;user-select:none;transition:.15s;background:var(--bg-elevated);display:flex;gap:8px;align-items:center}
+  .chip:hover{border-color:var(--accent-border);color:var(--text-primary)}
+  .chip.on{background:var(--accent-dim);color:var(--text-primary);border-color:var(--accent-border)}
+  .chip.gift{background:var(--success-dim);color:var(--text-primary);border-color:rgba(16,185,129,.35)}
+  .chip.gift .dot{background:var(--success)}
+  .chip .dot{width:7px;height:7px;border-radius:50%;background:var(--border)}
+  .chip.on .dot{background:var(--accent)}
+  .seg{display:flex;gap:8px;flex-wrap:wrap}
+  .seg .opt{flex:1;min-width:88px;text-align:center;border:1px solid var(--border);border-radius:var(--radius-sm);padding:9px 8px;font-size:13px;font-weight:600;color:var(--text-secondary);cursor:pointer;transition:.15s;background:var(--bg-elevated)}
+  .seg .opt:hover{border-color:var(--accent-border);color:var(--text-primary)}
+  .seg .opt.on{background:var(--accent-dim);color:var(--text-primary);border-color:var(--accent-border)}
+  .hint{font-size:12px;color:var(--text-tertiary);margin-top:5px}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+
+  /* ===== Results sidebar ===== */
+  .stick{position:sticky;top:84px}
+  .modetoggle{display:flex;background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius);padding:3px;margin-bottom:16px}
+  .modetoggle button{flex:1;border:0;background:transparent;font-family:var(--font);font-size:12.5px;font-weight:600;color:var(--text-secondary);padding:9px;border-radius:var(--radius-sm);cursor:pointer;transition:.15s}
+  .modetoggle button.active{background:var(--bg-hover);color:var(--text-primary)}
+
+  .hero{background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px}
+  .hero .k{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--accent);font-weight:700}
+  .hero .big{font-size:36px;font-weight:800;letter-spacing:-1px;margin:4px 0 0;color:var(--text-primary)}
+  .hero .sub{font-size:13px;color:var(--text-secondary);margin-top:4px}
+  .hero .split{display:flex;gap:10px;margin-top:18px;border-top:1px solid var(--border-light);padding-top:16px}
+  .hero .split div{flex:1}
+  .hero .split .k2{font-size:10px;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:.6px;font-weight:600}
+  .hero .split .v2{font-size:19px;font-weight:700;margin-top:3px;color:var(--text-primary)}
+
+  table.lines{width:100%;border-collapse:collapse;font-size:13px}
+  table.lines th{text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--text-tertiary);font-weight:600;padding:8px;border-bottom:1px solid var(--border)}
+  table.lines td{padding:9px 8px;border-bottom:1px solid var(--border-light);vertical-align:top;color:var(--text-primary)}
+  table.lines td.p{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:600}
+  table.lines tr.grp td{background:var(--bg-elevated);font-weight:700;font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--text-secondary)}
+  table.lines tr.total td{border-top:2px solid var(--border);border-bottom:0;font-weight:800;font-size:14px;padding-top:12px;color:var(--text-primary)}
+
+  .cmp{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+  .cmp .row{display:grid;grid-template-columns:1fr auto;padding:11px 14px;font-size:13px;border-bottom:1px solid var(--border-light);color:var(--text-primary)}
+  .cmp .row:last-child{border-bottom:0}
+  .cmp .row .v{font-variant-numeric:tabular-nums;font-weight:600}
+  .cmp .head{background:var(--bg-elevated);font-weight:700;font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--text-secondary)}
+  .cmp .save{background:var(--success-dim);color:var(--success);font-weight:800}
+
+  .pill{display:inline-block;padding:3px 9px;border-radius:var(--radius-pill);font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;background:var(--bg-elevated);color:var(--text-secondary);border:1px solid var(--border)}
+  .pill.teal{background:var(--accent-dim);color:var(--accent);border-color:var(--accent-border)}
+  .pill.gold{background:var(--warning-dim);color:var(--warning);border:0}
+
+  details.rates{border:1px dashed var(--border);border-radius:var(--radius);margin-top:22px}
+  details.rates>summary{cursor:pointer;padding:14px 18px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text-secondary);list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px}
+  details.rates>summary::-webkit-details-marker{display:none}
+  details.rates[open]>summary{border-bottom:1px solid var(--border-light)}
+  .rate-grid{padding:16px 18px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .rate-grid .rf{display:flex;flex-direction:column;gap:5px}
+  .rate-grid .rf span{font-size:11px;color:var(--text-tertiary);font-weight:600}
+  .rate-grid .rf input{padding:7px 9px;font-size:13px}
+  .rate-note{padding:0 18px 16px;font-size:12px;color:var(--text-tertiary)}
+
+  .btn{border:0;border-radius:var(--radius-pill);padding:11px 18px;font-family:var(--font);font-size:13px;font-weight:700;cursor:pointer;transition:.15s}
+  .btn.primary{background:var(--accent);color:#fff}
+  .btn.primary:hover{background:var(--accent-hover)}
+  .btn.ghost{background:transparent;color:var(--text-secondary);border:1px solid var(--border)}
+  .btn.ghost:hover{border-color:var(--accent-border);color:var(--text-primary)}
+  .toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+  .empty{color:var(--text-tertiary);font-size:13px;text-align:center;padding:30px 10px}
+
+  /* ===== Client SOW view ===== */
+  #clientView{display:none}
+  .doc{background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius-lg);max-width:850px;margin:22px auto 60px;overflow:hidden}
+  .doc .dhead{padding:32px 44px;border-bottom:3px solid var(--accent);display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+  .doc .dhead .b{display:flex;align-items:center;gap:13px}
+  .doc .dhead h2{font-size:19px;letter-spacing:-.4px}
+  .doc .dhead h2 b{font-weight:500;color:var(--text-secondary)}
+  .doc .dhead small{color:var(--text-tertiary);font-size:11px;letter-spacing:.5px;text-transform:uppercase;font-weight:600;display:block;margin-top:3px}
+  .doc .dhead .meta{text-align:right;font-size:12px;color:var(--text-tertiary)}
+  .doc .dhead .meta strong{color:var(--text-secondary)}
+  .doc .dbody{padding:30px 44px 40px}
+  .doc h3.dt{font-size:15px;font-weight:800;color:var(--text-primary);margin:30px 0 12px;padding-left:11px;border-left:3px solid var(--accent);text-transform:none;letter-spacing:-.2px}
+  .doc h3.dt:first-child{margin-top:0}
+  .doc p.intro{font-size:14px;color:var(--text-secondary);line-height:1.7}
+  .doc p.intro strong{color:var(--text-primary);font-weight:600}
+  .invest{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:8px 0}
+  .invest .box{border:1px solid var(--border);border-radius:var(--radius);padding:18px;background:var(--bg-elevated)}
+  .invest .box .k{font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--text-tertiary);font-weight:700}
+  .invest .box .v{font-size:27px;font-weight:800;margin-top:5px;letter-spacing:-.6px;color:var(--text-primary)}
+  .invest .box .s{font-size:12px;color:var(--text-tertiary);margin-top:3px}
+  .invest .box.hl{background:var(--accent-dim);border-color:var(--accent-border)}
+  .invest .box.hl .v{color:var(--accent)}
+  ul.excl{margin:8px 0;padding-left:20px;font-size:13px;color:var(--text-secondary);line-height:1.5}
+  ul.excl li{margin:6px 0}
+  ul.excl strong{color:var(--text-primary)}
+  .assume{font-size:12.5px;color:var(--text-tertiary);line-height:1.6}
+  .assume strong{color:var(--text-secondary)}
+  .sig{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:36px}
+  .sig .line{border-top:1px solid var(--border);padding-top:7px;font-size:12px;color:var(--text-tertiary)}
+  .foot{padding:18px 44px;border-top:1px solid var(--border);font-size:11px;color:var(--text-tertiary);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+  /* ===== Print - light document for PDF/paper ===== */
+  @media print{
+    body{background:#fff;color:#14181f}
+    .topbar,.lead,#internalView,.no-print{display:none!important}
+    #clientView{display:block!important}
+    .doc{background:#fff;border:0;border-radius:0;margin:0;max-width:100%}
+    .doc .dhead{border-bottom-color:var(--accent)}
+    .doc .dhead h2,.invest .box .v,.doc h3.dt,.doc p.intro strong,ul.excl strong{color:#14181f}
+    .doc .dhead h2 b,.doc .dhead small,.doc .dhead .meta,.doc .dhead .meta strong,.doc p.intro,ul.excl,.assume,.assume strong,.sig .line,.foot{color:#454b57}
+    .doc h3.dt{border-left-color:var(--accent)}
+    .invest .box{background:#f6f7f9;border-color:#e3e6eb}
+    .invest .box .k,.invest .box .s{color:#6b7280}
+    .invest .box.hl{background:var(--accent-dim);border-color:var(--accent-border)}
+    .invest .box.hl .v{color:var(--accent-hover)}
+    table.lines td{color:#14181f;border-bottom-color:#eceef2}
+    table.lines th,table.lines tr.grp td{color:#454b57}
+    table.lines tr.grp td{background:#f6f7f9}
+    table.lines tr.total td{border-top-color:#c9ced8;color:#14181f}
+    .sig .line{border-top-color:#14181f}
+    .foot{border-top-color:#e3e6eb}
+    @page{margin:14mm}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <div class="brand">
+      <svg viewBox="0 0 24 24" width="28" height="28" role="img" aria-label="Axis Scale">
+        <rect x="2" y="13" width="9" height="9" rx="1.6" fill="#2A3347"></rect>
+        <rect x="13" y="13" width="9" height="9" rx="1.6" fill="#3A4660"></rect>
+        <rect x="2" y="2" width="9" height="9" rx="1.6" fill="#3A4660"></rect>
+        <rect x="13" y="2" width="9" height="9" rx="1.6" fill="#E91E8C"></rect>
+        <circle cx="17.5" cy="6.5" r="1.6" fill="#FFFFFF"></circle>
+      </svg>
+      <div class="name">Axis<b>·Scale</b><small>GRC engagement pricing</small></div>
+    </div>
+    <div class="bar-right no-print">
+      <div class="toggle cur">
+        <button id="curUSD" class="active" onclick="setCurrency('USD')">$ USD</button>
+        <button id="curILS" onclick="setCurrency('ILS')">₪ ILS</button>
+      </div>
+      <div class="toggle">
+        <button id="tabInternal" class="active" onclick="setView('internal')">Internal</button>
+        <button id="tabClient" onclick="setView('client')">Client SOW</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ INTERNAL VIEW ============ -->
+<div id="internalView">
+  <div class="wrap lead">
+    <h1>GRC engagement scoping &amp; pricing</h1>
+    <p>Configure the engagement below. Choose a <strong>pricing tier</strong> - Intro (first 3 clients) or Standard true-value - and a <strong>delivery structure</strong>: full-service, or the competitive <strong>self-serve + blitz</strong> model that reserves your hands-on capacity for one bounded month. All rates are STANDARD and editable under <em>Rate settings</em>. Switch to <strong>Client SOW</strong> for the shareable sheet.</p>
+  </div>
+
+  <div class="wrap grid">
+    <!-- INPUTS -->
+    <div class="card">
+      <div class="hd"><h3>Engagement inputs</h3><span class="pill teal" id="fwCount">0 frameworks</span></div>
+      <div class="bd">
+
+        <div class="section">
+          <div class="section-title">1 · Frameworks &amp; services</div>
+          <div class="chips" id="frameworkChips"></div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">2 · Client profile</div>
+          <label class="field">
+            <span class="lab">Company size (headcount)</span>
+            <div class="seg" id="segSize"></div>
+          </label>
+          <label class="field">
+            <span class="lab">Infrastructure complexity (cloud environments / major systems)</span>
+            <div class="seg" id="segInfra"></div>
+          </label>
+          <div class="row2">
+            <label class="field">
+              <span class="lab">Current maturity</span>
+              <div class="seg" id="segMaturity"></div>
+            </label>
+            <label class="field">
+              <span class="lab">Delivery model</span>
+              <div class="seg" id="segDelivery"></div>
+            </label>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">3 · Engagement type</div>
+          <div class="seg" id="segEngagement"></div>
+          <label class="field" style="margin-top:14px" id="structureWrap">
+            <span class="lab">Delivery structure</span>
+            <div class="seg" id="segStructure"></div>
+            <span class="hint" id="structureHint"></span>
+          </label>
+          <label class="field" style="margin-top:14px" id="durationWrap">
+            <span class="lab">Prep duration to first audit (months)</span>
+            <input type="number" id="duration" min="1" max="18" step="1">
+            <span class="hint" id="durationHint"></span>
+          </label>
+          <label class="field" style="margin-top:14px;display:none" id="leadUpWrap">
+            <span class="lab">Self-serve window before blitz (months)</span>
+            <input type="number" id="leadUp" min="1" max="15" step="1">
+            <span class="hint">The blitz is a bounded final month; this is the low-touch window before it.</span>
+          </label>
+        </div>
+
+        <div class="section">
+          <div class="section-title">4 · Add-ons</div>
+          <div class="chips" id="addonChips"></div>
+          <span class="hint">Click once to add (paid), again to gift it free, again to remove. Gifted add-ons appear in the SOW as complimentary with their value shown.</span>
+        </div>
+
+        <details class="rates no-print">
+          <summary>Rate settings <span class="pill gold">editable</span></summary>
+          <div class="rate-grid" id="rateGrid"></div>
+          <div class="rate-note">Changes persist in this browser. <a href="#" onclick="resetRates();return false;">Reset to defaults</a>. <span id="researchFlag"></span></div>
+        </details>
+
+      </div>
+    </div>
+
+    <!-- RESULTS -->
+    <div class="stick">
+      <div class="modetoggle" style="margin-bottom:8px">
+        <button id="tStandard" onclick="setTier('Standard')">Standard rate</button>
+        <button id="tIntro" class="active" onclick="setTier('Intro (first 3)')">Intro - first 3 clients</button>
+      </div>
+      <div class="modetoggle" id="modeWrap">
+        <button id="mMonthly" class="active" onclick="setPriceMode('monthly')">Monthly (recommended)</button>
+        <button id="mFixed" onclick="setPriceMode('fixed')">Fixed-fee</button>
+      </div>
+
+      <div class="hero">
+        <div class="k" id="heroLabel">Blended monthly</div>
+        <div class="big tab-num" id="heroBig"> - </div>
+        <div class="sub" id="heroSub"></div>
+        <div class="split">
+          <div><div class="k2" id="s1k">Prep total</div><div class="v2 tab-num" id="s1v"> - </div></div>
+          <div><div class="k2" id="s2k">Then continuous</div><div class="v2 tab-num" id="s2v"> - </div></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:16px">
+        <div class="hd"><h3>Deliverables &amp; allocation</h3></div>
+        <div class="bd" style="padding:12px 14px">
+          <table class="lines"><tbody id="linesBody"></tbody></table>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:16px">
+        <div class="hd"><h3>vs. traditional route</h3><span class="pill">year 1</span></div>
+        <div class="bd" style="padding:14px">
+          <div class="cmp" id="cmpBox"></div>
+          <p class="hint" style="margin-top:10px">Auditor/assessor fees are separate and comparable in both routes; you coordinate them.</p>
+        </div>
+      </div>
+
+      <div class="toolbar no-print">
+        <button class="btn primary" onclick="setView('client')">Preview client SOW</button>
+        <button class="btn ghost" onclick="window.print()">Print / Save PDF</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ CLIENT SOW VIEW ============ -->
+<div id="clientView">
+  <div class="wrap no-print" style="padding-top:20px">
+    <button class="btn ghost" onclick="setView('internal')">Back to editor</button>
+    <button class="btn primary" style="margin-left:8px" onclick="window.print()">Print / Save PDF</button>
+  </div>
+  <div class="doc" id="doc">
+    <div class="dhead">
+      <div class="b">
+        <svg viewBox="0 0 24 24" width="38" height="38" role="img" aria-label="Axis Scale">
+          <rect x="2" y="13" width="9" height="9" rx="1.6" fill="#2A3347"></rect>
+          <rect x="13" y="13" width="9" height="9" rx="1.6" fill="#3A4660"></rect>
+          <rect x="2" y="2" width="9" height="9" rx="1.6" fill="#3A4660"></rect>
+          <rect x="13" y="2" width="9" height="9" rx="1.6" fill="#E91E8C"></rect>
+          <circle cx="17.5" cy="6.5" r="1.6" fill="#FFFFFF"></circle>
+        </svg>
+        <div><h2>Axis<b>·Scale</b></h2><small>Governance · Risk · Compliance</small></div>
+      </div>
+      <div class="meta">
+        <div><strong>Statement of Work - Pricing</strong></div>
+        <div id="docDate"></div>
+        <div id="docValid"></div>
+      </div>
+    </div>
+    <div class="dbody" id="docBody"></div>
+    <div class="foot">
+      <span>Axis·Scale · axis-scale.com · eleanor@axis-scale.com</span>
+      <span>Confidential - prepared for prospective client</span>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   PRICING CONFIG  - single source of truth (editable in UI)
+   Calibrated to 2026 market research (2026-07-20). Delivery is
+   expert-led and MANUAL (platform = organized system of record,
+   not automation). Market refs: SOC 2 svc $30-60k, ISO 27001
+   $40-80k, vCISO $4-15k/mo by size, GRC consulting $150-400/hr,
+   continuous SOC 2 ~$24-48k/yr (high-touch) vs SMB retainer
+   $8-18k/yr (lighter). Blended prep base kept at $4k/mo anchor.
+   ============================================================ */
+const DEFAULTS = {
+  engine:{
+    // STANDARD tier = true value. Intro tier applies introFactor to service fees only.
+    prepBaseMonthly:6000,        // full-service blended monthly, advisory baseline, small 1 fw (STANDARD)
+    perExtraFrameworkPrep:1500,  // added to monthly per extra framework (overlap-discounted)
+    continuousBaseMonthly:1800,  // post-audit steady-state, 1 framework, small (lighter touch than prep)
+    perExtraFrameworkContinuous:500,
+    vcisoBaseMonthly:7500,       // bundles GRC + leadership; scales by size (mkt $4-15k/mo)
+    fixedFeePremium:0.15,        // markup when packaged as one fixed fee
+    rangePct:0.15,               // +/- shown on headline figure
+    fxRate:3,                    // USD -> ILS (editable; live market ~3.7)
+    introFactor:0.65,            // "first 3 clients" discount, applied to service fees (not platform/self-serve)
+    // ---- Self-serve + blitz structure ----
+    kickoffFee:3000,             // upfront scoping/onboarding sprint (Axis-Scale-led)
+    selfServeBaseMonthly:249,    // = standalone self-serve platform rate ($249/mo); platform is INCLUDED in full-service/vCISO
+    selfServePerExtra:0,         // platform is flat across frameworks
+    blitzBaseFee:14000,          // bounded audit-readiness blitz month, HANDS-ON, full capacity, small 1 fw (STANDARD)
+    blitzPerExtra:3000           // + per extra framework on the blitz
+  },
+  mult:{
+    size:{'<25':0.9,'25-50':1.0,'51-200':1.35,'201-500':1.8,'500+':2.4},
+    sizeCont:{'<25':0.9,'25-50':1.0,'51-200':1.25,'201-500':1.55,'500+':2.0}, // compressed for retainer
+    infra:{'1':1.0,'2-3':1.2,'4-6':1.45,'7+':1.75},
+    maturity:{'None':1.35,'Partial':1.0,'Mature':0.8},
+    delivery:{'Advisory':1.0,'Hands-on':1.5}
+  },
+  // Type II adds continuous evidence work across the observation window
+  type2ContSurcharge:400
+};
+
+// Frameworks: prep months (default duration), market-route anchors (year1), deliverables w/ weights
+const FRAMEWORKS = {
+  soc2t1:{label:'SOC 2 Type I', months:3, consultant:18000, auditor:10000,
+    deliv:[['TSC selection & system description (Section III)',2],['Control mapping to TSC points of focus',2],['Point-in-time control design assessment',2]]},
+  soc2t2:{label:'SOC 2 Type II', months:4, consultant:30000, auditor:20000,
+    deliv:[['TSC selection & system description (Section III)',2],['Control mapping to TSC points of focus',2],['Observation-window operating-effectiveness monitoring',3],['Evidence sampling & control-operation review',2]]},
+  soc1t1:{label:'SOC 1 Type I', months:3, consultant:20000, auditor:12000,
+    deliv:[['Control objectives definition (ICFR-relevant)',2],['System description mapped to control objectives',2],['CUECs identification',1],['Point-in-time control design assessment',2]]},
+  soc1t2:{label:'SOC 1 Type II', months:4, consultant:32000, auditor:22000,
+    deliv:[['Control objectives definition (ICFR-relevant)',2],['System description mapped to control objectives',2],['CUECs identification',1],['ITGC operating-effectiveness monitoring',3]]},
+  iso27001:{label:'ISO 27001', months:5, consultant:40000, auditor:20000,
+    deliv:[['ISMS scope & Statement of Applicability (SoA)',3],['Annex A (93 controls) mapping',3],['Clauses 4–10 documentation',2],['Risk assessment & treatment plan',2],['Internal audit program & management review',2],['Stage 1 & Stage 2 certification-audit support',2]]},
+  iso42001:{label:'ISO 42001 (AI)', months:5, consultant:40000, auditor:22000,
+    deliv:[['AIMS scope & Statement of Applicability (SoA)',3],['Annex A AI controls mapping',3],['Clauses 4–10 documentation',2],['AI risk & system impact assessment (AIA)',3],['AI policy, governance & lifecycle controls',2],['Internal audit & management review',2],['Stage 1 & Stage 2 certification-audit support',2]]},
+  pci:{label:'PCI DSS', months:4, consultant:30000, auditor:20000,
+    deliv:[['CDE scoping & data-flow diagrams',2],['Merchant level / SAQ-vs-RoC determination',1],['12-requirements gap assessment',3],['Segmentation & compensating-controls documentation',2],['ASV scan & penetration test coordination',1],['SAQ completion / QSA liaison & AoC',2]]},
+  gdpr:{label:'GDPR', months:3, consultant:20000, auditor:0,
+    deliv:[['Data mapping & RoPA (Art. 30)',3],['Lawful-basis assessment & DPIAs',2],['DSAR process design',1],['Privacy notices & DPA review',2],['International-transfer mechanisms (SCCs)',1],['Breach-notification (72h) procedure',1]]}
+};
+
+// Shared spine - included in every engagement (except pure vCISO)
+const SHARED = [
+  ['Kickoff & scoping workshop',1],
+  ['Gap assessment & readiness report',2],
+  ['Internal audit - independent controls audit against the framework',3],
+  ['Remediation roadmap (prioritized)',1],
+  ['Policy & procedure suite',2],
+  ['Risk assessment & risk register',2],
+  ['Control build-out & evidence management in the Axis·Scale platform',3],
+  ['Vendor / third-party risk review',1],
+  ['Security awareness training rollout',1],
+  ['Pre-audit readiness review (dry run)',2],
+  ['Auditor/assessor selection & liaison',1]
+];
+
+// Add-on prices reduced 20% from list; each can be included paid or gifted (complimentary)
+const ADDONS = {
+  policy:{label:'Full policy authoring',price:3600,weight:2,deliv:'Full policy & procedure authoring (bespoke)'},
+  liaison:{label:'Auditor liaison surge',price:4000,weight:2,deliv:'Dedicated audit-fieldwork liaison & PBC management'},
+  pentest:{label:'Pen-test coordination',price:2000,weight:1,deliv:'Penetration test scoping & vendor coordination'},
+  evidence:{label:'Hands-on evidence collection',price:4800,weight:2,deliv:'Hands-on evidence collection & documentation'},
+  tprm:{label:'Vendor/TPRM program',price:2800,weight:2,deliv:'Third-party risk management program build-out'}
+};
+
+const SIZE_OPTS=['<25','25-50','51-200','201-500','500+'];
+const INFRA_OPTS=['1','2-3','4-6','7+'];
+const MATURITY_OPTS=['None','Partial','Mature'];
+const DELIVERY_OPTS=['Advisory','Hands-on'];
+const ENGAGEMENT_OPTS=['Prep to audit','Continuous only','vCISO'];
+const STRUCTURE_OPTS=['Full-service','Self-serve + blitz'];
+const TIER_OPTS=['Standard','Intro (first 3)'];
+
+// Self-serve + blitz phase deliverables
+const KICKOFF_ITEMS=['Kickoff & scoping workshop','Scope / boundary definition & gap assessment','Platform onboarding & control implementation plan'];
+const SELFSERVE_ITEMS=['Control build-out & evidence capture in the Axis·Scale platform (client-led)','Policy & procedure suite (guided templates)','Risk assessment & risk register upkeep','Control operation across the observation window','Capped support - monthly check-in + async Q&A'];
+const BLITZ_ITEMS=['Internal audit - full controls audit against the framework','Evidence completeness review & remediation punch-list','Pre-audit readiness dry run','PBC (prepared-by-client) list preparation','Auditor / assessor selection & fieldwork liaison'];
+
+const PLATFORM_TOOLING_YR=10000; // traditional route: standalone compliance tooling, counted once
+
+/* ---------------- state ---------------- */
+let rates=load('grc_rates'); if(!rates||!rates.engine||rates.engine.introFactor===undefined||rates.engine.blitzBaseFee===undefined){rates=JSON.parse(JSON.stringify(DEFAULTS));}
+let state=load('grc_state')||{
+  frameworks:['soc2t2'], size:'25-50', infra:'2-3', maturity:'Partial',
+  delivery:'Advisory', engagement:'Prep to audit', duration:null, addons:{}, priceMode:'monthly', currency:'USD',
+  structure:'Full-service', leadUpMonths:null, tier:'Intro (first 3)'
+};
+if(!state.currency) state.currency='USD';
+if(!state.structure) state.structure='Full-service';
+if(!state.tier) state.tier='Intro (first 3)';
+// migrate addons array -> {key:'paid'|'gift'} object
+if(Array.isArray(state.addons)){var _a={};state.addons.forEach(function(k){_a[k]='paid'});state.addons=_a;}
+if(!state.addons||typeof state.addons!=='object') state.addons={};
+let view='internal';
+
+function load(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}}
+function save(){localStorage.setItem('grc_rates',JSON.stringify(rates));localStorage.setItem('grc_state',JSON.stringify(state))}
+
+/* ---------------- currency ---------------- */
+function fx(){return state.currency==='ILS'?(rates.engine.fxRate||3):1}
+function sym(){return state.currency==='ILS'?'₪':'$'}
+function money(n){var v=n*fx(); v = state.currency==='ILS' ? Math.round(v/5)*5 : Math.round(v); return sym()+v.toLocaleString('en-US')}
+function moneyK(n){return sym()+(Math.round(n*fx()/100)/10).toLocaleString('en-US')+'k'}
+
+/* ---------------- engine ---------------- */
+function selectedFrameworks(){return state.frameworks.filter(f=>FRAMEWORKS[f])}
+function anyType2(){return state.frameworks.some(f=>f==='soc2t2'||f==='soc1t2')}
+
+function defaultDuration(){
+  const fw=selectedFrameworks();
+  if(!fw.length) return 3;
+  const base=Math.max(...fw.map(f=>FRAMEWORKS[f].months));
+  const extra=Math.max(0,fw.length-1);
+  const mat=state.maturity==='None'?1:0;
+  return base+extra+mat;
+}
+
+function compute(){
+  const e=rates.engine, m=rates.mult;
+  const fw=selectedFrameworks();
+  const n=fw.length;
+  const isV=state.engagement==='vCISO';
+  const isCont=state.engagement==='Continuous only';
+
+  const sizeMult=m.size[state.size]||1, infraMult=m.infra[state.infra]||1;
+  const matMult=m.maturity[state.maturity]||1, delMult=m.delivery[state.delivery]||1;
+  const sizeContMult=m.sizeCont[state.size]||1;
+
+  const extraFw=Math.max(0,n-1);
+  const intro = state.tier==='Intro (first 3)' ? (e.introFactor||1) : 1; // applies to service fees only
+  const isSS = !isV && !isCont && state.structure==='Self-serve + blitz';
+
+  const prepMonthly=(e.prepBaseMonthly+extraFw*e.perExtraFrameworkPrep)*sizeMult*infraMult*matMult*delMult*intro;
+  const duration=state.duration||defaultDuration();
+
+  let addonTotal=0, addonGiftValue=0;
+  addonKeys().forEach(k=>{ if(state.addons[k]==='gift') addonGiftValue+=ADDONS[k].price; else addonTotal+=ADDONS[k].price; });
+  const prepTotal=prepMonthly*duration+addonTotal;
+
+  // ---- Self-serve + blitz ----
+  const leadUp = state.leadUpMonths || Math.max(2, duration-1);
+  const kickoff = e.kickoffFee*intro;
+  const selfServeMonthly = (e.selfServeBaseMonthly+extraFw*e.selfServePerExtra)*sizeContMult; // platform, not discounted
+  const blitzDelFactor = state.delivery==='Hands-on'?1:0.7; // blitz intensity = delivery model
+  const blitzFee = (e.blitzBaseFee+extraFw*e.blitzPerExtra)*sizeMult*infraMult*blitzDelFactor*intro;
+  const ssTotal = kickoff + selfServeMonthly*leadUp + blitzFee + addonTotal;
+
+  let contMonthly=(e.continuousBaseMonthly+extraFw*e.perExtraFrameworkContinuous)*sizeContMult; // ongoing, standard both tiers
+  if(anyType2()) contMonthly+=(DEFAULTS.type2ContSurcharge||0);
+
+  const vciso=e.vcisoBaseMonthly*sizeMult;
+  const fixed=prepTotal*(1+e.fixedFeePremium);
+
+  let tradConsult=0, tradAuditor=0;
+  fw.forEach(f=>{tradConsult+=FRAMEWORKS[f].consultant;tradAuditor+=FRAMEWORKS[f].auditor});
+  const tradTooling=n?PLATFORM_TOOLING_YR:0;
+  const tradFees=tradTooling+tradConsult; // excl auditor (comparable both sides)
+
+  return {n,isV,isCont,isSS,intro,prepMonthly,duration,addonTotal,addonGiftValue,prepTotal,
+          leadUp,kickoff,selfServeMonthly,blitzFee,ssTotal,
+          contMonthly,vciso,fixed,tradTooling,tradConsult,tradAuditor,tradFees};
+}
+
+function buildLines(c){
+  const fw=selectedFrameworks();
+  if(c.isV){
+    const items=[
+      ['Security program strategy & roadmap',3],['Board / leadership reporting',2],
+      ['Ongoing risk & policy governance',3],['Incident-response leadership',2],['Budget & tooling guidance',2],
+      ['Framework oversight & audit management',3]
+    ];
+    return allocate([['vCISO retainer (monthly scope)',items]], c.vciso);
+  }
+  if(c.isSS){
+    const rows=[];
+    const phase=(title,items,price)=>{
+      rows.push({grp:title});
+      items.forEach(it=>rows.push({name:it, price: items.length? price/items.length : 0}));
+    };
+    phase('Kickoff & scoping - Axis·Scale-led', KICKOFF_ITEMS, c.kickoff);
+    phase('Self-serve window - client-led · '+c.leadUp+' mo', SELFSERVE_ITEMS, c.selfServeMonthly*c.leadUp);
+    const blitzItems = BLITZ_ITEMS.concat(fw.map(f=>FRAMEWORKS[f].label+' - final readiness & control validation'));
+    phase('Audit-readiness blitz - Axis·Scale-led ('+(state.delivery==='Hands-on'?'hands-on':'advisory')+')', blitzItems, c.blitzFee);
+    if(addonKeys().length){ rows.push({grp:'Add-ons'}); addonLineRows().forEach(r=>rows.push(r)); }
+    return rows;
+  }
+  const groups=[];
+  groups.push(['Program foundation', SHARED.slice()]);
+  fw.forEach(f=>groups.push([FRAMEWORKS[f].label, FRAMEWORKS[f].deliv.slice()]));
+  const total=c.isCont? c.contMonthly*12 : c.prepTotal;
+  const coreTotal = total - (c.addonTotal||0); // add-ons listed at their actual price, not weight-allocated
+  const rows2 = allocate(groups, coreTotal);
+  if(addonKeys().length){ rows2.push({grp:'Add-ons'}); addonLineRows().forEach(r=>rows2.push(r)); }
+  return rows2;
+}
+
+function allocate(groups, total){
+  let W=0; groups.forEach(g=>g[1].forEach(it=>W+=it[1]));
+  const out=[];
+  groups.forEach(g=>{
+    out.push({grp:g[0]});
+    g[1].forEach(it=>out.push({name:it[0], price: W? total*it[1]/W : 0}));
+  });
+  return out;
+}
+
+/* ---------------- render ---------------- */
+function render(){
+  const c=compute();
+  document.getElementById('fwCount').textContent=c.n+' framework'+(c.n===1?'':'s');
+  const heroLabel=document.getElementById('heroLabel');
+  const heroBig=document.getElementById('heroBig');
+  const heroSub=document.getElementById('heroSub');
+  const s1k=document.getElementById('s1k'),s1v=document.getElementById('s1v');
+  const s2k=document.getElementById('s2k'),s2v=document.getElementById('s2v');
+
+  if(c.n===0 && !c.isV){
+    heroLabel.textContent='Blended monthly';
+    heroBig.textContent=' - '; heroSub.textContent='Select at least one framework';
+    s1v.textContent=' - '; s2v.textContent=' - ';
+  } else if(c.isV){
+    heroLabel.textContent='vCISO retainer'; heroBig.textContent=money(c.vciso)+'/mo';
+    heroSub.textContent='12-month term · 60-day notice · bundles GRC + leadership';
+    s1k.textContent='Annualized'; s1v.textContent=money(c.vciso*12);
+    s2k.textContent='Setup'; s2v.textContent='Included';
+  } else if(c.isCont){
+    heroLabel.textContent='Continuous compliance'; heroBig.textContent=money(c.contMonthly)+'/mo';
+    heroSub.textContent='Post-audit steady-state · keeps you audit-ready';
+    s1k.textContent='Annualized'; s1v.textContent=money(c.contMonthly*12);
+    s2k.textContent='Frameworks'; s2v.textContent=c.n;
+  } else if(c.isSS){
+    heroLabel.textContent='Self-serve + blitz'+(state.tier==='Intro (first 3)'?' · intro':'');
+    heroBig.textContent=money(c.ssTotal);
+    heroSub.textContent=c.leadUp+'-mo self-serve + 1-mo blitz → then '+money(c.contMonthly)+'/mo continuous';
+    s1k.textContent='Blitz month'; s1v.textContent=money(c.blitzFee);
+    s2k.textContent='Self-serve / mo'; s2v.textContent=money(c.selfServeMonthly);
+  } else if(state.priceMode==='fixed'){
+    heroLabel.textContent='Fixed engagement fee';
+    heroBig.textContent=money(c.fixed);
+    heroSub.textContent=c.duration+'-month prep · one fixed price';
+    s1k.textContent='Then continuous'; s1v.textContent=money(c.contMonthly)+'/mo';
+    s2k.textContent='Range'; s2v.textContent=moneyK(c.fixed*(1-rates.engine.rangePct))+'–'+moneyK(c.fixed*(1+rates.engine.rangePct));
+  } else {
+    heroLabel.textContent='Blended monthly';
+    heroBig.textContent=money(c.prepMonthly)+'/mo';
+    heroSub.textContent=c.duration+'-month prep → '+money(c.prepTotal)+' total'+(c.addonTotal?' (incl. add-ons)':'');
+    s1k.textContent='Prep total'; s1v.textContent=money(c.prepTotal);
+    s2k.textContent='Then continuous'; s2v.textContent=money(c.contMonthly)+'/mo';
+  }
+
+  const lb=document.getElementById('linesBody'); lb.innerHTML='';
+  if(c.n===0 && !c.isV){ lb.innerHTML='<tr><td class="empty">Configure the engagement to see deliverables</td></tr>'; }
+  else{
+    buildLines(c).forEach(l=>{
+      const tr=document.createElement('tr');
+      if(l.grp){tr.className='grp';tr.innerHTML='<td colspan="2">'+l.grp+'</td>';}
+      else{tr.innerHTML='<td>'+l.name+'</td><td class="p">'+money(l.price)+'</td>';}
+      lb.appendChild(tr);
+    });
+    const totalVal=c.isV?c.vciso:(c.isCont?c.contMonthly*12:(c.isSS?c.ssTotal:(state.priceMode==='fixed'?c.fixed:c.prepTotal)));
+    const totalLbl=c.isV?'Total / mo':(c.isCont?'Total / yr':'Engagement total');
+    const tr=document.createElement('tr');tr.className='total';
+    tr.innerHTML='<td>'+totalLbl+'</td><td class="p">'+money(totalVal)+'</td>';lb.appendChild(tr);
+  }
+
+  renderCmp(c);
+  renderDoc(c);
+  save();
+}
+
+function renderCmp(c){
+  const box=document.getElementById('cmpBox');
+  if(c.n===0 || c.isV){box.innerHTML='<div class="row"><span>Add frameworks to compare</span><span class="v"></span></div>';return;}
+  const ours=c.isCont? c.contMonthly*12 : (c.isSS? c.ssTotal : c.prepTotal);
+  const trad=c.tradFees;
+  const sv=trad-ours;
+  const pct=trad? Math.round(sv/trad*100):0;
+  let h='';
+  h+='<div class="row head"><span>Traditional route (year 1)</span><span class="v"></span></div>';
+  h+='<div class="row"><span>Compliance tooling (standalone)</span><span class="v">'+money(c.tradTooling)+'</span></div>';
+  h+='<div class="row"><span>Independent consultant(s), $150–400/hr</span><span class="v">'+money(c.tradConsult)+'</span></div>';
+  h+='<div class="row"><span><strong>Traditional total (fees + tooling)</strong></span><span class="v">'+money(trad)+'</span></div>';
+  h+='<div class="row head"><span>Axis·Scale bundled offer</span><span class="v"></span></div>';
+  h+='<div class="row"><span>Platform + expert service (one price)</span><span class="v">'+money(ours)+'</span></div>';
+  if(sv>0) h+='<div class="row save"><span>Client saves</span><span class="v">'+money(sv)+' ('+pct+'%)</span></div>';
+  else h+='<div class="row"><span>Premium vs. traditional</span><span class="v">'+money(-sv)+'</span></div>';
+  box.innerHTML=h;
+}
+
+/* ---------------- client doc ---------------- */
+function renderDoc(c){
+  const body=document.getElementById('docBody');
+  document.getElementById('docDate').textContent='Prepared '+ new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+  const valid=new Date(); valid.setDate(valid.getDate()+30);
+  document.getElementById('docValid').textContent='Valid until '+valid.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+
+  if(c.n===0 && !c.isV){body.innerHTML='<p class="intro">Select frameworks in the editor to generate the SOW.</p>';return;}
+
+  const fwNames=selectedFrameworks().map(f=>FRAMEWORKS[f].label).join(', ');
+  let h='';
+  h+='<h3 class="dt">Engagement summary</h3>';
+  if(c.isV){
+    h+='<p class="intro">Axis·Scale will act as your fractional Chief Information Security Officer, owning your security and compliance program end-to-end - including oversight of any framework certifications - with everything tracked in the Axis·Scale platform.</p>';
+  }else if(c.isCont){
+    h+='<p class="intro">Axis·Scale will maintain your continuous compliance posture across <strong>'+fwNames+'</strong>, keeping controls operating, evidence current, and your organization audit-ready year-round - managed hands-on by our team in the Axis·Scale platform.</p>';
+  }else if(c.isSS){
+    h+='<p class="intro">Axis·Scale will take your organization to audit-ready across <strong>'+fwNames+'</strong> in two phases. During a <strong>'+c.leadUp+'-month self-serve window</strong>, your team builds controls and captures evidence directly in the Axis·Scale platform with capped support from us. We then run a bounded, '+(state.delivery==='Hands-on'?'hands-on':'advisory-led')+' <strong>audit-readiness blitz</strong> - evidence review, a full dry run, PBC preparation, and auditor liaison - to carry you into fieldwork.</p>';
+  }else{
+    h+='<p class="intro">Axis·Scale will take your organization from current state to audit-ready across <strong>'+fwNames+'</strong> over an estimated <strong>'+c.duration+'-month</strong> engagement. Delivery is expert-led and hands-on, with every control, policy, and piece of evidence organized in the Axis·Scale platform as your single system of record - managed end-to-end by one accountable partner.</p>';
+  }
+
+  h+='<h3 class="dt">Investment</h3>';
+  h+='<div class="invest">';
+  if(c.isV){
+    h+='<div class="box hl"><div class="k">Monthly retainer</div><div class="v tab-num">'+money(c.vciso)+'</div><div class="s">12-month term · 60-day notice</div></div>';
+    h+='<div class="box"><div class="k">Annualized</div><div class="v tab-num">'+money(c.vciso*12)+'</div><div class="s">All-inclusive</div></div>';
+  }else if(c.isCont){
+    h+='<div class="box hl"><div class="k">Monthly</div><div class="v tab-num">'+money(c.contMonthly)+'</div><div class="s">Continuous compliance</div></div>';
+    h+='<div class="box"><div class="k">Annualized</div><div class="v tab-num">'+money(c.contMonthly*12)+'</div><div class="s">12-month term</div></div>';
+  }else if(c.isSS){
+    h+='<div class="box hl"><div class="k">Engagement total</div><div class="v tab-num">'+money(c.ssTotal)+'</div><div class="s">'+c.leadUp+'-mo self-serve + blitz'+(state.tier==='Intro (first 3)'?' · intro pricing':'')+'</div></div>';
+    h+='<div class="box"><div class="k">Audit-readiness blitz</div><div class="v tab-num">'+money(c.blitzFee)+'</div><div class="s">bounded month · '+(state.delivery==='Hands-on'?'hands-on':'advisory')+'</div></div>';
+  }else if(state.priceMode==='fixed'){
+    h+='<div class="box hl"><div class="k">Fixed engagement fee</div><div class="v tab-num">'+money(c.fixed)+'</div><div class="s">'+c.duration+'-month prep, one price</div></div>';
+    h+='<div class="box"><div class="k">Then continuous</div><div class="v tab-num">'+money(c.contMonthly)+'<span style="font-size:14px">/mo</span></div><div class="s">Post-audit, keeps you ready</div></div>';
+  }else{
+    h+='<div class="box hl"><div class="k">Blended monthly</div><div class="v tab-num">'+money(c.prepMonthly)+'<span style="font-size:14px">/mo</span></div><div class="s">Platform + expert service · '+c.duration+'-month prep</div></div>';
+    h+='<div class="box"><div class="k">Then continuous</div><div class="v tab-num">'+money(c.contMonthly)+'<span style="font-size:14px">/mo</span></div><div class="s">Post-audit compliance</div></div>';
+  }
+  h+='</div>';
+  if(c.isSS){
+    h+='<p class="assume" style="margin-top:10px">Breakdown: kickoff '+money(c.kickoff)+' · self-serve '+money(c.selfServeMonthly)+'/mo × '+c.leadUp+' mo ('+money(c.selfServeMonthly*c.leadUp)+') · audit-readiness blitz '+money(c.blitzFee)+(c.addonTotal?' · add-ons '+money(c.addonTotal):'')+'. Then '+money(c.contMonthly)+'/mo continuous. Auditor/assessor fees are billed separately by the independent audit firm.</p>';
+  }else if(!c.isV && !c.isCont){
+    h+='<p class="assume" style="margin-top:10px">Estimated engagement total: <strong>'+money(state.priceMode==='fixed'?c.fixed:c.prepTotal)+'</strong>'+(c.addonTotal?' (includes '+money(c.addonTotal)+' add-ons)':'')+'. Auditor/assessor fees are billed separately by the independent audit firm; Axis·Scale coordinates selection and fieldwork.</p>';
+  }
+
+  if(c.addonGiftValue>0){ h+='<p class="assume" style="margin-top:6px">Includes <strong>'+money(c.addonGiftValue)+'</strong> in complimentary add-ons at no charge - itemized in scope below.</p>'; }
+
+  h+='<h3 class="dt">Scope &amp; deliverables</h3>';
+  h+='<table class="lines"><thead><tr><th>Deliverable</th><th style="text-align:right">Allocation</th></tr></thead><tbody>';
+  buildLines(c).forEach(l=>{
+    if(l.grp) h+='<tr class="grp"><td colspan="2">'+l.grp+'</td></tr>';
+    else h+='<tr><td>'+l.name+'</td><td class="p">'+money(l.price)+'</td></tr>';
+  });
+  h+='</tbody></table>';
+
+  if(!c.isV){
+    const ours=c.isCont? c.contMonthly*12 : (c.isSS? c.ssTotal : c.prepTotal);
+    const sv=c.tradFees-ours;
+    if(sv>0){
+      h+='<h3 class="dt">Why this is competitive</h3>';
+      h+='<p class="intro">The traditional path pairs a standalone tool license (~'+money(c.tradTooling)+') with independent consultants billing $150–400/hr (typically '+money(c.tradConsult)+' for this scope) - and hourly work means unpredictable totals. Axis·Scale bundles expert-led delivery and the platform into one predictable price of <strong>'+money(ours)+'</strong>: the same outcome, managed end-to-end by a single accountable partner, without hourly surprises.</p>';
+    }
+  }
+
+  h+='<h3 class="dt">Assumptions &amp; exclusions</h3>';
+  h+='<ul class="excl">';
+  h+='<li>Pricing assumes a '+state.size+'-employee organization with '+state.infra+' primary environment(s) and <strong>'+state.maturity.toLowerCase()+'</strong> existing control maturity.</li>';
+  h+='<li>Delivery model: <strong>'+state.delivery+'</strong>'+(state.delivery==='Advisory'?' - Axis·Scale advises and guides; client team performs implementation tasks.':' - Axis·Scale performs implementation directly, hands-on.')+'</li>';
+  if(c.isSS){
+    h+='<li><strong>Self-serve window:</strong> the client performs control build-out and evidence capture on the Axis·Scale platform, with capped support (monthly check-in + async Q&amp;A). The audit-readiness blitz fee assumes the platform has reached agreed completeness before the blitz begins; material gaps are re-scoped or handled via a remediation add-on.</li>';
+    if(anyType2()) h+='<li><strong>Observation window:</strong> SOC 2 / SOC 1 Type II requires controls to operate over the observation period. The self-serve window is that period; the blitz is the pre-fieldwork readiness push and does not shorten the required window.</li>';
+  }
+  if(state.tier==='Intro (first 3)') h+='<li><strong>Introductory pricing</strong> is reserved for early partner clients; standard rates apply to renewals and subsequent scopes.</li>';
+  h+='<li>Independent audit/assessment fees'+(c.tradAuditor?' (estimated '+money(c.tradAuditor)+' for this scope, billed directly by the audit firm)':'')+', penetration testing, and third-party tooling licenses (outside the Axis·Scale platform) are excluded unless listed as add-ons.</li>';
+  h+='<li>Scope changes - additional frameworks, new product lines, M&amp;A, or incident response - are quoted separately.</li>';
+  h+='<li>Continuous-compliance term: 12 months, 60-day notice. Prep timeline is an estimate contingent on timely client input.</li>';
+  h+='</ul>';
+
+  h+='<div class="sig"><div class="line">Axis·Scale - authorized signatory &amp; date</div><div class="line">Client - authorized signatory &amp; date</div></div>';
+
+  body.innerHTML=h;
+}
+
+/* ---------------- UI wiring ---------------- */
+function buildControls(){
+  const fc=document.getElementById('frameworkChips'); fc.innerHTML='';
+  Object.keys(FRAMEWORKS).forEach(k=>{
+    const on=state.frameworks.includes(k);
+    const el=document.createElement('div');
+    el.className='chip'+(on?' on':''); el.innerHTML='<span class="dot"></span>'+FRAMEWORKS[k].label;
+    el.onclick=()=>{toggle(state.frameworks,k); render(); buildControls();};
+    fc.appendChild(el);
+  });
+  const ac=document.getElementById('addonChips'); ac.innerHTML='';
+  Object.keys(ADDONS).forEach(k=>{
+    const mode=state.addons[k];
+    const el=document.createElement('div');
+    el.className='chip'+(mode==='paid'?' on':'')+(mode==='gift'?' gift':'');
+    const tag = mode==='gift' ? ' · gift (free)' : ' · '+money(ADDONS[k].price);
+    el.innerHTML='<span class="dot"></span>'+ADDONS[k].label+tag;
+    el.onclick=()=>{cycleAddon(k); render(); buildControls();};
+    ac.appendChild(el);
+  });
+  seg('segSize',SIZE_OPTS,state.size,v=>{state.size=v});
+  seg('segInfra',INFRA_OPTS,state.infra,v=>{state.infra=v});
+  seg('segMaturity',MATURITY_OPTS,state.maturity,v=>{state.maturity=v});
+  seg('segDelivery',DELIVERY_OPTS,state.delivery,v=>{state.delivery=v});
+  seg('segEngagement',ENGAGEMENT_OPTS,state.engagement,v=>{state.engagement=v;updateStructureVis()});
+  seg('segStructure',STRUCTURE_OPTS,state.structure,v=>{const prev=state.structure;state.structure=v;if(v==='Self-serve + blitz'&&prev!==v)state.delivery='Hands-on';updateStructureVis();});
+  updateStructureVis();
+  const d=document.getElementById('duration');
+  d.value=state.duration||defaultDuration();
+  document.getElementById('durationHint').textContent='Suggested: '+defaultDuration()+' months for this profile';
+  d.oninput=()=>{state.duration=parseInt(d.value)||defaultDuration(); render();};
+  const lu=document.getElementById('leadUp');
+  lu.value=state.leadUpMonths||Math.max(2,(state.duration||defaultDuration())-1);
+  lu.oninput=()=>{state.leadUpMonths=parseInt(lu.value)||null; render();};
+  buildRates();
+  document.getElementById('mMonthly').classList.toggle('active',state.priceMode==='monthly');
+  document.getElementById('mFixed').classList.toggle('active',state.priceMode==='fixed');
+  document.getElementById('tStandard').classList.toggle('active',state.tier==='Standard');
+  document.getElementById('tIntro').classList.toggle('active',state.tier==='Intro (first 3)');
+  document.getElementById('curUSD').classList.toggle('active',state.currency==='USD');
+  document.getElementById('curILS').classList.toggle('active',state.currency==='ILS');
+}
+
+function seg(id,opts,cur,set){
+  const el=document.getElementById(id); el.innerHTML='';
+  opts.forEach(o=>{
+    const b=document.createElement('div'); b.className='opt'+(o===cur?' on':''); b.textContent=o;
+    b.onclick=()=>{set(o); render(); buildControls();};
+    el.appendChild(b);
+  });
+}
+function updateStructureVis(){
+  const isPrep = state.engagement==='Prep to audit';
+  const isSS = isPrep && state.structure==='Self-serve + blitz';
+  document.getElementById('structureWrap').style.display = isPrep?'block':'none';
+  document.getElementById('durationWrap').style.display = (isPrep && !isSS)?'block':'none';
+  document.getElementById('leadUpWrap').style.display = isSS?'block':'none';
+  document.getElementById('modeWrap').style.display = (isPrep && !isSS)?'flex':'none';
+  document.getElementById('structureHint').textContent = isSS
+    ? 'Client works the platform during a low-touch window; you run a bounded audit-readiness blitz. Delivery model above = blitz intensity.'
+    : 'Axis·Scale-led throughout the prep months.';
+}
+function toggle(arr,k){const i=arr.indexOf(k); if(i>=0)arr.splice(i,1); else arr.push(k);}
+function addonKeys(){return Object.keys(state.addons).filter(k=>ADDONS[k])}
+function cycleAddon(k){const m=state.addons[k]; if(!m)state.addons[k]='paid'; else if(m==='paid')state.addons[k]='gift'; else delete state.addons[k];}
+function addonLineRows(){return addonKeys().map(k=>{const gift=state.addons[k]==='gift'; return {name:ADDONS[k].deliv+(gift?' - complimentary (value '+money(ADDONS[k].price)+')':''), price:gift?0:ADDONS[k].price};});}
+
+function buildRates(){
+  const g=document.getElementById('rateGrid'); g.innerHTML='';
+  const e=rates.engine;
+  const flds=[
+    ['prepBaseMonthly','Prep base / mo - STANDARD (USD)'],['perExtraFrameworkPrep','+ per extra framework / mo'],
+    ['continuousBaseMonthly','Continuous base / mo (USD)'],['perExtraFrameworkContinuous','+ per extra fw / mo'],
+    ['vcisoBaseMonthly','vCISO base / mo (USD)'],['fixedFeePremium','Fixed-fee premium (0.15=15%)'],
+    ['kickoffFee','Kickoff / scoping fee (USD)'],['selfServeBaseMonthly','Self-serve base / mo (USD)'],
+    ['blitzBaseFee','Blitz month, hands-on - STANDARD (USD)'],['introFactor','Intro discount (0.65 = 35% off)'],
+    ['fxRate','USD → ILS rate (market ~3.7)']
+  ];
+  flds.forEach(([k,lab])=>{
+    const rf=document.createElement('div'); rf.className='rf';
+    rf.innerHTML='<span>'+lab+'</span>';
+    const inp=document.createElement('input'); inp.type='number'; inp.value=e[k];
+    inp.step = (k==='fixedFeePremium'||k==='introFactor')?0.05 : k==='fxRate'?0.1 : 100;
+    inp.oninput=()=>{e[k]=parseFloat(inp.value)||0; render();};
+    rf.appendChild(inp); g.appendChild(rf);
+  });
+  document.getElementById('researchFlag').textContent='Rates are STANDARD (true value). The Intro tier applies the intro discount to service fees (not platform/self-serve). Blitz month is priced as full, non-parallelizable capacity.';
+}
+function resetRates(){rates=JSON.parse(JSON.stringify(DEFAULTS)); buildControls(); render();}
+
+function setView(v){
+  view=v;
+  document.getElementById('internalView').style.display=v==='internal'?'block':'none';
+  document.getElementById('clientView').style.display=v==='client'?'block':'none';
+  document.getElementById('tabInternal').classList.toggle('active',v==='internal');
+  document.getElementById('tabClient').classList.toggle('active',v==='client');
+  if(v==='client') render();
+  window.scrollTo(0,0);
+}
+function setPriceMode(m){state.priceMode=m;
+  document.getElementById('mMonthly').classList.toggle('active',m==='monthly');
+  document.getElementById('mFixed').classList.toggle('active',m==='fixed');
+  render();
+}
+function setCurrency(cur){state.currency=cur;
+  document.getElementById('curUSD').classList.toggle('active',cur==='USD');
+  document.getElementById('curILS').classList.toggle('active',cur==='ILS');
+  buildControls(); render();
+}
+function setTier(t){state.tier=t;
+  document.getElementById('tStandard').classList.toggle('active',t==='Standard');
+  document.getElementById('tIntro').classList.toggle('active',t==='Intro (first 3)');
+  render();
+}
+
+/* ---------------- public / embed mode (locked pricing base) ---------------- */
+const PUBLIC = /[?&](public|embed)/i.test(location.search);
+
+/* ---------------- init ---------------- */
+buildControls();
+if(PUBLIC){
+  state.tier='Standard';                                   // prospects only ever see standard value
+  var _rp=document.querySelector('details.rates'); if(_rp) _rp.style.display='none';   // hide rate base
+  var _tb=document.getElementById('tStandard'); if(_tb && _tb.parentElement) _tb.parentElement.style.display='none'; // hide intro/standard toggle
+  var _ti=document.getElementById('tabInternal'); if(_ti) _ti.textContent='Calculator';
+  var _tc=document.getElementById('tabClient'); if(_tc) _tc.textContent='Proposal';
+  var _lh=document.querySelector('.lead h1'); if(_lh) _lh.textContent='Pricing estimate';
+  var _lp=document.querySelector('.lead p'); if(_lp) _lp.textContent='Estimate your engagement: pick your frameworks, company profile, and delivery structure to see indicative pricing and deliverables. Final scope and price are confirmed with our team. No sign-up.';
+}
+render();
+</script>
+</body>
+</html>
