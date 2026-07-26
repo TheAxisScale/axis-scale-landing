@@ -212,10 +212,14 @@
       <div class="hd"><h3>Engagement inputs</h3><span class="pill teal" id="tierPill">Small tier</span></div>
       <div class="bd">
         <div class="section">
+          <div class="section-title">Engagement type</div>
+          <div class="seg" id="segMode"></div>
+        </div>
+        <div class="section">
           <div class="section-title">1 · Frameworks</div>
           <div class="chips" id="frameworkChips"></div>
         </div>
-        <div class="section">
+        <div class="section" id="secProfile">
           <div class="section-title">2 · Client profile</div>
           <label class="field">
             <span class="lab">Company size (headcount)</span>
@@ -227,7 +231,7 @@
             <span class="hint" id="tierHint"></span>
           </label>
         </div>
-        <div class="section">
+        <div class="section" id="secDelivery">
           <div class="section-title">3 · Delivery &amp; timing</div>
           <div class="row2">
             <label class="field">
@@ -240,6 +244,15 @@
             </label>
           </div>
           <span class="hint" id="modeHint"></span>
+        </div>
+
+        <div class="section" id="secOngoing" style="display:none">
+          <div class="section-title">Ongoing support (retainer)</div>
+          <div class="row2">
+            <label class="field"><span class="lab">Days / week</span><div class="seg" id="segDays"></div></label>
+            <label class="field"><span class="lab">Commitment</span><div class="seg" id="segTerm"></div></label>
+          </div>
+          <span class="hint" id="ongoingHint"></span>
         </div>
 
         <details class="rates no-print">
@@ -275,7 +288,7 @@
         </div>
       </div>
 
-      <div class="card" style="margin-top:16px">
+      <div class="card" id="cmpCard" style="margin-top:16px">
         <div class="hd"><h3>vs. traditional route</h3><span class="pill">at least 30% less</span></div>
         <div class="bd" style="padding:14px">
           <div class="cmp" id="cmpBox"></div>
@@ -350,7 +363,9 @@ const DEFAULTS = {
   selfServeSection3: 4000,         // self-serve a-la-carte Section 3 add-on
   firstTimePremium: [3500,4000,6500], // added for first-time (hands-on) by tier
   // traditional-route market anchors per framework (year 1, for the >=30% comparison)
-  market: {soc2t1:22000, soc2t2:40000, soc1t1:24000, soc1t2:42000, iso27001:55000, iso42001:60000, pci:45000, gdpr:28000}
+  market: {soc2t1:22000, soc2t2:40000, soc1t1:24000, soc1t2:42000, iso27001:55000, iso42001:60000, pci:45000, gdpr:28000},
+  // ongoing support (retainer): monthly = dayRate x days/week x weeksPerMonth
+  ongoing: {dayRate:1800, weeksPerMonth:4.33, annualDiscount:0.12}
 };
 
 const FRAMEWORKS = {
@@ -362,6 +377,10 @@ const SIZE_OPTS=['<25','25-50','51-200','201-500','500+'];
 const SYS_OPTS=['1','2-3','4-6','7+'];
 const DELIVERY_OPTS=['Self-serve','Hands-on'];
 const ENGAGEMENT_OPTS=['First-time','Renewal'];
+const MODE_OPTS=['Certification','Ongoing support'];
+const DAY_OPTS=['½','1','2','3','4','5'];
+const TERM_OPTS=['Monthly','Annual'];
+function dayLabel(d){return d===0.5?'½':String(d)}
 // size / systems -> tier index (0 Small, 1 Mid, 2 Large)
 const SIZE_TIER={'<25':0,'25-50':1,'51-200':1,'201-500':2,'500+':2};
 const SYS_TIER={'1':0,'2-3':1,'4-6':2,'7+':2};
@@ -370,10 +389,14 @@ const ORDER=['kickoff','framework','policyHands','risk','control','section3','tr
 
 /* ---------------- state ---------------- */
 let rates=load('grc_rates2'); if(!rates||!rates.book||rates.book.section3===undefined){rates=clone(DEFAULTS);}
+if(!rates.ongoing) rates.ongoing=clone(DEFAULTS.ongoing);
 let state=load('grc_state2')||{
   frameworks:['soc2t2'], size:'<25', systems:'1', delivery:'Hands-on', engagement:'First-time', currency:'USD'
 };
 if(!state.currency) state.currency='USD';
+if(!state.mode) state.mode='cert';
+if(state.daysWeek==null) state.daysWeek=1;
+if(!state.term) state.term='Annual';
 let view='internal';
 const PUBLIC = /[?&](public|embed)/i.test(location.search);
 
@@ -390,7 +413,16 @@ function money(n){var v=n*fx(); v=state.currency==='ILS'?Math.round(v/5)*5:Math.
 function selectedFrameworks(){return state.frameworks.filter(f=>FRAMEWORKS[f])}
 function tierIndex(){return Math.max(SIZE_TIER[state.size]||0, SYS_TIER[state.systems]||0)}
 
+function computeOngoing(){
+  const o=rates.ongoing, days=state.daysWeek||1;
+  const monthlyFull=o.dayRate*days*o.weeksPerMonth;
+  const annual=state.term==='Annual';
+  const monthly=annual?monthlyFull*(1-o.annualDiscount):monthlyFull;
+  return {mode:'ongoing',days,annual,discount:o.annualDiscount,dayRate:o.dayRate,monthlyFull,monthly,annualTotal:monthly*12};
+}
+
 function compute(){
+  if(state.mode==='ongoing') return computeOngoing();
   const b=rates.book, ti=tierIndex();
   const selfServe=state.delivery==='Self-serve';
   const handson=!selfServe;
@@ -436,6 +468,13 @@ function compute(){
 /* ---------------- render ---------------- */
 function render(){
   const c=compute();
+  const ongoing=(c.mode==='ongoing');
+  document.getElementById('secProfile').style.display=ongoing?'none':'block';
+  document.getElementById('secDelivery').style.display=ongoing?'none':'block';
+  document.getElementById('secOngoing').style.display=ongoing?'block':'none';
+  document.getElementById('cmpCard').style.display=ongoing?'none':'block';
+  document.getElementById('tierPill').style.display=ongoing?'none':'inline-block';
+  if(ongoing){ renderOngoing(c); renderDoc(c); save(); return; }
   document.getElementById('tierPill').textContent=c.tier+' tier';
 
   const n=selectedFrameworks().length;
@@ -484,6 +523,22 @@ function render(){
   save();
 }
 
+function renderOngoing(c){
+  document.getElementById('heroLabel').textContent='Monthly retainer'+(c.annual?' · annual':'');
+  document.getElementById('heroBig').textContent=money(c.monthly)+'/mo';
+  document.getElementById('heroSub').textContent=dayLabel(c.days)+' day'+(c.days!==1?'s':'')+'/week · '+(c.annual?('annual, '+Math.round(c.discount*100)+'% off · '+money(c.annualTotal)+'/yr'):'month-to-month');
+  document.getElementById('s1k').textContent='Per year';
+  document.getElementById('s1v').textContent=money(c.annualTotal);
+  document.getElementById('s2k').textContent=state.currency==='ILS'?'USD/mo (≈)':'ILS/mo (≈)';
+  document.getElementById('s2v').textContent=state.currency==='ILS'?'$'+Math.round(c.monthly).toLocaleString('en-US'):'₪'+(Math.round(c.monthly*(rates.fxRate||3)/5)*5).toLocaleString('en-US');
+  const lb=document.getElementById('linesBody'); lb.innerHTML='';
+  const inc=['Continuous compliance monitoring & control upkeep','Evidence kept audit-ready in the platform','Monthly compliance check-in & report','Vendor & risk register maintenance','Policy reviews & updates','Auditor liaison at renewal','Priority access - '+dayLabel(c.days)+' day'+(c.days!==1?'s':'')+'/week capacity'];
+  inc.forEach(t=>{const tr=document.createElement('tr');tr.innerHTML='<td>'+t+'</td><td style="width:66px"><span class="badge b-gift">Incl</span></td><td class="p"><span class="struck">Included</span></td>';lb.appendChild(tr);});
+  const sumRow=(label,val,cls)=>{const tr=document.createElement('tr');tr.className=cls||'sum';tr.innerHTML='<td colspan="2">'+label+'</td><td class="p">'+val+'</td>';lb.appendChild(tr);};
+  if(c.annual){ sumRow('Month-to-month rate',money(c.monthlyFull)+'/mo'); sumRow('Annual commitment ('+Math.round(c.discount*100)+'% off)',money(c.monthly)+'/mo'); }
+  sumRow('Monthly retainer',money(c.monthly),'total');
+}
+
 function renderCmp(c){
   const box=document.getElementById('cmpBox');
   if(selectedFrameworks().length===0){box.innerHTML='<div class="row"><span>Add a framework to compare</span><span class="v"></span></div>';return;}
@@ -502,6 +557,7 @@ function renderDoc(c){
   document.getElementById('docDate').textContent='Prepared '+new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
   const valid=new Date(); valid.setDate(valid.getDate()+30);
   document.getElementById('docValid').textContent='Valid until '+valid.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+  if(c.mode==='ongoing'){ body.innerHTML=ongoingDoc(c); return; }
   if(selectedFrameworks().length===0){body.innerHTML='<p class="intro">Select a framework in the editor to generate the SOW.</p>';return;}
 
   const fwNames=selectedFrameworks().map(f=>FRAMEWORKS[f]).join(', ');
@@ -550,6 +606,26 @@ function renderDoc(c){
   body.innerHTML=h;
 }
 
+function ongoingDoc(c){
+  const fw=selectedFrameworks().map(f=>FRAMEWORKS[f]).join(', ');
+  let h='';
+  h+='<h3 class="dt">Ongoing compliance support</h3>';
+  h+='<p class="intro">Axis·Scale will keep '+(fw?('<strong>'+fw+'</strong> '):'your compliance program ')+'continuously audit-ready with a dedicated retainer of <strong>'+dayLabel(c.days)+' day'+(c.days!==1?'s':'')+' per week</strong>. Controls stay operating, evidence stays current, and you have a single accountable partner year-round.</p>';
+  h+='<h3 class="dt">Investment</h3><div class="invest">';
+  h+='<div class="box hl"><div class="k">Monthly retainer</div><div class="v tab-num">'+money(c.monthly)+'</div><div class="s">'+dayLabel(c.days)+' day'+(c.days!==1?'s':'')+'/week · '+(c.annual?'annual commitment':'month-to-month')+'</div></div>';
+  h+='<div class="box"><div class="k">Per year</div><div class="v tab-num">'+money(c.annualTotal)+'</div><div class="s">'+(c.annual?Math.round(c.discount*100)+'% commitment discount':'no commitment')+'</div></div>';
+  h+='</div>';
+  h+='<h3 class="dt">What is included</h3><ul class="excl">';
+  ['Continuous compliance monitoring and control upkeep','Evidence kept audit-ready in the Axis·Scale platform','Monthly compliance check-in and status report','Vendor and risk register maintenance','Policy reviews and updates','Auditor liaison at each renewal'].forEach(t=>h+='<li>'+t+'</li>');
+  h+='<li>Priority access - '+dayLabel(c.days)+' day'+(c.days!==1?'s':'')+'/week of dedicated capacity</li></ul>';
+  h+='<h3 class="dt">Terms</h3><ul class="excl">';
+  h+='<li>'+(c.annual?('12-month commitment, '+Math.round(c.discount*100)+'% below the month-to-month rate of '+money(c.monthlyFull)+'/mo.'):'Month-to-month, 60-day notice.')+'</li>';
+  h+='<li>Independent audit and penetration-test fees are billed by the third parties and excluded.</li>';
+  h+='<li>Work beyond the committed days/week (incident response, new framework) is quoted separately.</li></ul>';
+  h+='<div class="sig"><div class="line">Axis·Scale - authorized signatory &amp; date</div><div class="line">Client - authorized signatory &amp; date</div></div>';
+  return h;
+}
+
 /* ---------------- UI ---------------- */
 function buildControls(){
   const fc=document.getElementById('frameworkChips'); fc.innerHTML='';
@@ -564,6 +640,10 @@ function buildControls(){
   seg('segSystems',SYS_OPTS,state.systems,v=>{state.systems=v});
   seg('segDelivery',DELIVERY_OPTS,state.delivery,v=>{state.delivery=v});
   seg('segEngagement',ENGAGEMENT_OPTS,state.engagement,v=>{state.engagement=v});
+  seg('segMode',MODE_OPTS, state.mode==='ongoing'?'Ongoing support':'Certification', v=>{state.mode=(v==='Ongoing support')?'ongoing':'cert';});
+  seg('segDays',DAY_OPTS, dayLabel(state.daysWeek), v=>{state.daysWeek=(v==='½'?0.5:parseFloat(v));});
+  seg('segTerm',TERM_OPTS, state.term, v=>{state.term=v;});
+  document.getElementById('ongoingHint').textContent='Monthly = day rate ($'+rates.ongoing.dayRate+') × '+dayLabel(state.daysWeek)+' day/week × '+rates.ongoing.weeksPerMonth+' weeks'+(state.term==='Annual'?(', minus '+Math.round(rates.ongoing.annualDiscount*100)+'% annual.'):'.');
   const ti=tierIndex();
   document.getElementById('tierHint').textContent='This profile = '+TIERS[ti]+' tier (size + systems, larger wins).';
   document.getElementById('modeHint').textContent = state.delivery==='Self-serve'
@@ -608,6 +688,13 @@ function buildRates(){
     rf.innerHTML='<span>First-time premium ('+TIERS[i]+')</span>';
     const inp=document.createElement('input'); inp.type='number'; inp.step=250; inp.value=rates.firstTimePremium[i];
     inp.oninput=()=>{rates.firstTimePremium[i]=parseFloat(inp.value)||0; render();};
+    rf.appendChild(inp); sc.appendChild(rf);
+  });
+  [['dayRate','Ongoing day rate',1],['annualDiscount','Annual discount (0.12=12%)',0.01],['weeksPerMonth','Weeks / month',0.01]].forEach(a=>{
+    const rf=document.createElement('div'); rf.className='rf';
+    rf.innerHTML='<span>'+a[1]+'</span>';
+    const inp=document.createElement('input'); inp.type='number'; inp.step=a[2]; inp.value=rates.ongoing[a[0]];
+    inp.oninput=()=>{rates.ongoing[a[0]]=parseFloat(inp.value)||0; render();};
     rf.appendChild(inp); sc.appendChild(rf);
   });
   document.getElementById('rateFlag').textContent='Prices per tier (Small / Mid / Large). Matches the pricing-book spreadsheet.';
