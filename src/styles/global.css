@@ -63,6 +63,7 @@
     opacity: 1 !important;
     transform: none !important;
   }
+  video[data-loop] { animation: none; }
 }
 
 @keyframes fadeInUp {

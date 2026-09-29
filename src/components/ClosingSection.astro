@@ -15,7 +15,7 @@ const ELEANOR_LINKEDIN    = 'https://www.linkedin.com/in/eleanor-yehudai/';
       <img
         src="/eleanor.jpg"
         alt={ELEANOR_FULL_NAME}
-        class="w-20 h-20 rounded-full border-2 border-border-light object-cover object-top shrink-0"
+        class="w-20 h-20 rounded-[var(--radius-pill)] border-2 border-border-light object-cover object-top shrink-0"
       />
 
       <div>
@@ -57,8 +57,8 @@ const ELEANOR_LINKEDIN    = 'https://www.linkedin.com/in/eleanor-yehudai/';
       <svg width="120" height="20" viewBox="0 0 120 20" fill="none" aria-hidden="true" class="mb-4">
         <text x="60" y="16" text-anchor="middle"
           font-family="Inter, system-ui, sans-serif"
-          font-size="14" font-weight="800" letter-spacing="-0.5" fill="#E6EDF3">
-          Axis<tspan font-weight="500" fill="#8B949E">&#xB7;Scale</tspan>
+          font-size="14" font-weight="800" letter-spacing="-0.5" fill="var(--color-pri)">
+          Axis<tspan font-weight="500" fill="var(--color-sec)">&#xB7;Scale</tspan>
         </text>
       </svg>
 
@@ -67,7 +67,7 @@ const ELEANOR_LINKEDIN    = 'https://www.linkedin.com/in/eleanor-yehudai/';
         <!-- top-left tile -->
         <rect x="38" y="6" width="20" height="20" rx="3.5" fill="#3A4660"/>
         <!-- bottom-left tile -->
-        <rect x="38" y="30" width="20" height="20" rx="3.5" fill="#2A3347"/>
+        <rect x="38" y="30" width="20" height="20" rx="3.5" fill="var(--color-border)"/>
         <!-- bottom-right tile -->
         <rect x="62" y="30" width="20" height="20" rx="3.5" fill="#3A4660"/>
         <!-- Axie: top-right tile, 6s climb loop -->
@@ -119,30 +119,30 @@ const ELEANOR_LINKEDIN    = 'https://www.linkedin.com/in/eleanor-yehudai/';
         <div class="flex flex-col gap-1.5">
           <label for="ea-name" class="text-ter text-xs font-bold uppercase tracking-widest font-mono">Name *</label>
           <input id="ea-name" name="name" type="text" required placeholder="Your name"
-            class="bg-raised border border-[#2A3347] rounded-md px-4 py-2.5 text-pri text-sm placeholder:text-ter focus:outline-none focus:border-accent transition-colors"/>
+            class="bg-raised border border-border rounded-md px-4 py-2.5 text-pri text-sm placeholder:text-ter focus:outline-none focus:border-accent transition-colors"/>
         </div>
         <div class="flex flex-col gap-1.5">
           <label for="ea-email" class="text-ter text-xs font-bold uppercase tracking-widest font-mono">Email *</label>
           <input id="ea-email" name="email" type="email" required placeholder="you@company.com"
-            class="bg-raised border border-[#2A3347] rounded-md px-4 py-2.5 text-pri text-sm placeholder:text-ter focus:outline-none focus:border-accent transition-colors"/>
+            class="bg-raised border border-border rounded-md px-4 py-2.5 text-pri text-sm placeholder:text-ter focus:outline-none focus:border-accent transition-colors"/>
         </div>
       </div>
 
       <div class="flex flex-col gap-1.5">
         <label for="ea-company" class="text-ter text-xs font-bold uppercase tracking-widest font-mono">Company</label>
         <input id="ea-company" name="company" type="text" placeholder="Company name"
-          class="bg-raised border border-[#2A3347] rounded-md px-4 py-2.5 text-pri text-sm placeholder:text-ter focus:outline-none focus:border-accent transition-colors"/>
+          class="bg-raised border border-border rounded-md px-4 py-2.5 text-pri text-sm placeholder:text-ter focus:outline-none focus:border-accent transition-colors"/>
       </div>
 
       <div class="flex flex-col gap-1.5">
         <label for="ea-message" class="text-ter text-xs font-bold uppercase tracking-widest font-mono">Where are you in the process?</label>
         <textarea id="ea-message" name="message" rows="3"
           placeholder="e.g. Just got a customer asking for SOC 2, no idea where to start..."
-          class="bg-raised border border-[#2A3347] rounded-md px-4 py-2.5 text-pri text-sm placeholder:text-ter focus:outline-none focus:border-accent transition-colors resize-none"></textarea>
+          class="bg-raised border border-border rounded-md px-4 py-2.5 text-pri text-sm placeholder:text-ter focus:outline-none focus:border-accent transition-colors resize-none"></textarea>
       </div>
 
       <button type="submit"
-        class="mt-2 inline-flex items-center justify-center px-7 py-3.5 bg-accent hover:bg-accent-hover text-white font-bold text-sm rounded-full transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+        class="mt-2 inline-flex items-center justify-center px-7 py-3.5 bg-accent hover:bg-accent-hover text-white font-bold text-sm rounded-[var(--radius-pill)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
         Request early access &#8594;
       </button>
 
@@ -172,7 +172,7 @@ const ELEANOR_LINKEDIN    = 'https://www.linkedin.com/in/eleanor-yehudai/';
     <div class="flex flex-wrap items-center gap-4" data-animate>
       <a
         href="#early-access"
-        class="inline-flex items-center px-8 py-4 bg-accent hover:bg-accent-hover text-white font-semibold text-[15px] rounded-full transition-colors"
+        class="inline-flex items-center px-8 py-4 bg-accent hover:bg-accent-hover text-white font-semibold text-[15px] rounded-[var(--radius-pill)] transition-colors"
       >
         Get my audit date
       </a>
@@ -180,7 +180,7 @@ const ELEANOR_LINKEDIN    = 'https://www.linkedin.com/in/eleanor-yehudai/';
         href="/pricing-calculator.html?public"
         target="_blank"
         rel="noopener"
-        class="inline-flex items-center px-8 py-4 text-pri font-semibold text-[15px] border-[1.5px] border-[#2A3347] hover:border-pri rounded-full transition-colors"
+        class="inline-flex items-center px-8 py-4 text-pri font-semibold text-[15px] border-[1.5px] border-border hover:border-pri rounded-[var(--radius-pill)] transition-colors"
       >
         Build your estimate
       </a>

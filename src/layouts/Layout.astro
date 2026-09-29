@@ -41,6 +41,11 @@ const {
     );
     document.querySelectorAll('[data-animate]').forEach((el) => observer.observe(el));
   </script>
+  <script>
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.querySelectorAll('video[data-loop]').forEach((v) => { v.removeAttribute('autoplay'); v.pause(); });
+    }
+  </script>
 </body>
 </html>
 

@@ -3,7 +3,7 @@
   hidden
   role="dialog"
   aria-label="Cookie preferences"
-  class="fixed bottom-4 left-4 right-4 md:left-auto md:right-6 md:max-w-md z-50 rounded-xl border border-[#2A3347] bg-[#161B22] p-5 shadow-2xl"
+  class="fixed bottom-4 left-4 right-4 md:left-auto md:right-6 md:max-w-md z-50 rounded-xl border border-border bg-base p-5 shadow-2xl"
 >
   <p class="text-sm text-sec leading-relaxed mb-4">
     No ad trackers here. We use essential storage to run the site, and optional
@@ -13,11 +13,11 @@
   <div class="flex items-center gap-3">
     <button
       id="cookie-accept"
-      class="px-4 py-2 bg-accent hover:bg-accent-hover text-white text-sm font-semibold rounded-full transition-colors"
+      class="px-4 py-2 bg-accent hover:bg-accent-hover text-white text-sm font-semibold rounded-[var(--radius-pill)] transition-colors"
     >Accept</button>
     <button
       id="cookie-essential"
-      class="px-4 py-2 border border-[#2A3347] hover:border-[#3A4660] text-sec hover:text-pri text-sm font-medium rounded-full transition-colors"
+      class="px-4 py-2 border border-border hover:border-border text-sec hover:text-pri text-sm font-medium rounded-[var(--radius-pill)] transition-colors"
     >Essential only</button>
   </div>
 </div>
