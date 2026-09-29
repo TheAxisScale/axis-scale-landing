@@ -2,20 +2,20 @@
 const APP_LOGIN  = 'https://app.axis-scale.com/login';
 const SIGNUP_URL = 'https://app.axis-scale.com/register';
 ---
-<header class="sticky top-0 z-50 border-b border-[#2A3347] backdrop-blur-md" style="background:rgba(13,17,23,0.86)">
+<header class="sticky top-0 z-50 border-b border-border backdrop-blur-md" style="background:rgba(19,18,17,0.86)">
   <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
 
     <div class="flex items-center">
       <a href="/" aria-label="Axis-Scale home">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 32" width="180" height="32" role="img" aria-label="Axis Scale">
           <g transform="translate(0, 4)">
-            <rect x="2" y="13" width="9" height="9" rx="1.6" fill="#2A3347"/>
+            <rect x="2" y="13" width="9" height="9" rx="1.6" fill="var(--color-border)"/>
             <rect x="13" y="13" width="9" height="9" rx="1.6" fill="#3A4660"/>
             <rect x="2" y="2" width="9" height="9" rx="1.6" fill="#3A4660"/>
             <rect x="13" y="2" width="9" height="9" rx="1.6" fill="#E91E8C"/>
             <circle cx="17.5" cy="6.5" r="1.6" fill="#FFFFFF"/>
           </g>
-          <text x="34" y="22" font-family="Inter, Helvetica Neue, Arial, sans-serif" font-weight="800" font-size="18" letter-spacing="-.6" fill="#E6EDF3">Axis<tspan font-weight="500" fill="#8B949E">·Scale</tspan></text>
+          <text x="34" y="22" font-family="Inter, Helvetica Neue, Arial, sans-serif" font-weight="800" font-size="18" letter-spacing="-.6" fill="var(--color-pri)">Axis<tspan font-weight="500" fill="var(--color-sec)">·Scale</tspan></text>
         </svg>
       </a>
     </div>
@@ -36,7 +36,7 @@ const SIGNUP_URL = 'https://app.axis-scale.com/register';
       </a>
       <a
         href="#early-access"
-        class="inline-flex items-center px-5 py-2 bg-accent hover:bg-accent-hover text-white text-sm font-semibold rounded-full transition-colors"
+        class="inline-flex items-center px-5 py-2 bg-accent hover:bg-accent-hover text-white text-sm font-semibold rounded-[var(--radius-pill)] transition-colors"
       >
         Start your assessment
       </a>

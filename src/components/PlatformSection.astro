@@ -1,0 +1,45 @@
+---
+import ProductLoop from './ProductLoop.astro';
+
+const caps = [
+  {
+    src: 'register',
+    title: 'Risk Register',
+    body: 'Scope, not guess. Every risk with inherent score, control effectiveness, and residual - nothing generic, nothing you do not need.',
+  },
+  {
+    src: 'assessment',
+    title: '7-step assessment',
+    body: 'A guided deep-dive that turns questions into a scored posture. Every control and every gap, in the order they matter.',
+  },
+  {
+    src: 'workplan',
+    title: 'Workplan',
+    body: 'A real audit date on the calendar, with every task mapped to a control. You see the whole plan before you touch a thing.',
+  },
+  {
+    src: 'echo',
+    title: 'Echo',
+    body: 'Security questionnaires answered for you, grounded in your evidence. You review and own every answer - Echo never fills or submits for you.',
+  },
+];
+---
+<section class="px-6 md:px-16 py-24 bg-base border-b border-border-light">
+  <div class="max-w-[1120px] mx-auto">
+    <div class="text-[11px] font-bold tracking-[1.2px] uppercase text-meta mb-4">The platform</div>
+    <h2 class="font-display font-[800] text-[30px] md:text-[40px] tracking-[-1px] text-pri max-w-[720px] mb-16">
+      One tool, from first scope to audit day.
+    </h2>
+    <div class="flex flex-col gap-20">
+      {caps.map((c, i) => (
+        <div class={`grid grid-cols-1 md:grid-cols-2 gap-10 items-center ${i % 2 === 1 ? 'md:[&>*:first-child]:order-2' : ''}`} data-animate>
+          <div>
+            <h3 class="font-display font-[700] text-[24px] text-pri mb-3">{c.title}</h3>
+            <p class="text-sec text-[17px] leading-[1.6] max-w-[440px]">{c.body}</p>
+          </div>
+          <ProductLoop src={c.src} poster={`/media/${c.src}.jpg`} label={`${c.title} in Axis-Scale`} />
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

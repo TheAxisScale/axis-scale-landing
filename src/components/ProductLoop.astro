@@ -1,0 +1,27 @@
+---
+// Reusable product video loop. Renders poster-only until real clips exist.
+// Drop /public/media/<src>.mp4 + <src>.webm to activate; no markup change needed.
+interface Props {
+  src: string;        // basename in /public/media (no extension)
+  poster: string;     // path under /public, e.g. /media/register.jpg
+  label: string;      // accessible description
+  hasClip?: boolean;  // set true once mp4+webm exist for this src
+}
+const { src, poster, label, hasClip = false } = Astro.props;
+---
+<figure class="product-loop rounded-[var(--radius-card)] overflow-hidden bg-sunken border border-border-light">
+  {hasClip ? (
+    <video
+      class="w-full h-auto block"
+      muted autoplay loop playsinline preload="none"
+      poster={poster}
+      aria-label={label}
+      data-loop
+    >
+      <source src={`/media/${src}.webm`} type="video/webm" />
+      <source src={`/media/${src}.mp4`} type="video/mp4" />
+    </video>
+  ) : (
+    <img class="w-full h-auto block" src={poster} alt={label} loading="lazy" />
+  )}
+</figure>

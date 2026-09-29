@@ -1,4 +1,8 @@
 ---
+import '@fontsource-variable/manrope';
+import '@fontsource/jetbrains-mono/400.css';
+import '@fontsource/jetbrains-mono/500.css';
+import '@fontsource/jetbrains-mono/600.css';
 import '../styles/global.css';
 import CookieConsent from '../components/CookieConsent.astro';
 
@@ -8,7 +12,7 @@ interface Props {
 }
 const {
   title = 'Axis-Scale - SOC 2 Readiness, Scoped for Founders',
-  description = 'Not working on SOC 2 yet? Your pipeline noticed. Axis-Scale: scoped in 30 minutes, expert sign-off, a real audit date, price on the page. Start before they ask.',
+  description = 'Not working on SOC 2 yet? Your pipeline noticed. Axis-Scale: scoped in 30 minutes, expert sign-off, a real audit date, your price in 30 seconds with no sales call. Start before they ask.',
 } = Astro.props;
 ---
 <!DOCTYPE html>
@@ -19,9 +23,6 @@ const {
   <title>{title}</title>
   <meta name="description" content={description} />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 </head>
 <body class="bg-base text-pri font-sans antialiased">
   <slot />
@@ -39,6 +40,11 @@ const {
       { threshold: 0.12 }
     );
     document.querySelectorAll('[data-animate]').forEach((el) => observer.observe(el));
+  </script>
+  <script>
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.querySelectorAll('video[data-loop]').forEach((v) => { v.removeAttribute('autoplay'); v.pause(); });
+    }
   </script>
 </body>
 </html>
