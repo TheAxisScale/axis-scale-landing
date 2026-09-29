@@ -1,33 +1,40 @@
 @import "tailwindcss";
 
 @theme {
-  --color-base:         #0D1117;
-  --color-surface:      #161B27;
-  --color-raised:       #1E2538;
-  --color-muted:        #232D42;
-  --color-pri:          #E6EDF3;
-  --color-sec:          #8B949E;
-  --color-ter:          #6E7681;
-  --color-accent:       #E91E8C;
-  --color-accent-hover: #C91576;
-  --color-accent-dim:   rgba(233, 30, 140, 0.12);
+  /* Surfaces (warm charcoal, three steps, never navy) */
+  --color-base:          #131211;   /* Desk */
+  --color-surface:       #232120;   /* Page: cards, sidebar, bars */
+  --color-sunken:        #080807;   /* recessed wells, table containers */
+  --color-hover:         #2C2A28;
+
+  /* Text */
+  --color-pri:           #F2F0EC;   /* Ink */
+  --color-sec:           #B3AFA8;
+  --color-ter:           #8A857E;   /* Meta: alias kept so existing text-ter usages resolve */
+  --color-meta:          #8A857E;
+  --color-slate:         #8A857E;   /* legacy eyebrow colour maps to Meta */
+
+  /* Accent (unchanged) + breach */
+  --color-accent:        #E91E8C;
+  --color-accent-hover:  #C91576;
+  --color-accent-dim:    rgba(233, 30, 140, 0.12);
   --color-accent-border: rgba(233, 30, 140, 0.25);
-  --color-border:       #2A3347;
-  --color-border-light: #1E2538;
-  --color-ok:           #10B981;
-  --color-warn:         #F59E0B;
-  --color-err:          #EF4444;
-  --color-info:         #818CF8;
-  --color-light-bg:   #F5F4F1;
-  --color-on-light:   #111318;
-  --color-on-light-2: #4A5568;
-  --color-on-light-3: #718096;
-  --font-family-sans:    Inter, system-ui, sans-serif;
-  --font-family-display: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', system-ui, sans-serif;
+  --color-breach:        #F2685C;   /* breach / alert ONLY */
+
+  /* Hairlines */
+  --color-border:        #454138;
+  --color-border-light:  #262421;
+
+  /* Type */
+  --font-family-sans:    'Manrope Variable', Manrope, system-ui, sans-serif;
+  --font-family-display: 'Manrope Variable', Manrope, system-ui, sans-serif;
   --font-family-mono:    'JetBrains Mono', 'Courier New', monospace;
-  --color-slate:         #7E9AC9;
-  --color-slate-base:    #3D5A80;
-  --color-slate-dim:     rgba(61, 90, 128, 0.22);
+
+  /* Radii (Rev 2: tile 2 / card 3 / input 6 / pill 20) */
+  --radius-tile:  2px;
+  --radius-card:  3px;
+  --radius-input: 6px;
+  --radius-pill:  20px;
 }
 
 /* Axie mascot animations */
