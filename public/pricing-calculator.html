@@ -289,9 +289,16 @@
       </div>
 
       <div class="card" id="cmpCard" style="margin-top:16px">
-        <div class="hd"><h3>vs. traditional route</h3><span class="pill">at least 30% less</span></div>
+        <div class="hd"><h3>vs. traditional route</h3><span class="pill" id="cmpPill">below market</span></div>
         <div class="bd" style="padding:14px">
           <div class="cmp" id="cmpBox"></div>
+        </div>
+      </div>
+
+      <div class="card no-print" id="guardCard" style="margin-top:16px">
+        <div class="hd"><h3>Rate guardrails (internal)</h3><span class="pill teal" id="guardPill">-</span></div>
+        <div class="bd" style="padding:14px">
+          <div class="cmp" id="guardBox"></div>
         </div>
       </div>
 
@@ -343,34 +350,46 @@
    ============================================================ */
 const TIERS = ['Small','Mid','Large'];
 const DEFAULTS = {
-  fxRate: 3,                       // USD -> ILS (approx)
-  vsTradDiscount: 0.30,            // comparison shows AT LEAST this % below traditional
-  // per-deliverable prices [Small, Mid, Large]
+  fxRate: 3.01,                    // USD -> ILS. Update to the live rate; it drives the day-rate floor check.
+  vsTradDiscount: 0.30,            // guardrail: price must stay AT LEAST this % below the real market anchor
+  dayRateFloorILS: 2700,          // floor: never earn less than this per billable day, pre-tax (Eleanor's minimum)
+  renewalDaysFactor: 0.55,         // a renewal takes ~this fraction of a first-time engagement's days
+  // per-deliverable prices [Small, Mid, Large] + estimated billable days [Small, Mid, Large].
+  // Days include work that is Included/Gift (it is real time), so the day-rate floor reflects reality.
   book: {
-    kickoff:      {label:'Kickoff & scoping',                    type:'Fixed',   tier:[500,500,500]},
-    framework:    {label:'Framework mapping & SoA',              type:'Scaling', perFw:true, tier:[850,1200,1600]},
-    policyHands:  {label:'Policy suite (hands-on)',              type:'Scaling', tier:[2250,3250,4250]},
-    risk:         {label:'Risk assessment & register',          type:'Scaling', tier:[800,1400,2200]},
-    control:      {label:'Control build-out & evidence',         type:'Included',tier:[0,0,0]},
-    section3:     {label:'Section 3 / equivalents',             type:'Fixed', bundled:true, tier:[1750,2500,3500]},
-    training:     {label:'Security awareness training rollout',  type:'Fixed',   tier:[300,300,300]},
-    internalAudit:{label:'Internal audit (dry run + final readiness + control validation)', type:'Fixed', bundled:true, tier:[2750,3500,4500]},
-    pentest:      {label:'Penetration test management',          type:'Gift',    tier:[500,500,500]},
-    auditMgmt:    {label:'Audit management',                     type:'Gift',    tier:[500,500,500]}
+    kickoff:      {label:'Kickoff & scoping',                    type:'Fixed',   tier:[500,500,500],      days:[0.5,1,1]},
+    framework:    {label:'Framework mapping & SoA',              type:'Scaling', perFw:true, tier:[850,1200,1600], days:[1,1.5,2]},
+    policyHands:  {label:'Policy suite (hands-on)',              type:'Scaling', tier:[2500,5500,8000],    days:[3,5,7]},
+    risk:         {label:'Risk assessment & register',          type:'Scaling', tier:[900,2200,3500],     days:[1.5,2.5,4]},
+    control:      {label:'Control build-out & evidence',         type:'Included',tier:[0,0,0],            days:[3,5,9]},
+    section3:     {label:'Section 3 / equivalents',             type:'Fixed', bundled:true, tier:[1900,3200,4800], days:[1,1.5,2]},
+    training:     {label:'Security awareness training rollout',  type:'Fixed',   tier:[300,300,400],      days:[0.5,0.5,1]},
+    internalAudit:{label:'Internal audit (dry run + final readiness + control validation)', type:'Fixed', bundled:true, tier:[2950,5100,7200], days:[2.5,4,6]},
+    pentest:      {label:'Penetration test management',          type:'Gift',    tier:[500,500,500],      days:[0.5,1,1]},
+    auditMgmt:    {label:'Audit management',                     type:'Gift',    tier:[500,500,500],      days:[1,1.5,2]}
   },
   policyTemplates: 250,            // self-serve policy suite (templates)
   selfServeAudit: 4000,            // self-serve a-la-carte internal audit add-on
   selfServeSection3: 4000,         // self-serve a-la-carte Section 3 add-on
-  firstTimePremium: [3500,4000,6500], // added for first-time (hands-on) by tier
-  // traditional-route market anchors per framework (year 1, for the >=30% comparison)
-  market: {soc2t1:22000, soc2t2:40000, soc1t1:24000, soc1t2:42000, iso27001:55000, iso42001:60000, pci:45000, gdpr:28000},
+  firstTimePremium: [3600,5000,8000], // added for first-time (hands-on) by tier
+  // framework effort factor vs SOC 2 Type II (=1.0): scales BOTH price and days.
+  // Type I is lighter (point-in-time / narrower scope); ISO carries more controls.
+  // For a bundle, the hardest framework drives scope (max factor). Tune to your real effort.
+  fwFactor: {soc2t2:1, soc2t1:0.62, soc1t2:1, soc1t1:0.65, iso27001:1.1, iso42001:1.1, pci:1.05},
+  // traditional-route market anchors per framework, tiered [Small, Mid, Large] (year 1, real anchors)
+  market: {
+    soc2t1:[14000,24000,38000], soc2t2:[22000,40000,65000],
+    soc1t1:[16000,26000,40000], soc1t2:[24000,42000,66000],
+    iso27001:[30000,55000,85000], iso42001:[32000,60000,90000],
+    pci:[25000,45000,70000]
+  },
   // ongoing support (retainer): monthly = dayRate x days/week x weeksPerMonth
   ongoing: {dayRate:1800, weeksPerMonth:4.33, annualDiscount:0.12}
 };
 
 const FRAMEWORKS = {
   soc2t2:'SOC 2 Type II', soc2t1:'SOC 2 Type I', soc1t2:'SOC 1 Type II', soc1t1:'SOC 1 Type I',
-  iso27001:'ISO 27001', iso42001:'ISO 42001 (AI)', pci:'PCI DSS', gdpr:'GDPR'
+  iso27001:'ISO 27001', iso42001:'ISO 42001 (AI)', pci:'PCI DSS'
 };
 
 const SIZE_OPTS=['<25','25-50','51-200','201-500','500+'];
@@ -388,9 +407,9 @@ const SYS_TIER={'1':0,'2-3':1,'4-6':2,'7+':2};
 const ORDER=['kickoff','framework','policyHands','risk','control','section3','training','internalAudit','pentest','auditMgmt'];
 
 /* ---------------- state ---------------- */
-let rates=load('grc_rates2'); if(!rates||!rates.book||rates.book.section3===undefined){rates=clone(DEFAULTS);}
+let rates=load('grc_rates3'); if(!rates||!rates.book||!rates.book.section3||!rates.book.section3.days||!Array.isArray(rates.market&&rates.market.soc2t2)){rates=clone(DEFAULTS);}
 if(!rates.ongoing) rates.ongoing=clone(DEFAULTS.ongoing);
-let state=load('grc_state2')||{
+let state=load('grc_state3')||{
   frameworks:['soc2t2'], size:'<25', systems:'1', delivery:'Hands-on', engagement:'First-time', currency:'USD'
 };
 if(!state.currency) state.currency='USD';
@@ -402,7 +421,7 @@ const PUBLIC = /[?&](public|embed)/i.test(location.search);
 
 function clone(o){return JSON.parse(JSON.stringify(o))}
 function load(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}}
-function save(){localStorage.setItem('grc_rates2',JSON.stringify(rates));localStorage.setItem('grc_state2',JSON.stringify(state))}
+function save(){localStorage.setItem('grc_rates3',JSON.stringify(rates));localStorage.setItem('grc_state3',JSON.stringify(state))}
 
 /* ---------------- currency ---------------- */
 function fx(){return state.currency==='ILS'?(rates.fxRate||3):1}
@@ -427,42 +446,71 @@ function compute(){
   const selfServe=state.delivery==='Self-serve';
   const handson=!selfServe;
   const nFw=Math.max(1, selectedFrameworks().length);
+  // framework effort factor: lighter frameworks cost less and take fewer days.
+  // For a bundle, the hardest framework drives scope (use the max factor).
+  const fwF = selectedFrameworks().length
+    ? Math.max.apply(null, selectedFrameworks().map(f=>(rates.fwFactor&&rates.fwFactor[f]!=null)?rates.fwFactor[f]:1))
+    : 1;
+  const P=(v)=>Math.round(v*fwF); // scale a book price by framework effort
   const lines=[]; let base=0, giftVal=0;
 
   const add=(label,type,price,extra)=>{lines.push(Object.assign({label,type,price},extra||{}))};
 
-  add(b.kickoff.label,'Fixed',b.kickoff.tier[ti]); base+=b.kickoff.tier[ti];
+  { const v=P(b.kickoff.tier[ti]); add(b.kickoff.label,'Fixed',v); base+=v; }
 
-  const fwPrice=b.framework.tier[ti]*nFw;
+  const fwPrice=P(b.framework.tier[ti])*nFw;
   add(b.framework.label+(nFw>1?' (x'+nFw+')':''),'Scaling',fwPrice); base+=fwPrice;
 
-  if(selfServe){ add('Policy suite (templates)','Scaling',rates.policyTemplates); base+=rates.policyTemplates; }
-  else { add(b.policyHands.label,'Scaling',b.policyHands.tier[ti]); base+=b.policyHands.tier[ti]; }
+  if(selfServe){ const v=P(rates.policyTemplates); add('Policy suite (templates)','Scaling',v); base+=v; }
+  else { const v=P(b.policyHands.tier[ti]); add(b.policyHands.label,'Scaling',v); base+=v; }
 
-  add(b.risk.label,'Scaling',b.risk.tier[ti]); base+=b.risk.tier[ti];
+  { const v=P(b.risk.tier[ti]); add(b.risk.label,'Scaling',v); base+=v; }
   add(b.control.label,'Included',0,{included:true});
 
-  if(handson){ add(b.section3.label,'Fixed',b.section3.tier[ti]); base+=b.section3.tier[ti]; }
+  if(handson){ const v=P(b.section3.tier[ti]); add(b.section3.label,'Fixed',v); base+=v; }
   else { add(b.section3.label,'Fixed',0,{addon:true}); }
 
-  add(b.training.label,'Fixed',b.training.tier[ti]); base+=b.training.tier[ti];
+  { const v=P(b.training.tier[ti]); add(b.training.label,'Fixed',v); base+=v; }
 
-  if(handson){ add(b.internalAudit.label,'Fixed',b.internalAudit.tier[ti]); base+=b.internalAudit.tier[ti]; }
+  if(handson){ const v=P(b.internalAudit.tier[ti]); add(b.internalAudit.label,'Fixed',v); base+=v; }
   else { add(b.internalAudit.label,'Fixed',0,{addon:true}); }
 
-  ['pentest','auditMgmt'].forEach(k=>{ const p=b[k].tier[ti]; add(b[k].label,'Gift',p,{gift:true}); base+=p; giftVal+=p; });
+  ['pentest','auditMgmt'].forEach(k=>{ const p=P(b[k].tier[ti]); add(b[k].label,'Gift',p,{gift:true}); base+=p; giftVal+=p; });
 
   const net=base-giftVal;
-  const selfServeAddon=selfServe?(rates.selfServeAudit+rates.selfServeSection3):0;
-  const firstTime=(state.engagement==='First-time' && handson)?rates.firstTimePremium[ti]:0;
+  const selfServeAddon=selfServe?P(rates.selfServeAudit+rates.selfServeSection3):0;
+  const firstTime=(state.engagement==='First-time' && handson)?P(rates.firstTimePremium[ti]):0;
   const clientTotal=net+selfServeAddon+firstTime;
 
-  // traditional (>=30% comparison)
-  let market=0; selectedFrameworks().forEach(f=>market+=(rates.market[f]||0));
-  const trad=Math.max(market, clientTotal/(1-(rates.vsTradDiscount||0.30)));
-  const savePct=trad?Math.round((trad-clientTotal)/trad*100):0;
+  // ---- billable days + day-rate floor (internal guardrail) ----
+  // Count every deliverable's days, including Included/Gift work (it is real time).
+  let laborDays=0;
+  ORDER.forEach(k=>{ const it=b[k]; if(!it||!it.days) return; laborDays += it.days[ti]*(it.perFw?nFw:1); });
+  if(selfServe){ // client does control/policy/evidence; only these are expert days
+    laborDays = b.kickoff.days[ti] + b.section3.days[ti] + b.internalAudit.days[ti];
+  }
+  laborDays *= fwF;
+  if(handson && state.engagement==='Renewal'){ laborDays *= (rates.renewalDaysFactor||0.55); }
+  laborDays = Math.round(laborDays*10)/10;
 
-  return {ti,tier:TIERS[ti],selfServe,handson,nFw,lines,base,giftVal,net,selfServeAddon,firstTime,clientTotal,trad,savePct};
+  const fx1 = (rates.fxRate||3.01);
+  const floorPerDayUSD = (rates.dayRateFloorILS||2700)/fx1;   // ₪ floor -> USD
+  const floorUSD = Math.round(laborDays*floorPerDayUSD);       // min price to clear the day-rate floor
+  const dayRateILS = laborDays>0 ? Math.round(clientTotal*fx1/laborDays) : 0; // realized ₪/day at this price
+
+  // ---- honest market comparison (tiered, real anchors only - NO fabricated baseline) ----
+  let market=0; selectedFrameworks().forEach(f=>{ const m=rates.market[f]; market += Array.isArray(m)?(m[ti]||0):(m||0); });
+  const ceilingUSD = Math.round(market*(1-(rates.vsTradDiscount||0.30))); // max price still >=30% below market
+  const trad=market;
+  const savePct=(trad>0)?Math.round((trad-clientTotal)/trad*100):0;
+
+  // ---- guardrail flags ----
+  const belowFloor  = clientTotal < floorUSD-1;
+  const aboveCeiling= market>0 && clientTotal > ceilingUSD+1;
+  const conflict    = market>0 && floorUSD > ceilingUSD+1;
+
+  return {ti,tier:TIERS[ti],selfServe,handson,nFw,lines,base,giftVal,net,selfServeAddon,firstTime,clientTotal,
+          trad,market,savePct,laborDays,floorUSD,ceilingUSD,dayRateILS,belowFloor,aboveCeiling,conflict};
 }
 
 /* ---------------- render ---------------- */
@@ -473,6 +521,7 @@ function render(){
   document.getElementById('secDelivery').style.display=ongoing?'none':'block';
   document.getElementById('secOngoing').style.display=ongoing?'block':'none';
   document.getElementById('cmpCard').style.display=ongoing?'none':'block';
+  { var _gc=document.getElementById('guardCard'); if(_gc) _gc.style.display=(ongoing||PUBLIC)?'none':'block'; }
   document.getElementById('tierPill').style.display=ongoing?'none':'inline-block';
   if(ongoing){ renderOngoing(c); renderDoc(c); save(); return; }
   document.getElementById('tierPill').textContent=c.tier+' tier';
@@ -519,6 +568,7 @@ function render(){
   }
 
   renderCmp(c);
+  renderGuard(c);
   renderDoc(c);
   save();
 }
@@ -541,14 +591,38 @@ function renderOngoing(c){
 
 function renderCmp(c){
   const box=document.getElementById('cmpBox');
-  if(selectedFrameworks().length===0){box.innerHTML='<div class="row"><span>Add a framework to compare</span><span class="v"></span></div>';return;}
+  const pill=document.getElementById('cmpPill');
+  if(selectedFrameworks().length===0){box.innerHTML='<div class="row"><span>Add a framework to compare</span><span class="v"></span></div>'; if(pill)pill.textContent='below market'; return;}
+  if(pill) pill.textContent = c.savePct>0 ? (c.savePct+'% below market') : 'custom scope';
   let h='';
   h+='<div class="row head"><span>Traditional route</span><span class="v"></span></div>';
   h+='<div class="row"><span>Tooling license + independent consultant(s)</span><span class="v">'+money(c.trad)+'</span></div>';
   h+='<div class="row head"><span>Axis·Scale</span><span class="v"></span></div>';
   h+='<div class="row"><span>Platform + expert delivery</span><span class="v">'+money(c.clientTotal)+'</span></div>';
-  h+='<div class="row save"><span>You save</span><span class="v">'+c.savePct+'%</span></div>';
+  if(c.savePct>0) h+='<div class="row save"><span>You save</span><span class="v">'+c.savePct+'%</span></div>';
   box.innerHTML=h;
+}
+
+// Internal-only guardrail: shows realized ₪/day, the day-rate floor, and the 30%-below-market ceiling.
+// Hidden entirely in the public/embedded calculator (PUBLIC).
+function renderGuard(c){
+  const card=document.getElementById('guardCard'); if(!card) return;
+  if(PUBLIC || c.mode==='ongoing' || selectedFrameworks().length===0){ card.style.display='none'; return; }
+  card.style.display='block';
+  const floorLbl=(rates.dayRateFloorILS||2700);
+  let status,color,mark;
+  if(c.conflict){ status='Scope too small to be both 30% below market and ₪'+floorLbl+'/day - cut a gift or decline'; color='#ef4444'; mark='⚠ '; }
+  else if(c.belowFloor){ status='Below your floor - raise price to '+money(c.floorUSD); color='#ef4444'; mark='⚠ '; }
+  else if(c.aboveCeiling){ status='Not 30% below market - lower price to '+money(c.ceilingUSD); color='#f59e0b'; mark='⚠ '; }
+  else { status='In band - '+c.savePct+'% below market at ₪'+c.dayRateILS.toLocaleString('en-US')+'/day'; color='var(--success)'; mark='✓ '; }
+  let h='';
+  h+='<div class="row"><span>Estimated billable days</span><span class="v">'+c.laborDays+'</span></div>';
+  h+='<div class="row"><span>Your rate at this price</span><span class="v" style="color:'+(c.belowFloor?'#ef4444':'var(--success)')+'">₪'+c.dayRateILS.toLocaleString('en-US')+'/day</span></div>';
+  h+='<div class="row"><span>Floor (min for ₪'+floorLbl+'/day)</span><span class="v">'+money(c.floorUSD)+'</span></div>';
+  h+='<div class="row"><span>Ceiling (max to stay 30% below market)</span><span class="v">'+money(c.ceilingUSD)+'</span></div>';
+  h+='<div class="row save"><span>Status</span><span class="v" style="color:'+color+'">'+mark+status+'</span></div>';
+  document.getElementById('guardBox').innerHTML=h;
+  const gp=document.getElementById('guardPill'); if(gp){ gp.textContent=(c.belowFloor||c.aboveCeiling||c.conflict)?'action needed':'ok'; }
 }
 
 /* ---------------- client doc ---------------- */

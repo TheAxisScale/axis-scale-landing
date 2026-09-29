@@ -46,6 +46,7 @@ const controlCards = [
       <button data-tab="register" class="px-5 py-2 rounded-[8px] text-sm font-semibold border cursor-pointer" style="border-color:transparent;color:#8B949E;transition:all .15s">Risk register</button>
       <button data-tab="wizard"   class="px-5 py-2 rounded-[8px] text-sm font-semibold border cursor-pointer" style="border-color:transparent;color:#8B949E;transition:all .15s">Readiness wizard</button>
       <button data-tab="workplan" class="px-5 py-2 rounded-[8px] text-sm font-semibold border cursor-pointer" style="border-color:transparent;color:#8B949E;transition:all .15s">Mapped workplan</button>
+      <button data-tab="echo"     class="px-5 py-2 rounded-[8px] text-sm font-semibold border cursor-pointer" style="border-color:transparent;color:#8B949E;transition:all .15s">Echo</button>
     </div>
 
     <!-- Browser frame -->
@@ -75,7 +76,7 @@ const controlCards = [
       <div class="flex" style="height:460px">
 
         <!-- Sidebar -->
-        <div class="flex flex-col border-r flex-shrink-0" style="width:192px;background:#0D1117;border-color:#2A3347">
+        <div id="app-sidebar" class="flex flex-col border-r flex-shrink-0" style="width:192px;background:#0D1117;border-color:#2A3347">
           <div class="px-4 py-3.5 border-b" style="border-color:#2A3347">
             <svg width="92" height="16" viewBox="0 0 180 32" fill="none" aria-hidden="true">
               <g transform="translate(0,4)">
@@ -224,6 +225,123 @@ const controlCards = [
             </div>
           </div>
 
+          <!-- ECHO - questionnaire copilot (browser extension over a vendor portal) -->
+          <div data-panel="echo" style="display:none;height:100%;flex-direction:row">
+
+            <!-- Vendor's security questionnaire (their portal, dark to match the showcase) -->
+            <div style="flex:1;overflow-y:auto;background:#0D1117;padding:22px 26px">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
+                <div style="display:flex;align-items:center;gap:10px">
+                  <div style="width:26px;height:26px;border-radius:7px;background:#6366F1;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:800">V</div>
+                  <div>
+                    <div style="font-size:13px;font-weight:700;color:#E6EDF3">Vendor Security Review</div>
+                    <div style="font-size:10px;color:#6E7681">Section 2 of 5 &#xB7; Data protection</div>
+                  </div>
+                </div>
+                <span style="font-size:10px;font-weight:600;color:#818CF8;background:rgba(99,102,241,.12);padding:3px 9px;border-radius:100px;white-space:nowrap">18 questions</span>
+              </div>
+
+              <!-- Q3 - just pasted from Echo -->
+              <div style="background:#161B27;border:1px solid #2A3347;border-radius:10px;padding:14px 15px;margin-bottom:11px">
+                <div style="font-size:12px;font-weight:600;color:#E6EDF3;margin-bottom:8px">3. Do you encrypt customer data at rest?</div>
+                <div style="border:1.5px solid rgba(233,30,140,.55);border-radius:7px;background:rgba(233,30,140,.07);padding:9px 11px">
+                  <div style="font-size:11.5px;color:#C9D1D9;line-height:1.55">Yes. Customer data is encrypted at rest with AES-256 and in transit with TLS 1.2+. Keys are managed in AWS KMS with annual rotation.</div>
+                  <div style="display:flex;align-items:center;gap:5px;margin-top:8px;font-size:9.5px;font-weight:700;color:#E91E8C;text-transform:uppercase;letter-spacing:.5px">
+                    <svg width="11" height="11" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+                      <rect width="32" height="32" rx="7" fill="#0D1117"></rect>
+                      <rect x="6" y="17" width="8.5" height="8.5" rx="1.5" fill="#2A3347"></rect>
+                      <rect x="17" y="17" width="8.5" height="8.5" rx="1.5" fill="#3A4660"></rect>
+                      <rect x="6" y="6" width="8.5" height="8.5" rx="1.5" fill="#3A4660"></rect>
+                      <rect x="17" y="6" width="8.5" height="8.5" rx="1.5" fill="#E91E8C"></rect>
+                      <circle cx="21.5" cy="10.5" r="1.6" fill="#fff"></circle>
+                    </svg>
+                    Pasted from Echo
+                  </div>
+                </div>
+              </div>
+
+              <!-- Q4 - already answered -->
+              <div style="background:#161B27;border:1px solid #2A3347;border-radius:10px;padding:14px 15px;margin-bottom:11px">
+                <div style="font-size:12px;font-weight:600;color:#E6EDF3;margin-bottom:8px">4. Is multi-factor authentication enforced for administrative access?</div>
+                <div style="border:1px solid #2A3347;border-radius:7px;background:#0D1117;padding:9px 11px;font-size:11.5px;color:#C9D1D9;line-height:1.55">Yes. MFA is enforced for all administrative and remote access via Okta, with hardware keys required for privileged roles.</div>
+              </div>
+
+              <!-- Q5 - no evidence, human owns it -->
+              <div style="background:#161B27;border:1px solid #2A3347;border-radius:10px;padding:14px 15px">
+                <div style="font-size:12px;font-weight:600;color:#E6EDF3;margin-bottom:8px">5. Provide the date of your most recent penetration test.</div>
+                <div style="border:1px dashed #3A4660;border-radius:7px;background:#0D1117;padding:9px 11px;font-size:11px;color:#6E7681">Your answer...</div>
+                <div style="display:flex;align-items:center;gap:6px;margin-top:8px;font-size:10px;color:#F59E0B">
+                  <span style="width:6px;height:6px;border-radius:50%;background:#F59E0B;flex-shrink:0"></span>
+                  Echo found no evidence for this - answer it yourself
+                </div>
+              </div>
+            </div>
+
+            <!-- Echo side panel (docked, dark - the extension) -->
+            <div style="width:228px;flex-shrink:0;border-left:1px solid #2A3347;background:#0A0D13;display:flex;flex-direction:column;box-shadow:-14px 0 34px rgba(0,0,0,.5);position:relative;z-index:2">
+
+              <!-- Panel header -->
+              <div style="height:44px;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:0 12px;border-bottom:1px solid #2A3347;background:#161B27">
+                <div style="display:flex;align-items:center;gap:7px">
+                  <svg width="18" height="18" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+                    <rect width="32" height="32" rx="7" fill="#0D1117"></rect>
+                    <rect x="6" y="17" width="8.5" height="8.5" rx="1.5" fill="#2A3347"></rect>
+                    <rect x="17" y="17" width="8.5" height="8.5" rx="1.5" fill="#3A4660"></rect>
+                    <rect x="6" y="6" width="8.5" height="8.5" rx="1.5" fill="#3A4660"></rect>
+                    <rect x="17" y="6" width="8.5" height="8.5" rx="1.5" fill="#E91E8C"></rect>
+                    <circle cx="21.5" cy="10.5" r="1.6" fill="#fff"></circle>
+                  </svg>
+                  <span style="font-size:12px;font-weight:600;color:#E6EDF3">Echo</span>
+                </div>
+                <div style="display:flex;gap:2px;color:#6E7681">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M23 4v6h-6"></path><path d="M1 20v-6h6"></path><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                </div>
+              </div>
+
+              <!-- Panel body -->
+              <div style="flex:1;overflow-y:auto;padding:12px">
+
+                <!-- Extract summary -->
+                <div style="display:flex;gap:6px;margin-bottom:12px">
+                  <div style="flex:1;background:#161B27;border:1px solid #2A3347;border-radius:7px;padding:7px 4px;text-align:center">
+                    <div style="font-size:15px;font-weight:900;color:#E6EDF3;line-height:1">18</div>
+                    <div style="font-size:8.5px;color:#6E7681;margin-top:2px">found</div>
+                  </div>
+                  <div style="flex:1;background:#161B27;border:1px solid #2A3347;border-radius:7px;padding:7px 4px;text-align:center">
+                    <div style="font-size:15px;font-weight:900;color:#10B981;line-height:1">14</div>
+                    <div style="font-size:8.5px;color:#6E7681;margin-top:2px">drafted</div>
+                  </div>
+                  <div style="flex:1;background:#161B27;border:1px solid #2A3347;border-radius:7px;padding:7px 4px;text-align:center">
+                    <div style="font-size:15px;font-weight:900;color:#F59E0B;line-height:1">4</div>
+                    <div style="font-size:8.5px;color:#6E7681;margin-top:2px">need you</div>
+                  </div>
+                </div>
+
+                <!-- Focus card -->
+                <div style="background:#161B27;border:1px solid #2A3347;border-radius:8px;padding:11px 12px;display:flex;flex-direction:column;gap:9px">
+                  <div style="display:flex;align-items:center;gap:8px">
+                    <span style="font-size:10px;font-weight:600;color:#6E7681;white-space:nowrap;font-family:'JetBrains Mono',monospace">3 / 18</span>
+                    <div style="flex:1;height:4px;background:#2A3347;border-radius:100px;overflow:hidden"><div style="height:100%;width:17%;background:#E91E8C;border-radius:100px"></div></div>
+                  </div>
+                  <div style="font-size:12px;font-weight:600;color:#E6EDF3;line-height:1.5">Do you encrypt customer data at rest?</div>
+                  <div><span style="color:#10B981;background:rgba(16,185,129,.15);padding:2px 8px;border-radius:100px;font-size:9.5px;font-weight:700;letter-spacing:.4px">HIGH CONFIDENCE</span></div>
+                  <div style="font-size:11.5px;color:#C9D1D9;line-height:1.6;background:#0D1117;border:1px solid #2A3347;border-radius:6px;padding:8px 9px">Yes. Customer data is encrypted at rest with AES-256 and in transit with TLS 1.2+. Keys are managed in AWS KMS with annual rotation.</div>
+                  <div style="border-top:1px solid #2A3347;padding-top:8px;display:flex;flex-direction:column;gap:2px">
+                    <span style="font-size:9.5px;font-weight:700;color:#E91E8C;font-family:'JetBrains Mono',monospace">SOC 2 &#xB7; CC6.1</span>
+                    <span style="font-size:10px;color:#8B949E;line-height:1.45">Encryption Policy v2.3 &#xB7; &#xA7;4 Data at rest</span>
+                  </div>
+                  <div style="display:flex;gap:6px;margin-top:2px">
+                    <button style="flex:1;padding:6px;border-radius:6px;font-size:11px;font-weight:600;background:#1E2538;border:1px solid #3A4660;color:#8B949E;cursor:pointer">Edit</button>
+                    <button style="flex:1;padding:6px;border-radius:6px;font-size:11px;font-weight:700;background:#E91E8C;border:none;color:#fff;cursor:pointer">Copy &amp; next &#8594;</button>
+                  </div>
+                </div>
+
+                <p style="font-size:10px;color:#6E7681;line-height:1.55;margin-top:10px;text-align:center">You review and own every answer. Echo never fills or submits for you.</p>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
@@ -236,11 +354,13 @@ const controlCards = [
   const panels   = document.querySelectorAll('[data-panel]');
   const navItems = document.querySelectorAll('[data-nav-for]');
   const urlEl    = document.getElementById('browser-url');
+  const sidebar  = document.getElementById('app-sidebar');
 
   const urls = {
     register: 'app.axis-scale.com/register',
     wizard:   'app.axis-scale.com/assessment/step/4',
     workplan: 'app.axis-scale.com/workplan',
+    echo:     'vendor-portal.com/security-review',
   };
 
   function setTab(id) {
@@ -252,20 +372,22 @@ const controlCards = [
     });
     panels.forEach(function(p) {
       var on = p.dataset.panel === id;
-      if (on) {
-        if (id === 'wizard') {
-          p.style.display         = 'flex';
-          p.style.flexDirection   = 'column';
-          p.style.height          = '100%';
-        } else {
-          p.style.display = 'block';
-          p.style.removeProperty('flex-direction');
-          p.style.removeProperty('height');
-        }
+      if (!on) { p.style.display = 'none'; return; }
+      if (id === 'wizard') {
+        p.style.display       = 'flex';
+        p.style.flexDirection = 'column';
+        p.style.height        = '100%';
+      } else if (id === 'echo') {
+        p.style.display       = 'flex';
+        p.style.flexDirection = 'row';
+        p.style.height        = '100%';
       } else {
-        p.style.display = 'none';
+        p.style.display = 'block';
+        p.style.removeProperty('flex-direction');
+        p.style.removeProperty('height');
       }
     });
+    if (sidebar) sidebar.style.display = (id === 'echo') ? 'none' : 'flex';
     navItems.forEach(function(n) {
       var on = n.dataset.navFor === id;
       n.style.color           = on ? '#E6EDF3'               : '#8B949E';
