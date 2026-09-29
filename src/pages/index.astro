@@ -3,17 +3,13 @@ import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.astro';
 import Hero from '../components/Hero.astro';
 import Marquee from '../components/Marquee.astro';
-import WhySection from '../components/WhySection.astro';
-import TwoAnswers from '../components/TwoAnswers.astro';
-import PlatformProblem from '../components/PlatformProblem.astro';
-import BeforeAfterSection from '../components/BeforeAfterSection.astro';
-import WhatIsInside from '../components/WhatIsInside.astro';
-import ProductShowcase from '../components/ProductShowcase.astro';
+import ProblemSection from '../components/ProblemSection.astro';
+import PlatformSection from '../components/PlatformSection.astro';
+import DifferenceSection from '../components/DifferenceSection.astro';
+import PricingTiers from '../components/PricingTiers.astro';
+import ClosingSection from '../components/ClosingSection.astro';
 import EnforcementWatch from '../components/EnforcementWatch.astro';
 import NewsletterSignup from '../components/NewsletterSignup.astro';
-import PricingTiers from '../components/PricingTiers.astro';
-import EarlyAccess from '../components/EarlyAccess.astro';
-import CTAStrip from '../components/CTAStrip.astro';
 import Footer from '../components/Footer.astro';
 ---
 <Layout>
@@ -21,17 +17,13 @@ import Footer from '../components/Footer.astro';
   <main>
     <Hero />
     <Marquee />
-    <WhySection />
-    <TwoAnswers />
-    <BeforeAfterSection />
-    <WhatIsInside />
-    <ProductShowcase />
-    <EnforcementWatch />
-    <NewsletterSignup />
-    <PlatformProblem />
+    <ProblemSection />
+    <PlatformSection />
+    <DifferenceSection />
     <PricingTiers />
-    <EarlyAccess />
-    <CTAStrip />
+    <ClosingSection />
   </main>
+  <EnforcementWatch />
+  <NewsletterSignup />
   <Footer />
 </Layout>
