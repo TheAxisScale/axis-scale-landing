@@ -1,0 +1,595 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+---
+<Layout
+  title="The Five Questions - Minimum viable AI governance for startups"
+  description="A governance framework for startups with no GRC team. Five questions an owner answers about every AI system before it goes live."
+>
+  <Nav />
+
+  <div class="article-page">
+    <main class="article-col">
+
+      <header class="article-hero">
+        <h1 class="sr-only">The Five Questions</h1>
+        <figure class="hero-figure">
+          <img
+            src="/articles/five-questions-header-1600x900.png"
+            alt="The Five Questions - header illustration"
+            width="1600"
+            height="900"
+          />
+        </figure>
+        <p class="lede">Five questions an owner answers about every AI system before it goes live. Working title is a placeholder; the framework name is still open.</p>
+      </header>
+
+      <section>
+        <p class="sec-kicker">The gap</p>
+        <p>Open any AI governance content: the NIST AI Risk Management Framework, ISO 42001, the cheat sheets, the roles maps. All of it assumes a governance function exists. Someone owns the register. Someone runs the committee. Someone writes the policy.</p>
+        <p>A 20-person startup has none of that. It has a founder, a CTO, and a deal that just stalled on a security questionnaire. What it needs is not an enterprise framework at one-tenth scale. It needs five questions it can answer about every AI system before that system goes live, and enough evidence to prove the answers were real.</p>
+        <p class="key">Governance is real when you can produce the decision, the evidence, the owner and the stop condition before a customer, an auditor or an incident forces the question.</p>
+      </section>
+
+      <section>
+        <p class="sec-kicker">The five questions</p>
+        <p>Ask them about every AI system: the product features, the internal copilots, the agents. If a system cannot get five real answers, it is not governed. It is only described. Each answer produces one record; five questions produce the whole system.</p>
+        <div class="questions">
+          <article class="question">
+            <span class="q-num">01</span>
+            <div class="q-body">
+              <h2>Who owns it?</h2>
+              <p>One named person owns the outcome. "Engineering" is not an owner. "The AI team" is not an owner. If two people own it, nobody does. The owner approves release, accepts the residual risk, and gets woken up when it breaks.</p>
+              <p class="produces"><span>produces</span>One named owner in the AI inventory.</p>
+            </div>
+          </article>
+          <article class="question">
+            <span class="q-num">02</span>
+            <div class="q-body">
+              <h2>What can it access, and who approved that?</h2>
+              <p>List what the system is built from and what it can reach: models, retrieval and training data, tools, APIs, other agents. The <a href="https://owaspaibom.org/aibom-foundations-and-best-practices/">OWASP AIBOM Foundations Guide</a> (v1.0, September 2026) makes the same point from the supply-chain side: an AI system is not just code, so a software bill of materials alone cannot describe it. You cannot bound what you cannot list. Then the named owner approves the access, in writing, at least privilege: the least data, permissions, tools and transaction value the job needs.</p>
+              <p class="produces"><span>produces</span>The access and tool list, with the approver&#8217;s name.</p>
+            </div>
+          </article>
+          <article class="question">
+            <span class="q-num">03</span>
+            <div class="q-body">
+              <h2>What evidence shows it is still doing only that?</h2>
+              <p>Define acceptance tests and monitored indicators before launch, not after the first incident. Log decisions, overrides, drift and near misses. The test: what evidence would convince a skeptical customer that this system is controlled today, not at launch?</p>
+              <p class="produces"><span>produces</span>Acceptance tests and monitored indicators, defined before launch.</p>
+            </div>
+          </article>
+          <article class="question">
+            <span class="q-num">04</span>
+            <div class="q-body">
+              <h2>Who can revoke before its next action?</h2>
+              <p>Someone can stop the system before it acts again, and the mechanism sits outside the model. A prompt that says "do not do X" is not a stop condition. Deterministic authorization, an approval gate or a kill switch is. Name the person. Test the switch.</p>
+              <p class="produces"><span>produces</span>A tested stop mechanism outside the model, and the person who owns it.</p>
+            </div>
+          </article>
+          <article class="question">
+            <span class="q-num">05</span>
+            <div class="q-body">
+              <h2>Who answers when it fails?</h2>
+              <p>When the system hurts a customer or a deal, a named person owns the incident: containment, rollback, the customer answer, the regulator answer if one is needed. Rehearse it once. An untested incident path is a hope, not a control.</p>
+              <p class="produces"><span>produces</span>A rehearsed incident path with a named owner.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <figure class="diagram">
+        <img
+          src="/articles/five-questions-diagram-1400x1050.png"
+          alt="Each question produces one record. A material change reopens the questions."
+          width="1400"
+          height="1050"
+        />
+        <figcaption>Each question produces one record. A material change reopens the questions.</figcaption>
+      </figure>
+
+      <section>
+        <p class="sec-kicker">Agents raise the stakes</p>
+        <p>When the system can act, output quality is only half the risk. The other half is what it can do with a bad instruction or a false belief.</p>
+        <p>ENISA&#8217;s <a href="https://www.enisa.europa.eu/sites/default/files/2026-09/ENISA%20Technical%20Advisory-AI-assisted-software-development-draft.pdf">Technical Advisory on AI-assisted software development</a> (September 2026, still a formal draft at v0.4) states it plainly: functional correctness should not be confused with security. Code an agent writes can work exactly as asked and still ship vulnerabilities. The same advisory describes coding agents that inspect repositories, run commands, install dependencies and prepare pull requests. That is authority, and authority needs boundaries.</p>
+        <p>Identity is the other boundary. <a href="https://csrc.nist.gov/pubs/ir/8587/final">NIST IR 8587</a>, finalized in September 2026 with CISA, is a full interagency report on one problem: keeping identity tokens and assertions from being forged, stolen or misused. When NIST and CISA need an entire report for token protection, &#8220;the agent acts under a real, scoped identity&#8221; is engineering work, not a checkbox.</p>
+        <div class="terminal">
+          <div class="term-bar"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span><span class="term-title">release-check --agent</span></div>
+          <div class="term-body">
+            <p><span class="prompt">&#10095;</span> What is the maximum blast radius of one compromised instruction?</p>
+            <p><span class="prompt">&#10095;</span> Can the agent act on content supplied by the same party affected by the action?</p>
+            <p><span class="prompt">&#10095;</span> Can the system fabricate or ingest an &#8220;approval&#8221; as plain text?</p>
+            <p><span class="prompt">&#10095;</span> Can operators stop, roll back and reconstruct the action chain?<span class="cursor"></span></p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <p class="sec-kicker">Three tiers, not one control stack</p>
+        <p>Match the weight of control to the consequence of failure. Apply the stricter tier whenever the signals conflict.</p>
+        <div class="tiers">
+          <div class="tier">
+            <p class="tier-n">T1</p>
+            <h3>Assisted</h3>
+            <p class="tier-label">Typical use</p>
+            <p class="tier-v">Drafting, summarization, internal search</p>
+            <p class="tier-label">Signal</p>
+            <p class="tier-v">Human checks output; easy reversal</p>
+            <p class="tier-label">Minimum decision</p>
+            <p class="tier-v strong">Owner approval and inventory entry</p>
+          </div>
+          <div class="tier">
+            <p class="tier-n">T2</p>
+            <h3>Consequential</h3>
+            <p class="tier-label">Typical use</p>
+            <p class="tier-v">Customer support, code, recommendations, workflow decisions</p>
+            <p class="tier-label">Signal</p>
+            <p class="tier-v">External impact, sensitive data, reliance at scale</p>
+            <p class="tier-label">Minimum decision</p>
+            <p class="tier-v strong">Risk register, release evidence, monitoring</p>
+          </div>
+          <div class="tier">
+            <p class="tier-n">T3</p>
+            <h3>High-impact</h3>
+            <p class="tier-label">Typical use</p>
+            <p class="tier-v">Eligibility, money, safety, agents that transact or change systems</p>
+            <p class="tier-label">Signal</p>
+            <p class="tier-v">Rights or safety impact, privileged tools, limited human recovery</p>
+            <p class="tier-label">Minimum decision</p>
+            <p class="tier-v strong">Leadership acceptance, independent testing, explicit stop authority</p>
+          </div>
+        </div>
+        <p class="note"><strong>No low-risk shortcut.</strong> Tier 1 means a smaller control set, not no control set. Inventory, ownership, approved data use and human checking still apply.</p>
+      </section>
+
+      <section>
+        <p class="sec-kicker">Five records carry the system</p>
+        <p>A startup does not need forty templates. It needs five living records with evidence attached, kept where the team already works. The five questions produce them.</p>
+        <div class="terminal">
+          <div class="term-bar"><span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span><span class="term-title">owner@startup: ~/governance</span></div>
+          <div class="term-body">
+            <p><span class="prompt">&#10095;</span> <span class="cmd">ls records/</span></p>
+            <p class="ls"><span class="ls-n">01</span> <span class="ls-f">ai-inventory</span> <span class="ls-c"># every material use case, its named owner, its tier, what it touches</span></p>
+            <p class="ls"><span class="ls-n">02</span> <span class="ls-f">risk-register</span> <span class="ls-c"># cause, event, impact - scored before and after controls, owner, review date</span></p>
+            <p class="ls"><span class="ls-n">03</span> <span class="ls-f">decision-log</span> <span class="ls-c"># what was approved, by whom, on what evidence, residual risk</span></p>
+            <p class="ls"><span class="ls-n">04</span> <span class="ls-f">vendor-access</span> <span class="ls-c"># what external models may do with your data, who approved that access</span></p>
+            <p class="ls"><span class="ls-n">05</span> <span class="ls-f">test-incidents</span> <span class="ls-c"># acceptance tests, monitored indicators, overrides, incidents, near misses</span></p>
+            <p class="term-out">5 files, 0 templates. total: the whole system.<span class="cursor"></span></p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <p class="sec-kicker">How it runs</p>
+        <p>One monthly review, 45 minutes: new and changed use cases, top risks, monitor breaches, vendor changes, decisions and owners. Everything else is event-driven. A new use case, a new data source or supplier, a release, or a material change reopens the questions. No committees.</p>
+        <div class="rungrid">
+          <div><span class="run-v">5</span><span class="run-k">questions per system</span></div>
+          <div><span class="run-v">5</span><span class="run-k">living records</span></div>
+          <div><span class="run-v">4</span><span class="run-k">decision gates: use case, data and supplier, release, change</span></div>
+          <div><span class="run-v">45<span class="run-u">min</span></span><span class="run-k">one monthly review, the only standing meeting</span></div>
+        </div>
+      </section>
+
+      <section>
+        <p class="sec-kicker">Where this sits against the standards</p>
+        <p>The Five Questions is an operating translation, not a claim of equivalence or conformity. ISO 42001 builds a management system. The NIST AI RMF runs a Govern-Map-Measure-Manage lifecycle. Both assume someone has time to run them. This framework is what a small company does before that someone exists, and the records it creates are the same evidence a certification effort will ask for later. The EU AI Act and sector rules can add legal duties; this framework flags where to look and does not determine them.</p>
+      </section>
+
+      <section>
+        <p class="sec-kicker">Monday morning</p>
+        <p>Block one working session this week. Ninety minutes, the founder and the CTO.</p>
+        <div class="steps">
+          <div class="step"><span class="step-n">1</span><p>List every AI system that is live, in pilot, or quietly used by employees. Shadow AI is an inventory failure, not a discipline problem.</p></div>
+          <div class="step"><span class="step-n">2</span><p>Ask the five questions about each one. Write the answers down. That is your first inventory and your first decision log.</p></div>
+          <div class="step"><span class="step-n">3</span><p>Where answers live in people&#8217;s heads, assign the named owner. Where nobody can answer question 4, pause that system&#8217;s autonomy until the boundary exists.</p></div>
+        </div>
+        <p>That session is the framework running. Everything after it is iteration.</p>
+        <p class="note"><strong>Do not start here.</strong> Do not begin with a 40-page AI policy, a steering committee charter or a certification claim. Start with the live systems, the real decisions and the missing evidence.</p>
+      </section>
+
+      <section class="sources">
+        <p class="sec-kicker">Sources</p>
+        <ul>
+          <li><a href="https://owaspaibom.org/aibom-foundations-and-best-practices/">OWASP AIBOM Foundations Guide v1.0</a> - OWASP GenAI Security Project, September 2026.</li>
+          <li><a href="https://www.enisa.europa.eu/sites/default/files/2026-09/ENISA%20Technical%20Advisory-AI-assisted-software-development-draft.pdf">ENISA Technical Advisory on AI-assisted software development</a> - draft v0.4, September 2026.</li>
+          <li><a href="https://csrc.nist.gov/pubs/ir/8587/final">NIST IR 8587: Protecting Tokens and Assertions from Forgery, Theft, and Misuse</a> - final, NIST with CISA, September 2026.</li>
+          <li><a href="https://www.iso.org/standard/42001">ISO/IEC 42001:2023, AI management systems</a> and the <a href="https://www.nist.gov/itl/ai-risk-management-framework/nist-ai-rmf-playbook">NIST AI RMF Playbook</a> - the standards this framework translates.</li>
+        </ul>
+      </section>
+
+      <footer class="article-footer">
+        <p>Internal working draft by Eleanor Yehudai, 29 September 2026. Not legal advice or certification guidance. Sources checked 29 September 2026.</p>
+      </footer>
+
+    </main>
+  </div>
+
+  <Footer />
+</Layout>
+
+<style>
+  /* Article page - Rev 2 tokens applied, article's own structure preserved */
+
+  /* Scoped token overrides to match Rev 2 exactly */
+  .article-page {
+    --pink:      #E91E8C;
+    --pink-dim:  rgba(233, 30, 140, 0.45);
+    --bg:        #131211;
+    --panel:     #232120;
+    --panel-2:   #1A1918;
+    --line:      #454138;
+    --ink:       #F2F0EC;
+    --ink-2:     #B3AFA8;
+    --ink-3:     #8A857E;
+    --sans:      'Manrope Variable', Manrope, system-ui, sans-serif;
+    --mono:      'JetBrains Mono', 'Courier New', monospace;
+
+    background:
+      radial-gradient(900px 480px at 85% -80px, rgba(233, 30, 140, 0.06), transparent 60%),
+      var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .article-col {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: clamp(48px, 9vw, 96px) 24px 64px;
+  }
+
+  /* Hero */
+  .sec-kicker {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--pink);
+    margin: 0 0 18px;
+  }
+
+  .article-hero h1 {
+    font-size: clamp(44px, 9vw, 76px);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.02;
+    margin: 0 0 22px;
+  }
+
+  .lede {
+    font-size: clamp(17px, 2.6vw, 20px);
+    line-height: 1.55;
+    color: var(--ink-2);
+    max-width: 34em;
+    margin: 0 0 40px;
+  }
+
+  /* sr-only utility (not provided by Tailwind in this scope) */
+  .sr-only {
+    position: absolute;
+    width: 1px; height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  /* Hero figure + diagram images */
+  .hero-figure,
+  .diagram {
+    margin: 0;
+  }
+
+  .hero-figure img,
+  .diagram img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+  }
+
+  .hero-figure { margin-bottom: 28px; }
+
+  .diagram { margin-top: clamp(48px, 8vw, 72px); }
+
+  .diagram figcaption {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink-3);
+    margin-top: 12px;
+    text-align: center;
+  }
+
+  /* Terminal motif */
+  .terminal {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 28px 0 8px;
+  }
+
+  .term-bar {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--line);
+    background: var(--panel-2);
+  }
+
+  .term-dot {
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.14);
+  }
+
+  .term-title {
+    margin-left: 8px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-3);
+    letter-spacing: 0.04em;
+  }
+
+  .term-body {
+    padding: 18px 18px 20px;
+    font-family: var(--mono);
+    font-size: 13.5px;
+    line-height: 1.75;
+  }
+
+  .term-body p { margin: 0 0 4px; color: var(--ink-2); }
+  .prompt { color: var(--pink); font-weight: 600; }
+  .cmd { color: var(--ink); }
+  .term-out { color: var(--pink-dim); margin-top: 12px !important; }
+
+  .cursor {
+    display: inline-block;
+    width: 8px; height: 15px;
+    margin-left: 6px;
+    vertical-align: -2px;
+    background: var(--pink);
+    animation: blink 1.1s steps(1) infinite;
+  }
+
+  @keyframes blink { 50% { opacity: 0; } }
+
+  .ls-n { color: var(--pink); }
+  .ls-f { color: var(--ink); margin-right: 10px; }
+  .ls-c { color: var(--ink-3); }
+
+  /* Sections */
+  section { margin-top: clamp(64px, 10vw, 96px); }
+
+  section p {
+    font-size: 16.5px;
+    line-height: 1.7;
+    color: var(--ink-2);
+    margin: 0 0 18px;
+    max-width: 40em;
+  }
+
+  section p.key {
+    color: var(--ink);
+    font-weight: 600;
+    font-size: 17.5px;
+    border-left: 2px solid var(--pink);
+    padding-left: 16px;
+    margin-top: 26px;
+  }
+
+  a { color: var(--pink); text-decoration: none; border-bottom: 1px solid var(--pink-dim); }
+  a:hover { border-bottom-color: var(--pink); }
+
+  /* Five questions */
+  .questions { margin-top: 36px; }
+
+  .question {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 20px;
+    padding: 30px 0 32px;
+    border-top: 1px solid var(--line);
+  }
+
+  .question:last-child { border-bottom: 1px solid var(--line); }
+
+  .q-num {
+    font-family: var(--mono);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--pink);
+    padding-top: 6px;
+  }
+
+  .question h2 {
+    font-size: clamp(21px, 3.4vw, 26px);
+    font-weight: 800;
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+    margin: 0 0 12px;
+    color: var(--ink);
+  }
+
+  .question p { margin: 0 0 14px; }
+
+  .produces {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+    font-family: var(--mono);
+    font-size: 12.5px !important;
+    line-height: 1.6 !important;
+    color: var(--ink-2) !important;
+    border-left: 2px solid var(--pink);
+    padding-left: 12px;
+    margin-top: 16px !important;
+  }
+
+  .produces span {
+    color: var(--pink);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 11px;
+    white-space: nowrap;
+  }
+
+  /* Tiers */
+  .tiers {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin: 30px 0 26px;
+  }
+
+  .tier {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 20px 18px 22px;
+  }
+
+  .tier-n {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--pink);
+    margin: 0 0 6px !important;
+  }
+
+  .tier h3 {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    margin: 0 0 16px;
+    color: var(--ink);
+  }
+
+  .tier-label {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-3) !important;
+    margin: 0 0 4px !important;
+  }
+
+  .tier-v {
+    font-size: 13.5px !important;
+    line-height: 1.55 !important;
+    color: var(--ink-2) !important;
+    margin: 0 0 14px !important;
+  }
+
+  .tier-v.strong { color: var(--ink) !important; font-weight: 600; }
+  .tier-v:last-child { margin-bottom: 0 !important; }
+
+  .note {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-left: 2px solid var(--pink);
+    border-radius: 8px;
+    padding: 16px 18px;
+    font-size: 15px !important;
+    max-width: none !important;
+  }
+
+  .note strong { color: var(--ink); }
+
+  /* Run grid */
+  .rungrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-top: 28px;
+  }
+
+  .rungrid > div {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 18px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .run-v {
+    font-family: var(--mono);
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--pink);
+    line-height: 1;
+  }
+
+  .run-u { font-size: 15px; margin-left: 4px; color: var(--pink-dim); }
+  .run-k { font-size: 12.5px; line-height: 1.5; color: var(--ink-2); }
+
+  /* Monday steps */
+  .steps { margin: 26px 0 24px; }
+
+  .step {
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    gap: 16px;
+    padding: 18px 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .step:last-child { border-bottom: 1px solid var(--line); }
+
+  .step-n {
+    font-family: var(--mono);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--pink);
+    line-height: 1.3;
+  }
+
+  .step p { margin: 0 !important; }
+
+  /* Sources */
+  .sources ul { list-style: none; padding: 0; margin: 8px 0 0; }
+
+  .sources li {
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--ink-2);
+    padding: 12px 0;
+    border-top: 1px solid var(--line);
+  }
+
+  /* Article footer (inner, above site footer) */
+  .article-footer {
+    margin-top: clamp(64px, 10vw, 96px);
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+  }
+
+  .article-footer p {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--ink-3);
+    margin: 0;
+  }
+
+  /* Mobile */
+  @media (max-width: 640px) {
+    .article-col { padding: 40px 20px 56px; }
+    .question { grid-template-columns: 40px 1fr; gap: 14px; }
+    .tiers { grid-template-columns: 1fr; }
+    .rungrid { grid-template-columns: 1fr 1fr; }
+    .term-body { font-size: 12px; }
+    .ls-c { display: block; margin-left: 26px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cursor { animation: none; opacity: 1; }
+  }
+</style>

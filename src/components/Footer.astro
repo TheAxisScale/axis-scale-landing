@@ -1,7 +1,8 @@
 ---
-const APP_LOGIN   = 'https://app.axis-scale.com/login';
-const PRIVACY_URL = '/privacy';
-const TERMS_URL   = '/terms';
+const APP_LOGIN       = 'https://app.axis-scale.com/login';
+const PRIVACY_URL     = '/privacy';
+const TERMS_URL       = '/terms';
+const FIVE_QUESTIONS  = '/articles/the-five-questions';
 ---
 <footer class="border-t border-border py-10 px-6">
   <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
@@ -23,6 +24,7 @@ const TERMS_URL   = '/terms';
 
     <div class="flex items-center gap-6 text-sm text-sec">
       <a href={APP_LOGIN} class="hover:text-pri transition-colors">Log in</a>
+      <a href={FIVE_QUESTIONS} class="hover:text-pri transition-colors">Writing</a>
       <a href={PRIVACY_URL} class="hover:text-pri transition-colors">Privacy</a>
       <a href={TERMS_URL} class="hover:text-pri transition-colors">Terms</a>
       <button onclick="window.axsShowCookieBanner?.()" class="hover:text-pri transition-colors cursor-pointer">Cookie preferences</button>
