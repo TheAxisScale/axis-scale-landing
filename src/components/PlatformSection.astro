@@ -37,7 +37,7 @@ const caps = [
             <h3 class="font-display font-[700] text-[24px] text-pri mb-3">{c.title}</h3>
             <p class="text-sec text-[17px] leading-[1.6] max-w-[440px]">{c.body}</p>
           </div>
-          <ProductLoop src={c.src} poster={`/media/${c.src}.jpg`} label={`${c.title} in Axis-Scale`} />
+          <ProductLoop src={c.src} poster={`/media/${c.src}.jpg`} label={`${c.title} in Axis-Scale`} hasClip={true} />
         </div>
       ))}
     </div>
