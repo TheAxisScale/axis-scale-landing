@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>ISO/IEC 27090:2026 · AI system security, at a glance</title>
+<meta name="description" content="The first ISO standard devoted entirely to AI-specific security threats: what gets attacked, how to detect it, and how to mitigate it across the whole life cycle. An independent summary, not the text of the standard.">
+<meta name="author" content="Axis Scale">
+<link rel="canonical" href="https://axis-scale.com/iso-27090-at-a-glance">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Axis Scale">
+<meta property="og:url" content="https://axis-scale.com/iso-27090-at-a-glance">
+<meta property="og:title" content="ISO/IEC 27090:2026 · AI system security, at a glance">
+<meta property="og:description" content="The first ISO standard devoted entirely to AI-specific security threats: what gets attacked, how to detect it, and how to mitigate it. An independent summary, not the text of the standard.">
+<meta property="og:image" content="https://axis-scale.com/iso-27090-at-a-glance/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ISO/IEC 27090:2026 · AI system security, at a glance">
+<meta name="twitter:description" content="The first ISO standard devoted entirely to AI-specific security threats. An independent summary, not the text of the standard.">
+<meta name="twitter:image" content="https://axis-scale.com/iso-27090-at-a-glance/og.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='2' y='13' width='9' height='9' rx='1.7' fill='%233C3934'/%3E%3Crect x='13' y='13' width='9' height='9' rx='1.7' fill='%235C5751'/%3E%3Crect x='2' y='2' width='9' height='9' rx='1.7' fill='%235C5751'/%3E%3Crect x='13' y='2' width='9' height='9' rx='1.7' fill='%23E91E8C'/%3E%3Ccircle cx='17.5' cy='6.5' r='1.6' fill='%23fff'/%3E%3C/svg%3E">
+
+<!-- Fonts: Manrope (latin), Heebo (hebrew), JetBrains Mono (risk keys) - per the Axis Scale design system. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Heebo:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+
+<style>
+/* =============================================================
+   AXIS SCALE - DESIGN TOKENS · REVISION 2  (colors_and_type.css)
+   A noise-reduction pass: warm-charcoal surfaces, a single hot-pink
+   accent, one breach red, the 9px "critical tile" motif. Dark is the
+   primary mode; light exists for print/export (the --doc-* block and
+   the [data-theme="light"] overrides below).
+   ============================================================= */
+:root {
+  /* Surfaces (warm charcoal stack - no blue cast) */
+  --bg-base:        #131211;
+  --bg-surface:     #232120;
+  --bg-sunken:      #080807;
+  --bg-hover:       #2C2A28;
+  --border:         #454138;
+  --border-light:   #262421;
+
+  /* Text (four tiers) */
+  --text-primary:   #F2F0EC;
+  --text-secondary: #B3AFA8;
+  --text-tertiary:  #8A857E;
+  --text-faint:     #6C6862;
+
+  /* Brand accent - the only accent */
+  --accent:         #E91E8C;
+  --accent-hover:   #C91576;
+  --accent-print:   #A32E63;
+  --accent-dim:     rgba(233, 30, 140, 0.12);
+  --accent-border:  rgba(233, 30, 140, 0.40);
+
+  /* Breach - the only other colour on the product surface */
+  --breach:         #F2685C;
+  --breach-dim:     rgba(242, 104, 92, 0.12);
+  --breach-print:   #B3261E;
+
+  /* The motif */
+  --tile-size:      9px;
+  --tile-radius:    2px;
+  --tile-color:     var(--accent);
+  --tile-muted:     #4A463F;
+
+  /* Radii */
+  --radius-tile:    2px;
+  --radius:         3px;
+  --radius-sm:      6px;
+  --radius-pill:    20px;
+
+  /* Elevation - one recipe, lit from the upper right */
+  --elev-sunken:    -14px 16px 34px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.04);
+  --elev-sunken-sm: -12px 14px 28px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.04);
+  --elev-modal:     0 4px 16px rgba(0,0,0,.5);
+
+  /* Type */
+  --font-sans: 'Manrope', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-hebrew: 'Heebo', 'Manrope', Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --fs-display:     46px;   --lh-display: 1.04;  --tracking-display: -1.9px;
+  --fs-h1:          34px;   --lh-h1:      1.10;  --tracking-h1:      -.9px;
+  --fs-h2:          30px;   --lh-h2:      1.15;  --tracking-h2:      -1.1px;
+  --fs-h3:          18px;   --lh-h3:      1.35;  --tracking-h3:      -.4px;
+  --fs-lede:        17px;   --lh-lede:    1.55;
+  --fs-body:        15px;   --lh-body:    1.60;
+  --fs-body-he:     15px;   --lh-body-he: 1.70;
+  --fs-body-sm:     13.5px; --lh-body-sm: 1.5;
+  --fs-meta:        12.5px; --lh-meta:    1.6;
+  --fs-eyebrow:     12px;   --lh-eyebrow: 1.2;   --tracking-eyebrow: 1.1px;
+  --fs-micro:       10px;   --lh-micro:   1.2;   --tracking-micro:   1.2px;
+  --fs-th:          9.5px;  --lh-th:      1.2;   --tracking-th:      .9px;
+  --fs-stat:        44px;   --lh-stat:    1.0;   --tracking-stat:    -2px;
+
+  /* Spacing scale (4px base) */
+  --sp-1: 4px;   --sp-2: 6px;   --sp-3: 8px;
+  --sp-4: 10px;  --sp-5: 12px;  --sp-6: 14px;
+  --sp-7: 16px;  --sp-8: 18px;  --sp-9: 20px;
+  --sp-10: 22px; --sp-11: 24px; --sp-12: 26px;
+  --sp-14: 30px; --sp-16: 34px; --sp-20: 44px;
+  --sp-24: 56px; --sp-28: 64px;
+  --section-gap: 44px;
+
+  --measure-body: 62ch;
+  --measure-lede: 52ch;
+  --sidebar-w: 224px;
+}
+
+/* =============================================================
+   SEMANTIC TYPE + MOTIF
+   ============================================================= */
+html, body { font-family: var(--font-sans); color: var(--text-primary); background: var(--bg-base); }
+[dir="rtl"], .t-he { font-family: var(--font-hebrew); }
+
+.t-display   { font-size: var(--fs-display); line-height: var(--lh-display); font-weight: 800; letter-spacing: var(--tracking-display); color: var(--text-primary); }
+.t-h1        { font-size: var(--fs-h1); line-height: var(--lh-h1); font-weight: 700; letter-spacing: var(--tracking-h1); color: var(--text-primary); }
+.t-h2        { font-size: var(--fs-h2); line-height: var(--lh-h2); font-weight: 700; letter-spacing: var(--tracking-h2); color: var(--text-primary); }
+.t-h3        { font-size: var(--fs-h3); line-height: var(--lh-h3); font-weight: 600; letter-spacing: var(--tracking-h3); color: var(--text-primary); }
+.t-lede      { font-size: var(--fs-lede); line-height: var(--lh-lede); font-weight: 400; color: var(--text-secondary); max-width: var(--measure-lede); }
+.t-eyebrow   { font-size: var(--fs-eyebrow); line-height: var(--lh-eyebrow); font-weight: 700; text-transform: uppercase; letter-spacing: var(--tracking-eyebrow); color: var(--text-tertiary); }
+.t-micro     { font-size: var(--fs-micro); line-height: var(--lh-micro); font-weight: 700; text-transform: uppercase; letter-spacing: var(--tracking-micro); color: var(--text-tertiary); }
+
+/* Heading terminal - closes an H1 in place of a full stop. */
+.tile {
+  display: inline-block;
+  width: var(--tile-size); height: var(--tile-size);
+  border-radius: var(--tile-radius);
+  background: var(--tile-color);
+  margin-left: 6px;
+}
+
+/* Lead bullet - first item takes the accent, the rest stay neutral. */
+.tile-list { display: grid; gap: 13px; }
+.tile-list > li {
+  display: grid; grid-template-columns: var(--tile-size) 1fr; gap: 14px;
+  align-items: start; list-style: none;
+}
+.tile-list .dot {
+  width: var(--tile-size); height: var(--tile-size);
+  border-radius: var(--tile-radius); background: var(--tile-muted); margin-top: 7px;
+}
+.tile-list .dot.is-lead { background: var(--accent); }
+
+/* Elevation - the one block that carries the argument. */
+.panel {
+  background: var(--bg-sunken);
+  border-radius: var(--radius);
+  padding: 22px 24px 18px;
+  box-shadow: var(--elev-sunken);
+}
+
+/* =============================================================
+   BASE + LIGHT THEME
+   Light exists for print and documents only; tokens are re-pointed
+   at the warm "doc" ramp. data-theme lives on .page.
+   ============================================================= */
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+button { font-family: inherit; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent-hover); text-decoration: underline; }
+
+[data-theme] { --logo-1: #3C3934; --logo-2: #5C5751; }
+[data-theme="light"] {
+  --bg-base:#FCFCFB; --bg-surface:#F1EFEB; --bg-sunken:#FFFFFF; --bg-hover:#E8E5E0;
+  --border:#C9C6C1; --border-light:#E6E3DE;
+  --text-primary:#1B1B1A; --text-secondary:#55534F; --text-tertiary:#76736E; --text-faint:#8C8A86;
+  --accent:#A32E63; --accent-hover:#86234F; --accent-dim:rgba(163,46,99,.09); --accent-border:rgba(163,46,99,.45);
+  --tile-muted:#C9C6C1;
+  --elev-sunken:-14px 16px 34px rgba(27,27,26,.08),-2px 2px 6px rgba(27,27,26,.04);
+  --logo-1:#DAD7D2; --logo-2:#B4B0A9;
+}
+
+/* =============================================================
+   PAGE SHELL
+   ============================================================= */
+.page { min-height: 100vh; background: var(--bg-base); color: var(--text-primary); }
+
+.site-header { position: sticky; top: 0; z-index: 10; background: var(--bg-base); border-bottom: 1px solid var(--border-light); }
+.site-header__inner { max-width: 1100px; margin: 0 auto; padding: 12px clamp(18px,4vw,36px); display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.brand { display: flex; align-items: center; gap: 9px; }
+.brand__name { font-family: var(--font-sans); font-size: 15px; letter-spacing: -.3px; }
+.brand__name b { font-weight: 800; }
+.brand__name .dot { color: var(--accent); font-weight: 800; }
+.brand__name .scale { font-weight: 500; color: var(--text-tertiary); }
+.std-tag { font-family: var(--font-mono); font-size: 12px; font-weight: 600; color: var(--text-tertiary); }
+.header-actions { margin-inline-start: auto; display: flex; align-items: center; gap: 8px; }
+.btn-ghost {
+  background: transparent; border: 1.5px solid var(--border); color: var(--text-secondary);
+  border-radius: 20px; padding: 6px 14px; font-size: 12px; font-weight: 700; cursor: pointer;
+  transition: color .12s ease, border-color .12s ease;
+}
+.btn-ghost:hover { color: var(--text-primary); border-color: var(--text-tertiary); }
+
+.main { max-width: 1100px; margin: 0 auto; padding: 0 clamp(18px,4vw,36px); }
+.section { padding-top: 88px; }
+.section--hero { padding: clamp(48px,9vw,96px) 0 0; }
+
+/* Hero */
+.hero__title { margin: 0 0 22px; font-size: clamp(34px,6.5vw,58px); text-wrap: balance; }
+.hero__lead { margin: 0; font-size: clamp(16px,2vw,19px); max-width: 58ch; text-wrap: pretty; }
+.facts { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,220px),1fr)); gap: 12px; margin-top: 40px; }
+.fact { background: var(--bg-surface); border-radius: 3px; padding: 20px 20px 22px; display: flex; flex-direction: column; gap: 10px; }
+.fact__v { font-size: 15px; font-weight: 600; line-height: 1.5; color: var(--text-primary); text-wrap: pretty; }
+
+/* Section intro copy */
+.section__title { margin: 0 0 12px; font-size: clamp(24px,4vw,30px); }
+.section__sub { margin: 0; font-size: 15px; line-height: 1.65; color: var(--text-secondary); max-width: 62ch; text-wrap: pretty; }
+
+/* Threats */
+.threats__chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 26px 0 18px; }
+.chip {
+  border-radius: 20px; padding: 7px 14px; font-size: 12px; font-weight: 700; letter-spacing: .3px; cursor: pointer;
+  transition: background .12s ease, color .12s ease, border-color .12s ease;
+  background: var(--bg-base); border: 1.5px solid var(--border); color: var(--text-tertiary);
+}
+.chip:hover { border-color: var(--text-tertiary); }
+.chip--on { background: var(--accent-dim); border-color: var(--accent-border); color: var(--accent); }
+.chip--on:hover { border-color: var(--accent-border); }
+
+.threats__grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(min(100%,300px),1fr)); gap: 12px; align-items: start; }
+.threat { background: var(--bg-surface); border-radius: 3px; border: 1.5px solid transparent; transition: border-color .12s ease; }
+.threat--open { border-color: var(--accent-border); }
+.threat__btn { all: unset; box-sizing: border-box; display: flex; flex-direction: column; gap: 14px; width: 100%; padding: 18px 20px; cursor: pointer; text-align: start; }
+.threat__btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.threat__top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.cia { display: flex; gap: 4px; }
+.cia__b {
+  font-family: var(--font-mono); font-size: 10.5px; font-weight: 700;
+  width: 22px; height: 20px; display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 20px; background: transparent; color: var(--text-faint);
+}
+.cia__b--on { background: var(--accent-dim); color: var(--accent); }
+.threat__head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.threat__name { font-family: var(--font-sans); font-size: 17px; font-weight: 700; letter-spacing: -.3px; color: var(--text-primary); }
+.threat__sign { font-size: 18px; font-weight: 500; color: var(--text-tertiary); line-height: 1; }
+.threat__body { padding: 0 20px 20px; display: flex; flex-direction: column; gap: 14px; }
+.threat__rule { height: 1px; background: var(--border-light); }
+.threat__row { display: flex; flex-direction: column; gap: 4px; }
+.threat__row .t-micro { color: var(--text-faint); }
+.threat__row-v { font-size: 14px; line-height: 1.6; color: var(--text-secondary); text-wrap: pretty; }
+.threat__clause { font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: var(--accent); }
+
+/* Controls + zero trust (two columns) */
+.cols { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,400px),1fr)); gap: clamp(40px,6vw,64px); }
+.col__title { margin: 0 0 24px; font-size: clamp(22px,3.4vw,26px); }
+.controls { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.control { display: grid; grid-template-columns: 34px 1fr; gap: 10px; padding: 14px 0; border-bottom: 1px solid var(--border-light); }
+.control__n { font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: var(--accent); padding-top: 2px; }
+.control__t { font-size: 15px; line-height: 1.6; color: var(--text-secondary); text-wrap: pretty; }
+.control__t strong { color: var(--text-primary); font-weight: 700; }
+.zt-note { margin: 22px 0 0; font-size: 13.5px; line-height: 1.65; color: var(--text-tertiary); text-wrap: pretty; }
+.zt-item { font-size: 15px; line-height: 1.6; color: var(--text-primary); text-wrap: pretty; }
+
+/* 90-day plan */
+.plan__scroll { overflow-x: auto; padding-bottom: 6px; }
+.plan__bar { display: flex; gap: 4px; min-width: 680px; }
+.phase {
+  min-width: 0; text-align: start; cursor: pointer; border-radius: 3px; padding: 14px 12px 16px;
+  display: flex; flex-direction: column; gap: 10px; transition: background .12s ease, border-color .12s ease;
+  background: var(--bg-surface); border: 1.5px solid transparent;
+}
+.phase:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.phase--on { background: var(--accent-dim); border-color: var(--accent-border); }
+.phase__bar { display: block; height: 4px; border-radius: 2px; background: var(--tile-muted); }
+.phase--on .phase__bar { background: var(--accent); }
+.phase__weeks { font-family: var(--font-mono); font-size: 11px; font-weight: 600; color: var(--text-tertiary); white-space: nowrap; }
+.phase__name { font-size: 14px; font-weight: 700; line-height: 1.3; color: var(--text-secondary); }
+.phase--on .phase__name { color: var(--text-primary); }
+.plan__detail { margin-top: 18px; padding: clamp(22px,3vw,32px); }
+.plan__detail-head { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 18px; }
+.plan__detail-weeks { font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: var(--accent); }
+.plan__detail-name { font-size: 20px; }
+.plan__what { margin: 0 0 26px; font-size: 15px; line-height: 1.7; color: var(--text-primary); max-width: 68ch; text-wrap: pretty; }
+.plan__meta { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,260px),1fr)); gap: 22px 34px; }
+.plan__meta-cell { display: flex; flex-direction: column; gap: 6px; }
+.plan__meta-out { font-size: 14px; line-height: 1.6; color: var(--text-secondary); }
+.plan__meta-closes { font-family: var(--font-mono); font-size: 13px; line-height: 1.7; color: var(--text-secondary); }
+
+/* Self-check */
+.quiz__list { display: flex; flex-direction: column; }
+.q { display: flex; align-items: center; justify-content: space-between; gap: 16px 28px; flex-wrap: wrap; padding: 18px 0; border-bottom: 1px solid var(--border-light); }
+.q__text { display: grid; grid-template-columns: 28px 1fr; gap: 8px; flex: 1 1 360px; }
+.q__n { font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: var(--text-tertiary); padding-top: 2px; }
+.q__q { font-size: 15.5px; line-height: 1.6; color: var(--text-primary); text-wrap: pretty; }
+.q__btns { display: flex; gap: 8px; }
+.q__btn {
+  min-width: 72px; min-height: 40px; border-radius: 20px; padding: 8px 18px; font-size: 13px; font-weight: 700; cursor: pointer;
+  transition: background .12s ease, color .12s ease, border-color .12s ease;
+  background: var(--bg-base); border: 1.5px solid var(--border); color: var(--text-tertiary);
+}
+.q__btn:hover { border-color: var(--text-tertiary); }
+.q__btn--on { background: var(--accent-dim); border-color: var(--accent-border); color: var(--accent); }
+.q__btn--on:hover { border-color: var(--accent-border); }
+.quiz__resp { margin-top: 26px; display: grid; grid-template-columns: 9px 1fr; gap: 14px; align-items: start; max-width: 68ch; }
+.quiz__resp-dot { width: 9px; height: 9px; border-radius: 2px; margin-top: 8px; background: var(--tile-muted); }
+.quiz__resp--done .quiz__resp-dot { background: var(--accent); }
+.quiz__resp-text { margin: 0; font-size: 16px; line-height: 1.65; font-weight: 500; color: var(--text-tertiary); text-wrap: pretty; }
+.quiz__resp--done .quiz__resp-text { color: var(--text-primary); }
+
+/* Limits */
+.limits { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,420px),1fr)); gap: 12px; }
+.limit { background: var(--bg-surface); border-radius: 3px; padding: 22px 24px; display: flex; flex-direction: column; gap: 10px; }
+.limit__k { font-size: 16px; font-weight: 700; line-height: 1.4; color: var(--text-primary); text-wrap: pretty; }
+.limit__v { font-size: 14.5px; line-height: 1.65; color: var(--text-secondary); text-wrap: pretty; }
+
+/* Footer */
+.site-footer { max-width: 1100px; margin: 0 auto; padding: 96px clamp(18px,4vw,36px) 48px; }
+.site-footer__inner { border-top: 1px solid var(--border-light); padding-top: 26px; display: flex; flex-direction: column; gap: 22px; }
+.site-footer__legal { margin: 0; font-size: 12.5px; line-height: 1.6; color: var(--text-faint); max-width: 72ch; }
+.site-footer__row { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.site-footer__link { font-size: 13px; font-weight: 600; }
+</style>
+</head>
+
+<body>
+<div class="page" id="page" data-theme="dark">
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <div class="brand" dir="ltr">
+        <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="2" y="13" width="9" height="9" rx="1.7" style="fill:var(--logo-1)"></rect>
+          <rect x="13" y="13" width="9" height="9" rx="1.7" style="fill:var(--logo-2)"></rect>
+          <rect x="2" y="2" width="9" height="9" rx="1.7" style="fill:var(--logo-2)"></rect>
+          <rect x="13" y="2" width="9" height="9" rx="1.7" style="fill:var(--accent)"></rect>
+          <circle cx="17.5" cy="6.5" r="1.6" fill="#fff"></circle>
+        </svg>
+        <span class="brand__name"><b>Axis</b><span class="dot">·</span><span class="scale">Scale</span></span>
+      </div>
+      <span class="std-tag" dir="ltr">ISO/IEC 27090:2026</span>
+      <div class="header-actions">
+        <button class="btn-ghost" id="themeToggle" type="button" aria-label="Toggle colour theme">Light</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+
+    <!-- Hero -->
+    <section class="section--hero">
+      <div class="t-eyebrow" style="margin-bottom:18px">ISO/IEC 27090:2026 · First edition · October 2026</div>
+      <h1 class="t-display hero__title">AI system security, at a glance<span class="tile"></span></h1>
+      <p class="t-lede hero__lead">The first ISO standard devoted entirely to AI-specific security threats: what gets attacked, how to detect it, and how to mitigate it across the whole life cycle. An independent summary, not the text of the standard.</p>
+      <div class="facts" id="facts"></div>
+    </section>
+
+    <!-- Threat scenarios -->
+    <section class="section">
+      <h2 class="t-h2 section__title">13 threat scenarios</h2>
+      <p class="section__sub">Grouped by the asset compromised first. Open a card for: what is hit, how to detect it, how to mitigate it, and where it sits in the standard.</p>
+      <div class="threats__chips" id="chips" role="group" aria-label="Filter threats by asset"></div>
+      <div class="threats__grid" id="threats"></div>
+    </section>
+
+    <!-- Controls + zero trust -->
+    <section class="section cols">
+      <div>
+        <h2 class="t-h2 col__title">7 organizational controls (Clause 5)</h2>
+        <ol class="controls" id="controls"></ol>
+      </div>
+      <div>
+        <h2 class="t-h2 col__title">6 zero-trust principles repeated for every threat</h2>
+        <div class="panel" style="padding:24px 24px 22px">
+          <ul class="tile-list" id="zt" style="margin:0;padding:0;gap:16px"></ul>
+        </div>
+        <p class="zt-note">Also: data minimization, minimal retention, human oversight, per-task privileges for agents, continuous validation, signed provenance.</p>
+      </div>
+    </section>
+
+    <!-- 90-day plan -->
+    <section class="section">
+      <h2 class="t-h2 section__title">90 days: from the standard to an updated SoA</h2>
+      <p class="section__sub" style="margin-bottom:28px">A sample plan for an organization with a live ISO 27001 and 3 to 6 AI systems. Pick a phase to see what happens in it.</p>
+      <div class="plan__scroll">
+        <div class="plan__bar" id="phases"></div>
+      </div>
+      <div class="panel plan__detail" id="planDetail"></div>
+    </section>
+
+    <!-- Self-check -->
+    <section class="section">
+      <h2 class="t-h2 section__title">Three questions to check this week</h2>
+      <p class="section__sub" style="margin-bottom:26px">No score here. Just a picture of where you stand against the baseline the standard assumes.</p>
+      <div class="quiz__list" id="quiz"></div>
+      <div class="quiz__resp" id="quizResp">
+        <span class="quiz__resp-dot"></span>
+        <p class="quiz__resp-text" id="quizRespText" aria-live="polite">Answer all three to see the picture.</p>
+      </div>
+    </section>
+
+    <!-- Limits -->
+    <section class="section">
+      <h2 class="t-h2 section__title" style="margin-bottom:26px">What the standard itself says it does not give you</h2>
+      <div class="limits" id="limits"></div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <p class="site-footer__legal">Independent summary written from a reading of ISO/IEC 27090:2026. Not a substitute for the standard; not affiliated with ISO/IEC.</p>
+      <div class="site-footer__row">
+        <div class="brand" dir="ltr">
+          <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="2" y="13" width="9" height="9" rx="1.7" style="fill:var(--logo-1)"></rect>
+            <rect x="13" y="13" width="9" height="9" rx="1.7" style="fill:var(--logo-2)"></rect>
+            <rect x="2" y="2" width="9" height="9" rx="1.7" style="fill:var(--logo-2)"></rect>
+            <rect x="13" y="2" width="9" height="9" rx="1.7" style="fill:var(--accent)"></rect>
+            <circle cx="17.5" cy="6.5" r="1.6" fill="#fff"></circle>
+          </svg>
+          <span class="brand__name" style="font-size:14px"><b>Axis</b><span class="dot">·</span><span class="scale">Scale</span></span>
+        </div>
+        <a class="site-footer__link" id="siteLink" dir="ltr" href="https://axisscale.com" target="_blank" rel="noopener">axisscale.com ↗</a>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+'use strict';
+(function () {
+  // ── Config (editable props in the original design) ──────────────
+  const SITE_URL = 'https://axis-scale.com';
+  const GOATCOUNTER_CODE = ''; // e.g. 'yourcode' → loads https://yourcode.goatcounter.com/count
+
+  // ── Content ─────────────────────────────────────────────────────
+  const FILTERS = ['All', 'Training data', 'The model', 'Input & output', 'Infrastructure'];
+  const FIELDS = [['asset', 'Asset'], ['detection', 'Detection'], ['mitigation', 'Mitigation']];
+  const CIA_LABEL = { C: 'Confidentiality', I: 'Integrity', A: 'Availability' };
+
+  const FACTS = [
+    ['Type', 'Guidance, not certifiable on its own'],
+    ['Who', 'Any organization developing or using AI'],
+    ['Built on', 'ISO 27001/27002 and ISO 42001'],
+    ['How to adopt', 'As an AI control set inside your existing SoA']
+  ];
+
+  // group: 1 Training data · 2 The model · 3 Input & output · 4 Infrastructure
+  // cia:   which of C/I/A this scenario threatens
+  const THREATS = [
+    { group: 1, name: 'Data poisoning', cia: 'I', asset: 'Training data, RAG, inputs under continuous learning', detection: 'Dataset integrity checks (hashes), anomaly detection, activation clustering', mitigation: 'Assume data is tainted and sanitize; provenance and access control; ensembles; retrain on a clean set', clause: 'Clause 6.2' },
+    { group: 1, name: 'Membership inference', cia: 'C', asset: 'Training data (privacy)', detection: 'Query frequency, sequence and diversity per user', mitigation: 'Differential privacy, training data minimization, limited output access and query counts', clause: 'Clause 6.4' },
+    { group: 1, name: 'Model inversion', cia: 'C', asset: 'Training data', detection: 'Systematic exploration of the prediction space from one caller', mitigation: 'Rate limits, DP, de-identification, synthetic data', clause: 'Clause 6.6' },
+    { group: 1, name: 'Training data leak', cia: 'C', asset: 'Training data in dev or cloud environments', detection: 'DLP and generic incident detection', mitigation: 'Encryption, access control, vetting the cloud vendor that receives training data', clause: 'Clause B.6' },
+    { group: 2, name: 'Direct model poisoning', cia: 'I', asset: 'The model, the pipeline, a supplied model', detection: 'Generic detection in the dev environment, threat intel on model sources', mitigation: 'Dev environment protection, TEE in operation, supply chain management', clause: 'Clause 6.7' },
+    { group: 2, name: 'Model exfiltration', cia: 'C', asset: 'The model (IP)', detection: 'User behaviour analytics, extraction thresholds, unusual query distributions', mitigation: 'Access control, withheld confidence scores, throttling, watermarking', clause: 'Clause 6.5' },
+    { group: 2, name: 'Direct model theft', cia: 'C', asset: 'Model parameters in storage or memory', detection: 'Generic attack detection', mitigation: 'Dev environment protection, TEE, model obfuscation', clause: 'Clause B.5' },
+    { group: 2, name: 'Backdoor', cia: 'I', asset: 'Weights, architecture, pre-trained models', detection: 'Scanning weight files, runtime behaviour monitoring', mitigation: 'Safe weight formats, checksums and signatures, trusted repositories', clause: 'Clause B.4' },
+    { group: 3, name: 'Prompt injection', cia: 'IC', asset: 'Input, system instructions, RAG sources', detection: 'Classifiers for harmful content in input and output, logging and heuristics', mitigation: 'Sanitization, restricted access to untrusted sources, input segregation with tags, hardened meta-prompts', clause: 'Clause 6.9' },
+    { group: 3, name: 'Evasion (adversarial)', cia: 'I', asset: 'Input at inference time', detection: 'Parallel detector networks, input/output distribution monitoring, disagreement between models', mitigation: 'Adversarial training, randomized smoothing, denoising, ensembles', clause: 'Clause 6.3' },
+    { group: 3, name: 'Sensitive model output', cia: 'C', asset: 'Training data and earlier prompts', detection: 'Output filtering by structure and content', mitigation: 'Automatic redaction of sensitive output', clause: 'Clause 6.8' },
+    { group: 3, name: 'Output injection (XSS)', cia: 'I', asset: 'Systems that consume the output', detection: 'Standard output validation and encoding', mitigation: 'Treat model output as untrusted input; encode before rendering', clause: 'Clause 6.10' },
+    { group: 3, name: 'Model input leak', cia: 'C', asset: 'Prompts, files, RAG context', detection: 'DLP and generic detection', mitigation: "Encryption, access control, aligning RAG data rights with the user's permissions", clause: 'Clause B.7' },
+    { group: 4, name: 'AI-specific DoS', cia: 'A', asset: 'The service (sponge examples)', detection: 'Per-query time and energy monitoring', mitigation: 'Per-query budgets, sizing for worst case', clause: 'Clause B.2' },
+    { group: 4, name: 'Supply chain', cia: 'IC', asset: 'Libraries, RNGs, external models', detection: 'Dependency scanning, red teaming supplied models', mitigation: 'Provenance, signing, supplier contracts, model cards', clause: 'Clause 5.5, B.3' }
+  ];
+
+  const CONTROLS = [
+    ['AI governance programme', 'inventory, ownership, risk analysis'],
+    ['Zero trust', 'authorize every inference call, every RAG retrieval, every agent action'],
+    ['Secure software engineering', 'SDLC, testing, drift, blended data science and engineering teams'],
+    ['Supply chain', 'provenance, signing, vetted repositories, scanning'],
+    ['Threat modelling', 'for every AI system, built on the 13 scenarios'],
+    ['Red teaming', 'that emulates real adversaries'],
+    ['Logging & monitoring', 'input, date, time, user, output, model version']
+  ];
+
+  const ZT = [
+    'Assume the system is already breached',
+    'Never trust, always verify, including from inside',
+    'End-to-end encryption: at rest, in transit, in use',
+    'Verify every request as if it came from outside',
+    'Least privilege, including access to the model (JIT / JEA)',
+    'Authenticate the requester and validate authorization every time'
+  ];
+
+  // [weeks, name, flex-weight, what, output-that-stays, what-it-closes]
+  const PHASES = [
+    ['Weeks 1–2', 'Inventory', 2, "Every AI system, including employees' GenAI tools and API vendors. For each: type, vendor, data, whether it has RAG, agents or continuous learning. Appoint an accountable owner.", 'AI system and asset inventory, appointment letter, management minutes', '5.2 governance programme; Annex A'],
+    ['Weeks 3–4', 'Risks & gaps', 2, "The 13 scenarios against each system, using the ISMS's existing assessment method. Threat modelling for the most critical system. Gap review against Clause 5 to 7 controls.", 'Updated risk register, threat model, prioritized gap report', '5.1, 5.6; Tables 1 and 2'],
+    ['Weeks 5–6', 'Policy', 2, 'An AI security chapter in the existing policy. An AI vendor and external model procedure. An agent and privilege procedure. A logging procedure, plus an incident procedure that classifies the cause: attack, drift or engineering error.', 'Four documents approved by management', '5.3, 5.4, 5.5; 6.11.3; 7.5'],
+    ['Weeks 7–10', 'Implement & evidence', 4, 'Cheap controls first: separate service accounts and per-task privileges for agents, per-user rate limiting, a full log per call, input and output filters, safe weight formats and signed models.', 'Evidence folder: configurations, screenshots, log samples', '6.9, 6.10, 6.11.3.3; 7.5, 7.7, 7.8; B.4'],
+    ['Weeks 11–12', 'Test', 2, 'A short red team on the critical system: prompt injection, system prompt extraction, agent privilege escalation. Classify technical information about the models. Record provenance for RAG sources.', 'Red team report with finding tracker, provenance records', '5.7; 6.11.2.5; 6.11.4'],
+    ['Week 13', 'Audit', 1, 'Update the SoA with a 27090 reference per control. A focused internal audit. A management review where AI risk is a standing item.', 'Updated SoA, audit report, management decision on the next phase', '27001 6.1, 9.2, 9.3']
+  ];
+
+  const QUESTIONS = [
+    'Do you have an inventory of every AI system, including the GenAI tools your employees use?',
+    'Does every model call leave a log with input, time, user, output and model version?',
+    "Do your AI agents run with their own credentials, rather than inheriting the user's permissions?"
+  ];
+  const PENDING = 'Answer all three to see the picture.';
+  // Indexed by number of "Yes" answers (0–3).
+  const RESP = [
+    'Zero of three. This is the common case, not the exception. The first step is an inventory, and it takes two weeks.',
+    'One of three. Two gaps that sit in weeks 1 to 10 of the 90-day plan. Neither needs new technology.',
+    'Two of three. One gap, and it is almost always the cheapest one to close. Most organizations do not know it exists until someone asks.',
+    'Three of three. The baseline is there. The next step in the standard is threat modelling the critical system and a red team.'
+  ];
+
+  const LIMITS = [
+    ['No certification against 27090', 'You adopt it through 27001 or 42001, and the evidence is audited there.'],
+    ['Detecting data poisoning is open research', 'The standard says so explicitly (6.2.3). What exists: integrity checks, anomaly detection, monitoring.'],
+    ['Word blocklists against prompt injection', 'Limited effectiveness per the standard (6.9.3). The real defence is architecture: segregation, privileges, filtering in both directions.'],
+    ['Training-based controls interfere', 'DP and adversarial training cost accuracy and can undermine each other (7.2). They come in only after the cheap controls were not enough.']
+  ];
+
+  // ── State ───────────────────────────────────────────────────────
+  const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+  const state = {
+    theme: prefersLight ? 'light' : 'dark',
+    filter: 0,
+    open: {},
+    phase: 0,
+    answers: [null, null, null]
+  };
+
+  // ── Tiny DOM helper ─────────────────────────────────────────────
+  function h(tag, props, ...kids) {
+    const e = document.createElement(tag);
+    if (props) {
+      for (const k in props) {
+        const v = props[k];
+        if (v == null || v === false) continue;
+        if (k === 'class') e.className = v;
+        else if (k === 'style') e.setAttribute('style', v);
+        else if (k === 'text') e.textContent = v;
+        else if (k.slice(0, 2) === 'on' && typeof v === 'function') e.addEventListener(k.slice(2), v);
+        else if (v === true) e.setAttribute(k, '');
+        else e.setAttribute(k, v);
+      }
+    }
+    for (const kid of kids.flat()) {
+      if (kid == null || kid === false) continue;
+      e.append(kid.nodeType ? kid : document.createTextNode(String(kid)));
+    }
+    return e;
+  }
+  function fill(id, nodes) {
+    const host = document.getElementById(id);
+    host.replaceChildren(...(Array.isArray(nodes) ? nodes : [nodes]));
+  }
+
+  // ── Renderers ───────────────────────────────────────────────────
+  function renderFacts() {
+    fill('facts', FACTS.map(([k, v]) => h('div', { class: 'fact' },
+      h('div', { class: 't-micro', text: k }),
+      h('div', { class: 'fact__v', text: v })
+    )));
+  }
+
+  function renderChips() {
+    fill('chips', FILTERS.map((label, i) => h('button', {
+      type: 'button',
+      class: 'chip' + (state.filter === i ? ' chip--on' : ''),
+      'aria-pressed': state.filter === i,
+      onclick: function () { state.filter = i; renderChips(); renderThreats(); }
+    }, label)));
+  }
+
+  function renderThreats() {
+    const cards = THREATS
+      .map((t, i) => ({ t, i }))
+      .filter(function (o) { return state.filter === 0 || o.t.group === state.filter; })
+      .map(function (o) {
+        const t = o.t, i = o.i, isOpen = !!state.open[i];
+        const head = h('button', {
+          type: 'button', class: 'threat__btn', 'aria-expanded': isOpen,
+          onclick: function () { state.open[i] = !state.open[i]; renderThreats(); }
+        },
+          h('div', { class: 'threat__top' },
+            h('span', { class: 't-micro threat__group', text: FILTERS[t.group] }),
+            h('span', { class: 'cia', dir: 'ltr' },
+              ['C', 'I', 'A'].map(function (l) {
+                const on = t.cia.indexOf(l) >= 0;
+                return h('span', { class: 'cia__b' + (on ? ' cia__b--on' : ''), title: CIA_LABEL[l] }, l);
+              })
+            )
+          ),
+          h('div', { class: 'threat__head' },
+            h('span', { class: 'threat__name', dir: 'ltr', text: t.name }),
+            h('span', { class: 'threat__sign', 'aria-hidden': true, text: isOpen ? '−' : '+' })
+          )
+        );
+        const children = [head];
+        if (isOpen) {
+          children.push(h('div', { class: 'threat__body' },
+            h('div', { class: 'threat__rule' }),
+            FIELDS.map(function (f) {
+              return h('div', { class: 'threat__row' },
+                h('div', { class: 't-micro', text: f[1] }),
+                h('div', { class: 'threat__row-v', text: t[f[0]] })
+              );
+            }),
+            h('div', { class: 'threat__clause', dir: 'ltr', text: t.clause })
+          ));
+        }
+        return h('div', { class: 'threat' + (isOpen ? ' threat--open' : '') }, children);
+      });
+    fill('threats', cards);
+  }
+
+  function renderControls() {
+    fill('controls', CONTROLS.map(function (c, i) {
+      return h('li', { class: 'control' },
+        h('span', { class: 'control__n', text: String(i + 1).padStart(2, '0') }),
+        h('span', { class: 'control__t' }, h('strong', { text: c[0] }), ': ' + c[1])
+      );
+    }));
+  }
+
+  function renderZt() {
+    fill('zt', ZT.map(function (v, i) {
+      return h('li', null,
+        h('span', { class: 'dot' + (i === 0 ? ' is-lead' : '') }),
+        h('span', { class: 'zt-item', text: v })
+      );
+    }));
+  }
+
+  function renderPhases() {
+    fill('phases', PHASES.map(function (p, i) {
+      const on = i === state.phase;
+      const btn = h('button', {
+        type: 'button', class: 'phase' + (on ? ' phase--on' : ''),
+        'aria-pressed': on,
+        onclick: function () { state.phase = i; renderPhases(); renderPlanDetail(); }
+      },
+        h('span', { class: 'phase__bar' }),
+        h('span', { class: 'phase__weeks', text: p[0] }),
+        h('span', { class: 'phase__name', text: p[1] })
+      );
+      btn.style.flex = p[2] + ' 1 0';
+      return btn;
+    }));
+  }
+
+  function renderPlanDetail() {
+    const p = PHASES[state.phase];
+    fill('planDetail', [
+      h('div', { class: 'plan__detail-head' },
+        h('span', { class: 'plan__detail-weeks', text: p[0] }),
+        h('span', { class: 't-h3 plan__detail-name', text: p[1] })
+      ),
+      h('p', { class: 'plan__what', text: p[3] }),
+      h('div', { class: 'plan__meta' },
+        h('div', { class: 'plan__meta-cell' },
+          h('div', { class: 't-micro', text: 'Output that stays' }),
+          h('div', { class: 'plan__meta-out', text: p[4] })
+        ),
+        h('div', { class: 'plan__meta-cell' },
+          h('div', { class: 't-micro', text: 'What it closes' }),
+          h('div', { class: 'plan__meta-closes', text: p[5] })
+        )
+      )
+    ]);
+  }
+
+  function setAnswer(i, v) {
+    state.answers[i] = state.answers[i] === v ? null : v;
+    renderQuiz();
+    renderResponse();
+  }
+
+  function renderQuiz() {
+    fill('quiz', QUESTIONS.map(function (text, i) {
+      function btn(label, v) {
+        const on = state.answers[i] === v;
+        return h('button', {
+          type: 'button', class: 'q__btn' + (on ? ' q__btn--on' : ''),
+          'aria-pressed': on,
+          onclick: function () { setAnswer(i, v); }
+        }, label);
+      }
+      return h('div', { class: 'q' },
+        h('div', { class: 'q__text' },
+          h('span', { class: 'q__n', text: String(i + 1) }),
+          h('span', { class: 'q__q', text: text })
+        ),
+        h('div', { class: 'q__btns' }, btn('Yes', true), btn('No', false))
+      );
+    }));
+  }
+
+  function renderResponse() {
+    const answered = state.answers.filter(function (a) { return a !== null; }).length;
+    const yesN = state.answers.filter(function (a) { return a === true; }).length;
+    const done = answered === 3;
+    document.getElementById('quizResp').classList.toggle('quiz__resp--done', done);
+    document.getElementById('quizRespText').textContent = done ? RESP[yesN] : PENDING;
+  }
+
+  function renderLimits() {
+    fill('limits', LIMITS.map(function (l) {
+      return h('div', { class: 'limit' },
+        h('div', { class: 'limit__k', text: l[0] }),
+        h('div', { class: 'limit__v', text: l[1] })
+      );
+    }));
+  }
+
+  function applyTheme() {
+    document.getElementById('page').setAttribute('data-theme', state.theme);
+    document.getElementById('themeToggle').textContent = state.theme === 'dark' ? 'Light' : 'Dark';
+  }
+
+  // ── Footer link ─────────────────────────────────────────────────
+  function initFooter() {
+    const a = document.getElementById('siteLink');
+    a.href = SITE_URL;
+    a.textContent = SITE_URL.replace(/^https?:\/\//, '').replace(/\/$/, '') + ' ↗';
+  }
+
+  // ── Optional visit counter (GoatCounter) ────────────────────────
+  function initCounter() {
+    const code = (GOATCOUNTER_CODE || '').trim();
+    if (!code || document.querySelector('script[data-goatcounter]')) return;
+    const s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://gc.zgo.at/count.js';
+    s.setAttribute('data-goatcounter', 'https://' + code + '.goatcounter.com/count');
+    document.body.appendChild(s);
+  }
+
+  // ── Boot ────────────────────────────────────────────────────────
+  document.getElementById('themeToggle').addEventListener('click', function () {
+    state.theme = state.theme === 'dark' ? 'light' : 'dark';
+    applyTheme();
+  });
+
+  applyTheme();
+  renderFacts();
+  renderChips();
+  renderThreats();
+  renderControls();
+  renderZt();
+  renderPhases();
+  renderPlanDetail();
+  renderQuiz();
+  renderResponse();
+  renderLimits();
+  initFooter();
+  initCounter();
+})();
+</script>
+</body>
+</html>
