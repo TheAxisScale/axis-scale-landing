@@ -353,8 +353,8 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
 
     <!-- Threat scenarios -->
     <section class="section">
-      <h2 class="t-h2 section__title">13 threat scenarios</h2>
-      <p class="section__sub">Grouped by the asset compromised first. Open a card for: what is hit, how to detect it, how to mitigate it, and where it sits in the standard.</p>
+      <h2 class="t-h2 section__title">15 threat scenarios</h2>
+      <p class="section__sub">Grouped by the asset compromised first: nine types of potential compromise from Clause 6, plus six AI-specific versions of conventional attacks from Annex B. Open a card for what is hit, how to detect it, how to mitigate it, and where it sits in the standard.</p>
       <div class="threats__chips" id="chips" role="group" aria-label="Filter threats by asset"></div>
       <div class="threats__grid" id="threats"></div>
     </section>
@@ -468,7 +468,7 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
     ['Zero trust', 'authorize every inference call, every RAG retrieval, every agent action'],
     ['Secure software engineering', 'SDLC, testing, drift, blended data science and engineering teams'],
     ['Supply chain', 'provenance, signing, vetted repositories, scanning'],
-    ['Threat modelling', 'for every AI system, built on the 13 scenarios'],
+    ['Threat modelling', 'for every AI system, built on the 15 scenarios'],
     ['Red teaming', 'that emulates real adversaries'],
     ['Logging & monitoring', 'input, date, time, user, output, model version']
   ];
@@ -485,7 +485,7 @@ a:hover { color: var(--accent-hover); text-decoration: underline; }
   // [weeks, name, flex-weight, what, output-that-stays, what-it-closes]
   const PHASES = [
     ['Weeks 1–2', 'Inventory', 2, "Every AI system, including employees' GenAI tools and API vendors. For each: type, vendor, data, whether it has RAG, agents or continuous learning. Appoint an accountable owner.", 'AI system and asset inventory, appointment letter, management minutes', '5.2 governance programme; Annex A'],
-    ['Weeks 3–4', 'Risks & gaps', 2, "The 13 scenarios against each system, using the ISMS's existing assessment method. Threat modelling for the most critical system. Gap review against Clause 5 to 7 controls.", 'Updated risk register, threat model, prioritized gap report', '5.1, 5.6; Tables 1 and 2'],
+    ['Weeks 3–4', 'Risks & gaps', 2, "The 15 scenarios against each system, using the ISMS's existing assessment method. Threat modelling for the most critical system. Gap review against Clause 5 to 7 controls.", 'Updated risk register, threat model, prioritized gap report', '5.1, 5.6; Tables 1 and 2'],
     ['Weeks 5–6', 'Policy', 2, 'An AI security chapter in the existing policy. An AI vendor and external model procedure. An agent and privilege procedure. A logging procedure, plus an incident procedure that classifies the cause: attack, drift or engineering error.', 'Four documents approved by management', '5.3, 5.4, 5.5; 6.11.3; 7.5'],
     ['Weeks 7–10', 'Implement & evidence', 4, 'Cheap controls first: separate service accounts and per-task privileges for agents, per-user rate limiting, a full log per call, input and output filters, safe weight formats and signed models.', 'Evidence folder: configurations, screenshots, log samples', '6.9, 6.10, 6.11.3.3; 7.5, 7.7, 7.8; B.4'],
     ['Weeks 11–12', 'Test', 2, 'A short red team on the critical system: prompt injection, system prompt extraction, agent privilege escalation. Classify technical information about the models. Record provenance for RAG sources.', 'Red team report with finding tracker, provenance records', '5.7; 6.11.2.5; 6.11.4'],
