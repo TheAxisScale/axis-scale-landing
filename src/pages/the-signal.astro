@@ -12,13 +12,30 @@ function formatDate(iso: string) {
 }
 
 // Badge colour per signalType
+// Maps the full signal_type vocabulary the agent emits into five on-brand
+// colour groups. Keep restrained: pink accent, logo blue, breach red,
+// a quiet purple for AI, muted green for market moves. Anything unknown
+// falls back to the neutral default badge.
 function badgeClass(type: string) {
   switch ((type ?? '').toLowerCase()) {
-    case 'enforcement':  return 'badge-enforcement';
-    case 'regulation':   return 'badge-regulation';
-    case 'guidance':     return 'badge-guidance';
-    case 'breach':       return 'badge-breach';
-    default:             return 'badge-default';
+    // Regulatory / legal -> logo blue
+    case 'legislation':
+    case 'ruling':
+    case 'statement':      return 'badge-legal';
+    // Enforcement -> pink accent
+    case 'enforcement':    return 'badge-enforcement';
+    // Security incidents -> breach red
+    case 'breach':
+    case 'outage':
+    case 'ransomware':
+    case 'vulnerability':  return 'badge-incident';
+    // AI -> quiet purple
+    case 'ai-model':
+    case 'ai-incident':    return 'badge-ai';
+    // GRC market moves -> muted green
+    case 'funding':
+    case 'm&a':            return 'badge-market';
+    default:               return 'badge-default';
   }
 }
 ---
@@ -251,30 +268,42 @@ function badgeClass(type: string) {
     border-radius: 3px;
   }
 
+  /* Enforcement -> pink accent */
   .badge-enforcement {
     background: rgba(233, 30, 140, 0.12);
     color: var(--pink);
     border: 1px solid rgba(233, 30, 140, 0.25);
   }
 
-  .badge-regulation {
+  /* Regulatory / legal (legislation, ruling, statement) -> logo blue */
+  .badge-legal {
     background: rgba(58, 70, 96, 0.35);
     color: #8BA4D4;
     border: 1px solid rgba(58, 70, 96, 0.6);
   }
 
-  .badge-guidance {
-    background: rgba(130, 170, 100, 0.12);
-    color: #8EBF70;
-    border: 1px solid rgba(130, 170, 100, 0.25);
-  }
-
-  .badge-breach {
+  /* Security incidents (breach, outage, ransomware, vulnerability) -> breach red */
+  .badge-incident {
     background: rgba(242, 104, 92, 0.12);
     color: var(--breach);
     border: 1px solid rgba(242, 104, 92, 0.25);
   }
 
+  /* AI (ai-model, ai-incident) -> quiet purple */
+  .badge-ai {
+    background: rgba(167, 139, 250, 0.12);
+    color: #B9A5F5;
+    border: 1px solid rgba(167, 139, 250, 0.28);
+  }
+
+  /* GRC market moves (funding, m&a) -> muted green */
+  .badge-market {
+    background: rgba(130, 170, 100, 0.12);
+    color: #8EBF70;
+    border: 1px solid rgba(130, 170, 100, 0.25);
+  }
+
+  /* Fallback for anything unmapped -> neutral */
   .badge-default {
     background: rgba(138, 133, 126, 0.12);
     color: var(--ink-3);
