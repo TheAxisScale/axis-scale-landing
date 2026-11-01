@@ -49,7 +49,7 @@ function badgeClass(type: string) {
       ) : (
         <div class="card-list">
           {items.map((item, i) => (
-            <article class="signal-card" data-animate style={`animation-delay:${i * 40}ms`}>
+            <article class="signal-card" data-animate style={`--delay:${i * 40}ms`}>
               <div class="card-meta">
                 <span class={`badge ${badgeClass(item.signalType)}`}>{item.signalType ?? 'Signal'}</span>
                 {item.jurisdiction && (
@@ -107,7 +107,6 @@ function badgeClass(type: string) {
     --surface:    #232120;
     --surface-2:  #1A1918;
     --line:       #454138;
-    --line-light: #262421;
     --ink:        #F2F0EC;
     --ink-2:      #B3AFA8;
     --ink-3:      #8A857E;
@@ -213,6 +212,22 @@ function badgeClass(type: string) {
 
   .signal-card:hover {
     border-color: var(--pink-dim);
+  }
+
+  /*
+    Staggered entrance. The global `[data-animate].visible` rule sets the
+    `animation` shorthand, which resets animation-delay to 0. Re-apply the
+    per-card delay here (higher specificity + after the shorthand) so the
+    inline `--delay` custom property actually staggers the cards.
+  */
+  .signal-card[data-animate].visible {
+    animation-delay: var(--delay, 0ms);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .signal-card[data-animate].visible {
+      animation-delay: 0ms;
+    }
   }
 
   /* Card meta row */
