@@ -1,7 +1,5 @@
 ---
-// Public newsletter signup. Posts email + source to the Axis backend's public
-// endpoint (same backend/CORS the EnforcementWatch widget already uses).
-const API_BASE = 'https://backend-production-2d08.up.railway.app';
+const FORMSPREE_ID = 'xlgkbbdr';
 ---
 <section id="newsletter" class="py-24 px-6 md:px-9 bg-surface border-y border-border">
   <div class="max-w-xl mx-auto text-center">
@@ -16,6 +14,8 @@ const API_BASE = 'https://backend-production-2d08.up.railway.app';
     </p>
 
     <form id="newsletter-form" class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+      <input type="hidden" name="_subject" value="The Signal — newsletter signup" />
+      <input type="hidden" name="source" value="newsletter" />
       <input id="nl-email" name="email" type="email" required placeholder="you@company.com"
         class="flex-1 bg-raised border border-border rounded-md px-4 py-2.5 text-pri text-sm placeholder:text-ter focus:outline-none focus:border-accent transition-colors"/>
       <button type="submit"
@@ -33,7 +33,7 @@ const API_BASE = 'https://backend-production-2d08.up.railway.app';
   </div>
 </section>
 
-<script define:vars={{ API_BASE }}>
+<script define:vars={{ FORMSPREE_ID }}>
   const form = document.getElementById('newsletter-form');
   const btn  = form.querySelector('button[type="submit"]');
   const ok   = document.getElementById('nl-success');
@@ -44,12 +44,11 @@ const API_BASE = 'https://backend-production-2d08.up.railway.app';
     btn.disabled = true;
     ok.classList.add('hidden');
     err.classList.add('hidden');
-    const email = document.getElementById('nl-email').value.trim();
     try {
-      const res = await fetch(API_BASE + '/api/public/newsletter/subscribe', {
+      const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, source: 'website' }),
+        headers: { 'Accept': 'application/json' },
+        body: new FormData(form),
       });
       if (res.ok) {
         form.reset();
