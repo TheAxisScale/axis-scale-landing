@@ -1,0 +1,439 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import feed from '../data/the-signal.json';
+
+const items = (feed.items ?? []).slice(0, 15);
+
+function formatDate(iso: string) {
+  const d = new Date(iso);
+  return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+
+// Badge colour per signalType
+// Maps the full signal_type vocabulary the agent emits into five on-brand
+// colour groups. Keep restrained: pink accent, logo blue, breach red,
+// a quiet purple for AI, muted green for market moves. Anything unknown
+// falls back to the neutral default badge.
+function badgeClass(type: string) {
+  switch ((type ?? '').toLowerCase()) {
+    // Regulatory / legal -> logo blue
+    case 'legislation':
+    case 'ruling':
+    case 'statement':      return 'badge-legal';
+    // Enforcement -> pink accent
+    case 'enforcement':    return 'badge-enforcement';
+    // Security incidents -> breach red
+    case 'breach':
+    case 'outage':
+    case 'ransomware':
+    case 'vulnerability':  return 'badge-incident';
+    // AI -> quiet purple
+    case 'ai-model':
+    case 'ai-incident':    return 'badge-ai';
+    // GRC market moves -> muted green
+    case 'funding':
+    case 'm&a':            return 'badge-market';
+    default:               return 'badge-default';
+  }
+}
+---
+<Layout
+  title="The Signal - Regulatory and security intelligence | Axis-Scale"
+  description="A curated feed of enforcement actions, regulatory guidance, and security signals that matter to founders and compliance teams."
+>
+  <Nav />
+
+  <div class="signal-page">
+    <main class="signal-col">
+
+      <header class="signal-hero" data-animate>
+        <p class="eyebrow">Axis-Scale</p>
+        <h1>The Signal</h1>
+        <p class="lede">Regulatory enforcement, AI governance, and security guidance - curated for founders who need to act, not just read.</p>
+        {feed.updatedAt && (
+          <p class="updated">Updated {formatDate(feed.updatedAt)}</p>
+        )}
+      </header>
+
+      {items.length === 0 ? (
+        <div class="empty-state" data-animate>
+          <p class="empty-icon">&#9729;</p>
+          <p class="empty-title">Nothing yet - check back soon.</p>
+          <p class="empty-body">The Signal feed is being set up. New items will appear here as they are published.</p>
+        </div>
+      ) : (
+        <div class="card-list">
+          {items.map((item, i) => (
+            <article class="signal-card" data-animate style={`--delay:${i * 40}ms`}>
+              <div class="card-meta">
+                <span class={`badge ${badgeClass(item.signalType)}`}>{item.signalType ?? 'Signal'}</span>
+                {item.jurisdiction && (
+                  <span class="jurisdiction">{item.jurisdiction}</span>
+                )}
+                <span class="card-date">{formatDate(item.date)}</span>
+              </div>
+
+              <h2 class="card-title">{item.title}</h2>
+
+              {item.summary && (
+                <p class="card-summary">{item.summary}</p>
+              )}
+
+              {item.whyItMatters && (
+                <div class="why-block">
+                  <span class="why-label">Why it matters</span>
+                  <p class="why-text">{item.whyItMatters}</p>
+                </div>
+              )}
+
+              {item.recommendedAction && (
+                <div class="action-block">
+                  <span class="action-label">Recommended action</span>
+                  <p class="action-text">{item.recommendedAction}</p>
+                </div>
+              )}
+
+              <div class="card-footer">
+                {item.topicTag && (
+                  <span class="topic-tag">{item.topicTag}</span>
+                )}
+                {item.url && item.source && (
+                  <a href={item.url} target="_blank" rel="noopener" class="source-link">
+                    {item.source} &#8599;
+                  </a>
+                )}
+              </div>
+            </article>
+          ))}
+        </div>
+      )}
+
+    </main>
+  </div>
+
+  <Footer />
+</Layout>
+
+<style>
+  .signal-page {
+    --pink:       #E91E8C;
+    --pink-dim:   rgba(233, 30, 140, 0.35);
+    --bg:         #131211;
+    --surface:    #232120;
+    --surface-2:  #1A1918;
+    --line:       #454138;
+    --ink:        #F2F0EC;
+    --ink-2:      #B3AFA8;
+    --ink-3:      #8A857E;
+    --breach:     #F2685C;
+    --sans:       'Manrope Variable', Manrope, system-ui, sans-serif;
+    --mono:       'JetBrains Mono', 'Courier New', monospace;
+
+    background:
+      radial-gradient(800px 400px at 70% -60px, rgba(233, 30, 140, 0.05), transparent 55%),
+      var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+
+  .signal-col {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: clamp(48px, 9vw, 88px) 24px 80px;
+  }
+
+  /* Hero */
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--pink);
+    margin: 0 0 14px;
+  }
+
+  .signal-hero h1 {
+    font-size: clamp(40px, 8vw, 68px);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.04;
+    margin: 0 0 18px;
+    color: var(--ink);
+  }
+
+  .lede {
+    font-size: clamp(16px, 2.4vw, 18.5px);
+    line-height: 1.6;
+    color: var(--ink-2);
+    max-width: 38em;
+    margin: 0 0 16px;
+  }
+
+  .updated {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink-3);
+    margin: 0 0 48px;
+  }
+
+  /* Empty state */
+  .empty-state {
+    text-align: center;
+    padding: 72px 24px;
+    border: 1px dashed var(--line);
+    border-radius: 10px;
+    margin-top: 12px;
+  }
+
+  .empty-icon {
+    font-size: 36px;
+    margin: 0 0 16px;
+    color: var(--ink-3);
+  }
+
+  .empty-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 0 0 10px;
+  }
+
+  .empty-body {
+    font-size: 15px;
+    color: var(--ink-3);
+    max-width: 36em;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  /* Card list */
+  .card-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 12px;
+  }
+
+  .signal-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 24px 26px 22px;
+    transition: border-color 0.15s;
+  }
+
+  .signal-card:hover {
+    border-color: var(--pink-dim);
+  }
+
+  /*
+    Staggered entrance. The global `[data-animate].visible` rule sets the
+    `animation` shorthand, which resets animation-delay to 0. Re-apply the
+    per-card delay here (higher specificity + after the shorthand) so the
+    inline `--delay` custom property actually staggers the cards.
+  */
+  .signal-card[data-animate].visible {
+    animation-delay: var(--delay, 0ms);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .signal-card[data-animate].visible {
+      animation-delay: 0ms;
+    }
+  }
+
+  /* Card meta row */
+  .card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  /* Badges */
+  .badge {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 3px;
+  }
+
+  /* Enforcement -> pink accent */
+  .badge-enforcement {
+    background: rgba(233, 30, 140, 0.12);
+    color: var(--pink);
+    border: 1px solid rgba(233, 30, 140, 0.25);
+  }
+
+  /* Regulatory / legal (legislation, ruling, statement) -> logo blue */
+  .badge-legal {
+    background: rgba(58, 70, 96, 0.35);
+    color: #8BA4D4;
+    border: 1px solid rgba(58, 70, 96, 0.6);
+  }
+
+  /* Security incidents (breach, outage, ransomware, vulnerability) -> breach red */
+  .badge-incident {
+    background: rgba(242, 104, 92, 0.12);
+    color: var(--breach);
+    border: 1px solid rgba(242, 104, 92, 0.25);
+  }
+
+  /* AI (ai-model, ai-incident) -> quiet purple */
+  .badge-ai {
+    background: rgba(167, 139, 250, 0.12);
+    color: #B9A5F5;
+    border: 1px solid rgba(167, 139, 250, 0.28);
+  }
+
+  /* GRC market moves (funding, m&a) -> muted green */
+  .badge-market {
+    background: rgba(130, 170, 100, 0.12);
+    color: #8EBF70;
+    border: 1px solid rgba(130, 170, 100, 0.25);
+  }
+
+  /* Fallback for anything unmapped -> neutral */
+  .badge-default {
+    background: rgba(138, 133, 126, 0.12);
+    color: var(--ink-3);
+    border: 1px solid var(--line);
+  }
+
+  .jurisdiction {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-3);
+    padding: 3px 7px;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+  }
+
+  .card-date {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-3);
+    margin-left: auto;
+  }
+
+  /* Card title */
+  .card-title {
+    font-size: clamp(17px, 2.6vw, 20px);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+    color: var(--ink);
+    margin: 0 0 12px;
+  }
+
+  /* Summary */
+  .card-summary {
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--ink-2);
+    margin: 0 0 16px;
+  }
+
+  /* Why it matters block */
+  .why-block {
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-left: 2px solid var(--pink);
+    border-radius: 6px;
+    padding: 12px 14px;
+    margin: 0 0 12px;
+  }
+
+  .why-label {
+    display: block;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--pink);
+    margin-bottom: 6px;
+  }
+
+  .why-text {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--ink-2);
+    margin: 0;
+  }
+
+  /* Recommended action block */
+  .action-block {
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-left: 2px solid var(--line);
+    border-radius: 6px;
+    padding: 12px 14px;
+    margin: 0 0 16px;
+  }
+
+  .action-label {
+    display: block;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 6px;
+  }
+
+  .action-text {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--ink-2);
+    margin: 0;
+  }
+
+  /* Card footer */
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+  }
+
+  .topic-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-3);
+  }
+
+  .source-link {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--pink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--pink-dim);
+    transition: border-color 0.15s;
+  }
+
+  .source-link:hover {
+    border-bottom-color: var(--pink);
+  }
+
+  /* Mobile */
+  @media (max-width: 640px) {
+    .signal-col { padding: 40px 18px 64px; }
+    .signal-card { padding: 18px 18px 16px; }
+    .card-date { margin-left: 0; }
+  }
+</style>

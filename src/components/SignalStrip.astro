@@ -1,0 +1,28 @@
+---
+// Build-time static read from the-signal.json (no runtime fetch, no dead backend).
+// Contract: if there are no items, render nothing - a marketing page never shows an empty box.
+import feed from '../data/the-signal.json';
+
+const latest = (feed.items ?? [])[0] ?? null;
+---
+{latest && (
+  <div class="bg-surface border-b border-border-light px-6 md:px-16 py-4">
+    <div class="max-w-[1120px] mx-auto flex flex-col sm:flex-row sm:items-center gap-3">
+
+      <div class="flex-1 min-w-0">
+        <span class="text-ter text-[11px] font-bold tracking-[1.4px] uppercase font-mono">
+          The Signal
+        </span>
+        <span class="ml-3 text-pri text-[14px] font-semibold truncate">{latest.title}</span>
+      </div>
+
+      <a
+        href="/the-signal"
+        class="shrink-0 text-accent text-[13px] font-semibold hover:underline whitespace-nowrap"
+      >
+        See all signals &#8594;
+      </a>
+
+    </div>
+  </div>
+)}
